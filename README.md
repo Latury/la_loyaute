@@ -6,7 +6,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Discord.py](https://img.shields.io/badge/discord.py-2.3+-5865F2?style=for-the-badge&logo=discord&logoColor=white)
-![Statut](https://img.shields.io/badge/Statut-En_Développement-yellow?style=for-the-badge)
+![Statut](https://img.shields.io/badge/Statut-Opérationnel-brightgreen?style=for-the-badge)
 ![Version](https://img.shields.io/badge/Version-0.1.0-blue?style=for-the-badge)
 
 *Développé par Latury*
@@ -27,6 +27,8 @@
 - 📝 **Système de logs** : Enregistrement automatique de toutes les actions importantes
 - 🎨 **Embeds personnalisés** : Messages formatés et professionnels
 - 🔄 **Architecture modulaire** : Code organisé, maintenable et évolutif
+- 📊 **Statistiques en temps réel** : Uptime, latence, commandes exécutées, RAM utilisée
+- 🎯 **Cadre de démarrage professionnel** : Affichage détaillé des informations au lancement
 
 ---
 
@@ -39,25 +41,27 @@ la_loyaute/
 ├── configuration.py # Configuration centralisée
 ├── requirements.txt # Dépendances Python
 ├── secrets.env # Variables d'environnement (non versionné)
+├── .gitignore # Fichiers ignorés par Git
+├── LICENSE # Licence du projet
 │
 ├── noyau/ # Cœur du bot
-│ ├── init.py
-│ ├── gestionnaire_bot.py # Classe principale du bot
-│ └── gestionnaire_permissions.py # Gestion des permissions
+│ ├── init.py # Initialisation du module
+│ ├── gestionnaire_bot.py # Classe principale LoyauteBot
+│ └── gestionnaire_permissions.py # Gestion des permissions et rôles
 │
 ├── commandes/ # Commandes Discord
-│ ├── init.py
+│ ├── init.py # Initialisation du module
 │ ├── commandes_base.py # Commandes publiques (prefix !)
 │ └── commandes_admin.py # Commandes admin (prefix /)
 │
 ├── evenements/ # Événements Discord
-│ ├── init.py
-│ ├── demarrage.py # Événement on_ready
-│ └── messages.py # Événements de messages
+│ ├── init.py # Initialisation du module
+│ ├── demarrage.py # Événement on_ready avec cadre ASCII
+│ └── messages.py # Gestion des événements de messages
 │
 ├── utilitaires/ # Outils et helpers
-│ ├── init.py
-│ ├── logger.py # Système de logs
+│ ├── init.py # Initialisation du module
+│ ├── logger.py # Système de logs avec rotation
 │ └── helpers.py # Fonctions utilitaires
 │
 ├── donnees/ # Données persistantes
@@ -66,7 +70,7 @@ la_loyaute/
 ├── logs/ # Fichiers de logs
 │ └── (logs générés automatiquement)
 │
-└── docs/ # Documentation
+└── Documentation/
 ├── README.md # Ce fichier
 ├── CHANGELOG.md # Historique des versions
 ├── patchnotes.md # Notes de mises à jour
@@ -78,27 +82,45 @@ la_loyaute/
 
 ## 🚀 Utilisation
 
-### Démarrage du bot
+### Prérequis
 
-1. Configurez le fichier `secrets.env` avec votre token Discord
-2. Lancez le bot avec la commande :
+- Python 3.11 ou supérieur
+- Un compte Discord Developer avec un bot créé
+- Token Discord du bot
+
+### Installation
+
+1. Clonez le dépôt (si vous y avez accès)
+2. Installez les dépendances :
 
 ```
 python principal.py
 ```
 
+Le bot affichera un cadre de démarrage professionnel avec toutes les informations importantes.
 
 ### Commandes disponibles
 
 #### 💬 Commandes de base (prefix `!`)
-- `!aide` - Affiche la liste des commandes disponibles
-- `!info` - Affiche les informations sur le bot
-- `!ping` - Vérifie la latence du bot
+
+| Commande | Description |
+|----------|-------------|
+| `!aide` | Affiche la liste des commandes disponibles |
+| `!info` | Informations détaillées sur le bot |
+| `!ping` | Teste la latence du bot |
+| `!stats` | Statistiques complètes (uptime, RAM, commandes) |
+| `!serveur` | Informations sur le serveur Discord |
+| `!utilisateur [@mention]` | Profil détaillé d'un utilisateur |
 
 #### 👑 Commandes administratives (prefix `/`)
-- `/clear` - Supprime des messages
-- `/config` - Configure les paramètres du serveur
-- `/logs` - Consulte les logs du bot
+
+| Commande | Description | Permissions requises |
+|----------|-------------|---------------------|
+| `/clear [nombre]` | Supprime des messages (max 100) | Gérer les messages |
+| `/logs [nombre]` | Affiche les logs récents du bot | Administrateur |
+| `/config` | Affiche la configuration du bot | Administrateur |
+| `/reload [extension]` | Recharge une extension | Administrateur |
+| `/shutdown` | Arrête le bot proprement | Administrateur |
 
 ---
 
@@ -108,17 +130,30 @@ Le fichier `configuration.py` centralise tous les paramètres :
 
 ```
 Prefix des commandes
-PREFIX_BASE = "!"
-PREFIX_ADMIN = "/"
+PREFIX_BASE = "!" # Commandes publiques
+PREFIX_ADMIN = "/" # Commandes administratives
 
 Couleurs des embeds
-COULEUR_PRINCIPALE = 0x5865F2
-COULEUR_SUCCES = 0x57F287
-COULEUR_ERREUR = 0xED4245
+COULEUR_PRINCIPALE = 0x5865F2 # Bleu Discord
+COULEUR_SUCCES = 0x57F287 # Vert
+COULEUR_ERREUR = 0xED4245 # Rouge
 
-IDs des rôles (à configurer)
-ROLE_ADMIN_ID =
-ROLE_MODERATEUR_ID =
+IDs des rôles (à configurer dans secrets.env)
+ROLE_ADMIN_ID = 123456789012345678
+ROLE_MODERATEUR_ID = 123456789012345678
+```
+
+
+### Variables d'environnement (secrets.env)
+
+```
+DISCORD_TOKEN=votre_token_ici
+GUILD_ID=votre_serveur_id
+ROLE_ADMIN_ID=0
+ROLE_MODERATEUR_ID=0
+PREFIX_BASE=!
+DEBUG_MODE=True
+LOG_LEVEL=INFO
 ```
 
 
@@ -127,42 +162,85 @@ ROLE_MODERATEUR_ID =
 ## 🛠️ Technologies utilisées
 
 - **Python 3.11+** - Langage de programmation
-- **discord.py 2.3+** - Bibliothèque Discord
+- **discord.py 2.3+** - Bibliothèque Discord officielle
 - **python-dotenv** - Gestion des variables d'environnement
+- **psutil** - Statistiques système (RAM, CPU)
 - **asyncio** - Programmation asynchrone
 
 ---
 
 ## 📝 Logs
 
-Le bot génère automatiquement des fichiers de logs dans le dossier `logs/` avec :
+Le bot génère automatiquement des fichiers de logs dans le dossier `logs/` :
 - Horodatage précis (jour/mois/année heure:minutes:secondes)
 - Actions importantes (démarrage, erreurs, commandes)
-- Un fichier par jour pour faciliter le débogage
+- Un fichier par jour avec rotation automatique
+- Logs colorés dans la console pour meilleure lisibilité
+
+Exemple de nom de fichier : `la_loyaute_24-12-2025.log`
+
+---
+
+## 🏗️ Architecture
+
+### Séparation des responsabilités
+
+- **noyau/** : Logique métier du bot (classe principale, permissions)
+- **commandes/** : Commandes Discord organisées par niveau d'accès
+- **evenements/** : Gestion des événements Discord (messages, démarrage)
+- **utilitaires/** : Fonctions réutilisables (logs, helpers, formatage)
+
+### Patterns utilisés
+
+- **Cogs** : Organisation modulaire des commandes et événements
+- **Decorateurs** : Vérification des permissions avant exécution
+- **Async/Await** : Programmation asynchrone pour performances optimales
+- **Singleton** : Configuration centralisée accessible partout
 
 ---
 
 ## 🔒 Sécurité
 
-- Le token Discord est stocké dans `secrets.env` (non versionné)
-- Système de permissions robuste pour les commandes admin
-- Validation des entrées utilisateur
-- Logs de sécurité pour toutes les actions sensibles
+- ✅ Token Discord stocké dans `secrets.env` (non versionné)
+- ✅ Système de permissions robuste pour les commandes admin
+- ✅ Validation des entrées utilisateur
+- ✅ Logs de sécurité pour toutes les actions sensibles
+- ✅ Gestion des erreurs avec messages explicites
 
 ---
 
-## 📊 Versioning
+## 📊 Statistiques
+
+Le bot collecte et affiche :
+- Nombre de serveurs connectés
+- Nombre d'utilisateurs accessibles
+- Nombre de commandes chargées
+- Latence en temps réel
+- Uptime (temps de fonctionnement)
+- RAM utilisée
+- Commandes exécutées avec succès
+- Taux d'erreur
+
+---
+
+## 📜 Versioning
 
 Ce projet suit le versioning sémantique (SemVer) :
-- **MAJOR** : Changements incompatibles
+- **MAJOR** : Changements incompatibles avec versions antérieures
 - **MINOR** : Nouvelles fonctionnalités compatibles
 - **PATCH** : Corrections de bugs
 
-Version actuelle : **v0.1.0**
+Version actuelle : **v0.1.0** (Première version opérationnelle)
 
 ---
 
-## 📜 Licence
+## 🗺️ Roadmap
+
+Consultez [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) pour voir les fonctionnalités prévues.
+
+---
+
+## 📄 Licence
 
 Ce projet est un bot privé développé par Latury.
 Tous droits réservés © 2025
@@ -179,8 +257,12 @@ Tous droits réservés © 2025
 
 <div align="center">
 
-**Développé par Latury en Python**
+**Développé avec par Latury en Python**
 
 *La Loyauté - Votre compagnon Discord de confiance*
 
+Version 0.1.0 | Mise à jour : 24/12/2025
+
 </div>
+
+
