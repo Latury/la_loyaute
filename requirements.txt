@@ -21,6 +21,5 @@ python-dateutil==2.8.2
 # Requêtes HTTP (pour futures intégrations API)
 aiohttp==3.9.1
 
-# ── 🗄️ Base de données (optionnel) ───────────────────
-# Pour futures fonctionnalités de persistance
-# aiosqlite==0.19.0
+# Informations système (RAM, CPU, etc.)
+psutil==5.9.6

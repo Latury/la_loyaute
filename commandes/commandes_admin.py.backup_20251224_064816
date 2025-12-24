@@ -21,7 +21,6 @@ from utilitaires.helpers import (
     creer_embed_succes,
     creer_embed_erreur,
     creer_embed_avertissement,
-    creer_embed_info,
     formater_nombre
 )
 from utilitaires.logger import obtenir_stats_logs, lire_dernieres_lignes
@@ -248,11 +247,11 @@ class CommandesAdmin(commands.Cog):
         role_admin = "Non configuré"
         role_modo = "Non configuré"
 
-        if config.ROLE_ADMIN_ID != 0 and interaction.guild:
+        if config.ROLE_ADMIN_ID != 0:
             role = interaction.guild.get_role(config.ROLE_ADMIN_ID)
             role_admin = role.mention if role else f"ID: {config.ROLE_ADMIN_ID} (introuvable)"
 
-        if config.ROLE_MODERATEUR_ID != 0 and interaction.guild:
+        if config.ROLE_MODERATEUR_ID != 0:
             role = interaction.guild.get_role(config.ROLE_MODERATEUR_ID)
             role_modo = role.mention if role else f"ID: {config.ROLE_MODERATEUR_ID} (introuvable)"
 
