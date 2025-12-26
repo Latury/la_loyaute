@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║                                                                             
+# ║
 # ║  🛡️  LA LOYAUTÉ - CONFIGURATION CENTRALE
 # ║
 # ║  Fichier de configuration principal du bot Discord
@@ -44,6 +44,9 @@ DEBUG_MODE = os.getenv('DEBUG_MODE', 'False').lower() == 'true'
 # IDs des rôles (à configurer dans secrets.env)
 ROLE_ADMIN_ID = int(os.getenv('ROLE_ADMIN_ID', 0))
 ROLE_MODERATEUR_ID = int(os.getenv('ROLE_MODERATEUR_ID', 0))
+
+# ID du salon de logs Discord (0 = désactivé)
+LOGS_CHANNEL_ID = int(os.getenv('LOGS_CHANNEL_ID', '0'))
 
 # Liste des IDs utilisateurs autorisés (développeurs)
 DEVELOPPEURS_IDS = [
@@ -121,3 +124,4 @@ EMOJI_HORS_LIGNE = "🔴"
 EMOJI_ADMIN = "👑"
 EMOJI_MODERATEUR = "🛡️"
 EMOJI_UTILISATEUR = "👤"
+

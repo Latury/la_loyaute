@@ -10,12 +10,113 @@ et ce projet adhère au [Versioning Sémantique](https://semver.org/lang/fr/).
 ## [Non publié]
 
 ### À venir
-- Système de modération automatique avec filtres personnalisables
-- Commandes de musique avec lecteur audio intégré
-- Intégration d'API externes (météo, traduction, etc.)
-- Base de données SQLite pour persistance des données
-- Système de niveaux et expérience pour les utilisateurs
-- Dashboard web pour configuration à distance
+- Logs avancés (messages supprimés/modifiés, rôles, salons)
+- Messages de bienvenue et d'au revoir personnalisables
+- Commande `/help` interactive avec pagination
+- Système d'auto-modération (spam, filtre de mots)
+- Système de tickets pour support
+- Système de niveaux et XP
+
+---
+
+## [0.2.0] - 26/12/2025
+
+### 🎉 Système de logs Discord et modération avancée
+
+#### Ajouté - Système de logs Discord
+- Nouveau fichier `utilitaires/logs_discord.py` avec fonctions de logs automatiques
+- Logs visuels dans Discord avec embeds colorés et détaillés
+- Fonction `log_kick()` : Log d'expulsion de membre
+- Fonction `log_ban()` : Log de bannissement avec raison
+- Fonction `log_unban()` : Log de débannissement
+- Fonction `log_timeout()` : Log de mise en timeout avec durée
+- Fonction `log_warn()` : Log d'avertissement avec compteur
+- Fonction `log_clear()` : Log de suppression de messages en masse
+- Fonction `log_member_join()` : Log d'arrivée de membre (âge du compte, total membres)
+- Fonction `log_member_leave()` : Log de départ de membre (temps passé sur serveur)
+- Variable `LOGS_CHANNEL_ID` dans `configuration.py` pour salon de logs
+
+#### Ajouté - Commandes de modération (prefix /)
+- `/kick @membre [raison]` : Expulse un membre du serveur
+- `/ban @membre [raison]` : Bannit un membre du serveur
+- `/unban user_id [raison]` : Débannit un utilisateur par son ID
+- `/timeout @membre [durée] [raison]` : Met un membre en timeout temporaire
+- `/warn @membre [raison]` : Avertit un membre (stockage dans JSON)
+- `/warnings @membre` : Consulte les warns d'un membre
+- `/removewarn @membre [index]` : Supprime un warn spécifique
+- `/clearwarns @membre` : Efface tous les warns d'un membre
+- `/setlogs #salon` : Configure le salon de logs Discord
+- `/setlogs` (sans paramètre) : Désactive les logs Discord
+
+#### Ajouté - Événements de membres
+- Nouveau fichier `evenements/events_membres.py` pour gérer les membres
+- Événement `on_member_join` : Détecte l'arrivée d'un membre
+- Événement `on_member_remove` : Détecte le départ d'un membre
+- Logs automatiques dans Discord pour arrivées/départs
+- Extension `evenements.events_membres` ajoutée au chargement dans `principal.py`
+
+#### Ajouté - Système de warns
+- Stockage des warns dans `donnees/warns.json`
+- Compteur d'avertissements par utilisateur et par serveur
+- Historique complet (modérateur, raison, date)
+- Commandes de gestion complètes (ajout, consultation, suppression)
+- Affichage formaté avec embeds Discord
+
+#### Ajouté - Outils de développement
+- Script `verifier_doublons.py` à la racine du projet
+- Détection automatique de fichiers en double (même nom)
+- Détection de fichiers avec contenu identique (hash MD5)
+- Détection de fichiers temporaires et backups
+- Détection de fonctions/classes dupliquées
+- Rapport généré sur le Bureau en `.txt`
+- Exclusion automatique de `.venv` et autres dossiers
+- Script ajouté au `.gitignore`
+
+#### Modifié - Configuration
+- Ajout de `LOGS_CHANNEL_ID` dans `configuration.py`
+- Documentation sur comment obtenir l'ID d'un salon Discord
+- Valeur par défaut à 0 (logs désactivés)
+- Variable modifiable via `/setlogs` ou fichier de config
+
+#### Modifié - Architecture
+- Extension de `commandes_admin.py` avec 9 nouvelles commandes
+- Import des fonctions de logs dans les commandes de modération
+- Appels automatiques des logs après chaque action de modération
+- Amélioration de la gestion des erreurs avec messages explicites
+
+#### Modifié - Documentation
+- Mise à jour de la structure du projet dans README.md
+- Ajout de `events_membres.py` dans l'arborescence
+- Ajout de `logs_discord.py` dans l'arborescence
+- Ajout du dossier `donnees/` pour stockage JSON
+- Mise à jour du tableau des commandes administratives
+- Documentation des nouvelles fonctionnalités de logs
+
+#### Technique
+- Utilisation de `discord.Embed` pour logs visuels
+- Gestion asynchrone des appels de logs
+- Vérification de l'existence du salon de logs
+- Gestion des erreurs si salon inexistant ou supprimé
+- Formatage des durées (secondes → jours/heures/minutes)
+- Calcul de l'âge des comptes utilisateurs
+- Stockage JSON avec lecture/écriture sécurisée
+- Script d'analyse utilisant hashlib pour détection doublons
+
+#### Sécurité
+- Vérification des permissions avant actions de modération
+- Impossibilité de kick/ban soi-même ou le bot
+- Impossibilité de modérer un membre avec rôle supérieur
+- Logs de toutes les actions de modération
+- Stockage sécurisé des warns avec horodatage
+
+#### Tests
+- Toutes les commandes de modération testées et fonctionnelles
+- Système de logs Discord vérifié et opérationnel
+- Événements de membres validés (arrivée/départ)
+- Système de warns testé (ajout, consultation, suppression)
+- Script de vérification de doublons exécuté avec succès
+- Aucun doublon critique détecté dans le projet
+- Configuration du salon de logs validée
 
 ---
 
@@ -136,4 +237,4 @@ et ce projet adhère au [Versioning Sémantique](https://semver.org/lang/fr/).
 
 ---
 
-*Dernière mise à jour : 24/12/2025 07:40:00*
+*Dernière mise à jour : 26/12/2025 02:20:00*

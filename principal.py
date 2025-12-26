@@ -79,12 +79,12 @@ def creer_bot(logger):
 # ╚══════════════════════════════════════════════════════════════════════════════
 async def charger_extensions(bot, logger):
     """Charge toutes les extensions du bot"""
-
     extensions = [
         'commandes.commandes_base',
         'commandes.commandes_admin',
         'evenements.demarrage',
         'evenements.messages',
+        'evenements.events_membres',  # ← LIGNE AJOUTÉE
     ]
 
     # ── 🔹 Chargement de chaque extension

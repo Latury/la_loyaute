@@ -1,12 +1,15 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║  📨 LA LOYAUTÉ - Module Événements                                          
+# ║  📨 LA LOYAUTÉ - Module Événements
 # ║  Initialisation du package evenements
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from .demarrage import Demarrage
 from .messages import Messages
+from .events_membres import EventsMembres
+
 
 __all__ = [
     'Demarrage',
-    'Messages'
+    'Messages',
+    'EventsMembres',
 ]
