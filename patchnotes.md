@@ -1,384 +1,239 @@
-# 🔄 Notes de mise à jour
+# 🎮 Patch Notes - La Loyauté
 
-Bienvenue dans les notes de mise à jour de **La Loyauté** ! Ce fichier présente les nouveautés, améliorations et corrections de chaque version de manière accessible.
-
----
-
-## 🎊 Version 0.2.0 - Système de Logs Discord et Modération Avancée
-**Date de sortie :** 26 décembre 2025
-**Statut :** ✅ Version stable et opérationnelle
-
-### 🌟 Nouveautés majeures
-
-#### 📊 Système de logs Discord automatiques
-
-La Loyauté peut maintenant enregistrer toutes les actions importantes directement dans un salon Discord dédié !
-
-**Configuration simple :**
-- Utilisez `/setlogs #nom-du-salon` pour activer les logs
-- Utilisez `/setlogs` sans paramètre pour les désactiver
-- Les logs apparaissent instantanément avec des embeds colorés
-
-**Ce qui est automatiquement loggé :**
-
-- 👢 **Expulsions** (kick) : Qui a été expulsé, par qui, et pourquoi
-- 🔨 **Bannissements** (ban) : Avec la raison et le modérateur responsable
-- ✅ **Débannissements** (unban) : Quand un utilisateur est débanni
-- ⏱️ **Timeouts** : Durée exacte et raison de la mise en silence
-- ⚠️ **Avertissements** (warns) : Compteur d'avertissements avec historique
-- 🗑️ **Suppressions de messages** : Combien de messages supprimés et par qui
-- 👋 **Arrivées de membres** : Âge du compte, nombre total de membres
-- 👋 **Départs de membres** : Temps passé sur le serveur
-
-**Logs visuels professionnels :**
-- Embeds Discord avec couleurs contextuelles (rouge pour ban, vert pour unban, etc.)
-- Informations complètes (IDs, noms, raisons, timestamps)
-- Footer avec le nom du bot
-- Horodatage automatique Discord
+Notes de versions détaillées du projet.
 
 ---
 
-#### 🛡️ Commandes de modération complètes
+## 🎉 Version 0.2.1 - "Configuration Dynamique" (05/01/2026)
 
-9 nouvelles commandes puissantes pour gérer votre serveur :
+### 🌟 Nouveautés principales
 
-##### **`/kick @membre [raison]`** - Expulser un membre
-- Expulse un membre du serveur (il peut revenir avec une invitation)
-- Raison optionnelle enregistrée dans les logs
-- Log automatique dans le salon configuré
-- Vérification des permissions (le modérateur ne peut pas kick quelqu'un de rang supérieur)
+#### 🔧 Système de configuration par serveur
+Chaque serveur Discord peut maintenant avoir sa propre configuration !
 
-**Exemple :**
+**Commandes ajoutées :**
+- `/config logs-set #salon` : Définir un salon de logs existant
+- `/config logs-create` : Créer automatiquement un salon privé dédié
+- `/config logs-show` : Afficher la configuration actuelle du serveur
+- `/config logs-reset` : Désactiver complètement les logs
 
-```
-/kick @Membre Spam répété malgré avertissements
-```
+**Avantages :**
+- 🎯 Configuration indépendante par serveur
+- 💾 Sauvegarde automatique en JSON
+- 🔒 Salon de logs privé (seuls les admins y ont accès)
+- ✨ Création automatique avec permissions optimales
 
+#### 📊 Système de logs Discord amélioré
 
-##### **`/ban @membre [raison]`** - Bannir un membre
-- Bannit définitivement un membre du serveur
-- Raison optionnelle pour traçabilité
-- Le membre ne peut plus revenir sans débannissement
-- Log automatique avec détails complets
+**14 types de logs disponibles :**
 
-**Exemple :**
+**Modération :**
+- 🚫 Expulsion (kick)
+- 🔨 Bannissement (ban)
+- 🔓 Débannissement (unban)
+- 🔇 Timeout (mute temporaire)
+- ⚠️ Avertissements (warns)
+- 🧹 Suppression de messages en masse (clear)
 
-```
-/ban @Troll Propos inappropriés et harcèlement
-```
+**Membres :**
+- 👋 Arrivée de nouveaux membres (avec âge du compte)
+- 👋 Départ de membres
+- 🎭 Changements de rôles
 
+**Messages :**
+- 🗑️ Messages supprimés (avec contenu et pièces jointes)
+- ✏️ Messages modifiés (avant/après)
 
-##### **`/unban user_id [raison]`** - Débannir un utilisateur
-- Retire le bannissement d'un utilisateur via son ID
-- Raison optionnelle (ex: "Ban injustifié", "Membre excusé")
-- Log automatique du débannissement
+**Salons :**
+- 🏗️ Création de salons
+- 🗑️ Suppression de salons
 
-**Exemple :**
+**Améliorations techniques :**
+- Configuration dynamique (plus besoin de redémarrer le bot)
+- Gestion gracieuse des erreurs
+- Vérification des permissions avant envoi
+- Support des différents types de salons (texte, thread, etc.)
 
-```
-/unban 123456789012345678 Ban injustifié après vérification
-```
+#### 🛠️ Outils de développement
 
+**Nouveau dossier `outils_dev/` :**
 
-##### **`/timeout @membre [durée] [raison]`** - Mettre en timeout
-- Met un membre en silence temporaire
-- Durée : `1m`, `5m`, `10m`, `1h`, `1d`, `1w` (minutes, heures, jours, semaines)
-- Le membre ne peut plus écrire ni parler pendant la durée
-- Log avec durée exacte et raison
+**1. Analyseur d'erreurs** (`analyser_erreurs.py`)
+- Détecte les erreurs Pylance/Pylint
+- Analyse les imports manquants ou incorrects
+- Génère un rapport détaillé avec statistiques
+- Support Pylint optionnel
 
-**Exemples :**
-
-```
-/timeout @Membre 10m Flood dans le salon général
-/timeout @Membre 1h Insultes envers un autre membre
-/timeout @Membre 1d Multiples infractions
-```
-
-
-##### **`/warn @membre [raison]`** - Avertir un membre
-- Ajoute un avertissement à l'historique du membre
-- Stockage permanent dans `donnees/warns.json`
-- Compteur d'avertissements affiché
-- Log automatique avec numéro d'avertissement
-
-**Exemple :**
-
-```
-/warn @Membre Langage inapproprié
-```
-
-
-##### **`/warnings @membre`** - Consulter les avertissements
-- Affiche l'historique complet des warns d'un membre
-- Liste numérotée avec date, modérateur, et raison
-- Compteur total d'avertissements
-- Embed formaté proprement
-
-**Exemple :**
-
-```
-/removewarn @Membre 2
-```
-
-
-##### **`/clearwarns @membre`** - Effacer tous les avertissements
-- Supprime tous les warns d'un membre
-- Demande de confirmation
-- Utile pour "ardoise propre" après bonne conduite
-- Log de l'action
-
-**Exemple :**
-
-```
-/clearwarns @Membre
-```
-
-
-##### **`/setlogs [#salon]`** - Configurer le salon de logs
-- Active les logs en spécifiant un salon
-- Désactive les logs si aucun salon n'est spécifié
-- Envoie un message de test pour confirmer
-- Configuration sauvegardée dans `configuration.py`
-
-**Exemples :**
-
-```
-/setlogs #logs-moderation → Active les logs
-/setlogs → Désactive les logs
-```
-
-
----
-
-#### 👥 Événements de membres automatiques
-
-Nouveau module `evenements/events_membres.py` qui détecte :
-
-**Arrivée d'un membre :**
-- Détection automatique via `on_member_join`
-- Log avec :
-  - Nom complet et mention du membre
-  - ID Discord
-  - Âge du compte (créé il y a X jours)
-  - Nombre total de membres sur le serveur
-  - Horodatage précis
-
-**Départ d'un membre :**
-- Détection automatique via `on_member_remove`
-- Log avec :
-  - Nom complet du membre parti
-  - ID Discord
-  - Temps passé sur le serveur (X jours)
-  - Nombre restant de membres
-  - Horodatage précis
-
----
-
-#### 📝 Système de warns avec stockage
-
-Nouveau système d'avertissements avec persistance :
-
-**Stockage :**
-- Fichier `donnees/warns.json` créé automatiquement
-- Structure par serveur et par utilisateur
-- Historique complet avec :
-  - Date et heure précises
-  - Modérateur responsable (nom et ID)
-  - Raison de l'avertissement
-  - Numéro séquentiel
-
-**Gestion :**
-- Ajout via `/warn`
-- Consultation via `/warnings`
-- Suppression unitaire via `/removewarn`
-- Suppression totale via `/clearwarns`
-
-**Exemple de stockage :**
-
-```
-{
-"123456789012345678": {
-"987654321098765432": [
-{
-"date": "26/12/2025 02:15:30",
-"moderateur": "Admin#1234",
-"moderateur_id": "111222333444555666",
-"raison": "Spam dans le salon général"
-}
-]
-}
-}
-```
-
-
----
-
-#### 🔧 Outil de vérification de doublons
-
-Nouveau script `verifier_doublons.py` pour maintenir la qualité du code :
-
-**Fonctionnalités :**
+**2. Détecteur de doublons** (`detecter_doublons.py`)
 - Détecte les fichiers avec le même nom
 - Détecte les fichiers avec contenu identique (hash MD5)
-- Détecte les fichiers temporaires et backups (.bak, .backup, etc.)
-- Détecte les fonctions Python définies dans plusieurs fichiers
-- Détecte les classes Python dupliquées
-- Ignore automatiquement `.venv`, `__pycache__`, `.git`, etc.
+- Détecte les fonctions/classes dupliquées
+- Détecte les fichiers temporaires (.backup, .bak, etc.)
+- Génère un rapport complet avec recommandations
 
-**Utilisation :**
-
-```
-python verifier_doublons.py
-```
-
-
-**Résultat :**
-- Rapport complet généré sur le Bureau : `rapport_doublons_la_loyaute.txt`
-- Statistiques du projet (nombre de fichiers, taille totale)
-- Verdict final (projet propre ou problèmes détectés)
-- Recommandations d'actions à entreprendre
-
----
+**Rapports générés :**
+- Sauvegardés dans `outils_dev/rapports/`
+- Horodatage automatique
+- Format texte lisible avec codes couleurs console
+- Ignorés par Git
 
 ### 🔧 Améliorations techniques
 
 #### Architecture
-- Nouveau module `utilitaires/logs_discord.py` avec 10 fonctions de logs
-- Nouveau module `evenements/events_membres.py` pour événements de membres
-- Extension `evenements.events_membres` chargée automatiquement au démarrage
-- Dossier `donnees/` créé pour stockage des warns
+- **Nouveau module** : `noyau/gestionnaire_configuration.py`
+  - Gestion centralisée des configurations
+  - Sauvegarde/chargement automatique JSON
+  - API simple et intuitive
 
-#### Configuration
-- Nouvelle variable `LOGS_CHANNEL_ID` dans `configuration.py`
-- Documentation sur comment obtenir l'ID d'un salon Discord
-- Valeur par défaut à 0 (logs désactivés)
+- **Nouveau module** : `commandes/commandes_configuration.py`
+  - Groupe de commandes `/config`
+  - Permissions administrateur
+  - Vérifications de sécurité complètes
+
+- **Nouveaux événements** :
+  - `evenements/events_messages.py` : Logs de messages
+  - `evenements/events_salons.py` : Logs de salons
+
+#### Code
+- Meilleure gestion des types Pylance
+- Corrections des erreurs de typage Discord.py
+- Gestion des cas limites (MP, salons supprimés, etc.)
+- Documentation enrichie avec emojis et numérotation
 
 #### Sécurité
-- Vérification des permissions avant toute action de modération
-- Impossibilité de kick/ban soi-même ou le bot
-- Impossibilité de modérer un membre avec un rôle supérieur
-- Logs de toutes les actions sensibles
-- Stockage sécurisé des warns avec horodatage
+- `configurations_serveurs.json` ignoré par Git
+- Rapports des outils ignorés par Git
+- Vérification des permissions avant toute action
+- Validation des entrées utilisateur
 
-#### Performance
-- Gestion asynchrone des logs Discord
-- Vérification de l'existence du salon avant envoi
-- Gestion des erreurs si salon supprimé ou inaccessible
-- Cache des informations pour éviter appels API répétés
-
----
-
-### 📚 Documentation mise à jour
-
-- README.md : Arborescence du projet mise à jour avec nouveaux fichiers
-- README.md : Tableau des commandes admin complété avec 9 nouvelles commandes
-- CHANGELOG.md : Historique détaillé de la version 0.2.0
-- FEUILLE_DE_ROUTE.md : Progression et prochaines étapes
-- Commentaires dans le code avec explications détaillées
-
----
-
-### 🐛 Corrections
-
-- Suppression du fichier backup `commandes_admin.py.backup_20251224_064816`
-- Script `verifier_doublons.py` ajouté au `.gitignore`
-- Aucun doublon critique détecté dans le projet
-- Architecture validée et propre
-
----
-
-### 💡 Ce que vous pouvez faire maintenant
-
-**Configurez les logs Discord :**
-1. Créez un salon `#logs-moderation` sur votre serveur
-2. Utilisez `/setlogs #logs-moderation` pour activer
-3. Testez avec `/warn @Membre Test` pour voir le résultat
-
-**Testez les commandes de modération :**
+### 📝 Fichiers créés (8 nouveaux fichiers)
 
 ```
-/kick @Membre Raison de test
-/ban @Membre Test de bannissement
-/timeout @Membre 5m Test de timeout
-/warn @Membre Test d'avertissement
-/warnings @Membre
+noyau/gestionnaire_configuration.py
+commandes/commandes_configuration.py
+evenements/events_messages.py
+evenements/events_salons.py
+outils_dev/init.py
+outils_dev/analyser_erreurs.py
+outils_dev/detecter_doublons.py
+outils_dev/README.md
+```
+
+### 📝 Fichiers modifiés (11 fichiers)
+
+```
+utilitaires/logs_discord.py # 14 fonctions de logs
+evenements/events_membres.py # Ajout logs de rôles
+evenements/init.py # Exports mis à jour
+noyau/gestionnaire_bot.py # Init config manager
+principal.py # Chargement nouvelles extensions
+configuration.py # Nouvelle version
+.gitignore # Ignore rapports + config
+README.md # Structure mise à jour
+CHANGELOG.md # Historique complet
+patchnotes.md # Ce fichier
+FEUILLE_DE_ROUTE.md # Roadmap actualisée
+```
+
+### 🐛 Corrections de bugs
+- ✅ Correction des types Discord pour Pylance
+- ✅ Gestion des messages en MP (ignorés pour les logs)
+- ✅ Vérification du type de salon (TextChannel, Thread, etc.)
+- ✅ Gestion des attributs optionnels (guild, member_count, etc.)
+- ✅ Correction des imports relatifs
+
+### 🎨 Interface
+- Embeds de confirmation améliorés
+- Messages d'erreur plus clairs
+- Emojis cohérents dans tous les messages
+- Formatage des salons de logs (📋-logs)
+
+### ⚡ Performance
+- Configuration mise en cache par serveur
+- Chargement à la demande du JSON
+- Pas de redémarrage nécessaire pour la config
+- Requêtes API Discord optimisées
+
+---
+
+## 🔄 Version 0.2.0 - "Logs et Permissions" (26/12/2025)
+
+### ✨ Nouveautés
+- Système de permissions personnalisé
+- Système de logs Discord basique
+- Commandes de modération complètes
+- Gestion des événements membres
+
+### 📝 Fichiers créés
+
+```
+noyau/gestionnaire_permissions.py
+utilitaires/logs_discord.py
+evenements/events_membres.py
+```
+
+---
+
+## 🎉 Version 0.1.0 - "Fondations" (25/12/2025)
+
+### 🌟 Version initiale
+- Structure de base du projet
+- Système de commandes slash
+- Commandes administrateur de base
+- Logger personnalisé
+- Configuration centralisée
+
+### 📦 Modules principaux créés
+
+```
+principal.py
+configuration.py
+noyau/gestionnaire_bot.py
+commandes/commandes_base.py
+commandes/commandes_admin.py
+utilitaires/logger.py
+utilitaires/helpers.py
 ```
 
 
-**Vérifiez votre projet :**
+---
 
-```
-python verifier_doublons.py
-```
+## 📊 Statistiques du projet (v0.2.1)
 
+- **Lignes de code** : ~5000+
+- **Fichiers Python** : 20+
+- **Commandes disponibles** : 15+
+- **Types de logs** : 14
+- **Événements gérés** : 10+
 
 ---
 
-## 🎊 Version 0.1.0 - Lancement Initial
-**Date de sortie :** 24 décembre 2025
-**Statut :** ✅ Version stable et opérationnelle
+## 🗓️ Prochaines versions
 
-### 🌟 Nouveautés majeures
+### Version 0.3.0 - "Interface Configuration" (Planifiée)
+- Menu de configuration interactif style DraftBot
+- Embeds avec select menu Discord
+- Configuration visuelle complète
+- Boutons interactifs
 
-#### 🏗️ Architecture & Fondations
-La Loyauté fait ses premiers pas avec une architecture professionnelle et modulaire :
-- Structure de projet claire avec séparation des responsabilités
-- 4 modules principaux (noyau, commandes, événements, utilitaires)
-- 15 fichiers Python organisés logiquement
-- Documentation complète en français
+### Version 0.4.0 - "Économie" (Planifiée)
+- Système d'économie avec monnaie virtuelle
+- Commandes de gestion des coins
+- Boutique d'items
+- Système de niveaux
 
-#### 💬 Système de commandes de base (prefix `!`)
-
-Découvrez les 6 commandes accessibles à tous les utilisateurs :
-
-- **`!aide`** - Votre guide complet
-- **`!info`** - Carte d'identité du bot
-- **`!ping`** - Test de réactivité
-- **`!stats`** - Tableau de bord complet
-- **`!serveur`** - Informations sur votre serveur
-- **`!utilisateur [@mention]`** - Profil d'un membre
-
-#### 👑 Commandes administratives (prefix `/`)
-
-5 puissantes slash commands pour les administrateurs :
-
-- **`/clear [nombre]`** - Nettoyage de messages
-- **`/logs [nombre]`** - Consultation des logs
-- **`/config`** - Configuration du bot
-- **`/reload [extension]`** - Rechargement à chaud
-- **`/shutdown`** - Arrêt propre du bot
+Voir [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) pour la roadmap complète.
 
 ---
 
-## 🎯 Prochaines étapes - Version 0.2.1
+## 📌 Liens utiles
 
-La version suivante apportera :
-- 📝 **Logs de messages supprimés** avec contenu complet et pièces jointes
-- ✏️ **Logs de messages modifiés** avec avant/après en diff
-- 🎭 **Logs de rôles ajoutés/retirés** aux membres
-- 🏗️ **Logs de salons créés/modifiés/supprimés**
-- 🔒 **Logs de permissions modifiées** sur le serveur
-
-Puis version 0.2.2 :
-- 👋 **Messages de bienvenue** personnalisables avec variables
-- 👋 **Messages d'au revoir** personnalisables
-- 🎨 **Attribution automatique de rôle** aux nouveaux membres
-
-Restez à l'écoute pour les prochaines mises à jour !
+- [README.md](README.md) - Documentation complète
+- [CHANGELOG.md](CHANGELOG.md) - Historique des changements
+- [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) - Roadmap du projet
 
 ---
 
-## 📞 Support
-
-Si vous rencontrez un problème ou avez une suggestion :
-- Utilisez `!aide` pour voir toutes les commandes
-- Consultez le README.md pour la documentation complète
-- Vérifiez les logs avec `/logs` si vous êtes admin
-- Utilisez `/config` pour voir votre configuration actuelle
-
----
-
-*Développé avec passion par Latury 🛡️*
-
-*Version 0.2.0 | 26/12/2025*
-
+**Dernière mise à jour :** 05/01/2026
+**Version actuelle :** 0.2.1
+**Développé par :** Latury

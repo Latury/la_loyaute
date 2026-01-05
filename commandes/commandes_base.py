@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║                                                                             
+# ║
 # ║  💬 LA LOYAUTÉ - COMMANDES DE BASE
 # ║
 # ║  Commandes publiques accessibles à tous (prefix !)

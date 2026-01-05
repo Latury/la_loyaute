@@ -1,10 +1,10 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  🛡️  LA LOYAUTÉ - POINT D'ENTRÉE PRINCIPAL
+# ║ 🛡️ LA LOYAUTÉ - POINT D'ENTRÉE PRINCIPAL
 # ║
-# ║  Bot Discord privé développé en Python
-# ║  Développé par Latury
-# ║  Version : 0.1.0
+# ║ Bot Discord privé développé en Python
+# ║ Développé par Latury
+# ║ Version : 0.2.1
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -22,21 +22,24 @@ import configuration as config
 from noyau.gestionnaire_bot import LoyauteBot
 from utilitaires.logger import creer_logger
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🚀 Fonction 01 – Initialisation du logger
+# ║ 🚀 FONCTION 01 – Initialisation du logger
 # ║ Description : Configure le système de logs avant le démarrage
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def initialiser_logger():
     """Initialise le système de logs du bot"""
     return creer_logger('principal', config.NIVEAU_LOG)
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🎯 Fonction 02 – Vérification de la configuration
+# ║ 🎯 FONCTION 02 – Vérification de la configuration
 # ║ Description : Vérifie que toutes les variables obligatoires sont définies
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def verifier_configuration(logger):
     """Vérifie que la configuration est correcte"""
-
     # ── 🔹 Vérification du token Discord
     if not config.DISCORD_TOKEN:
         logger.error("❌ Le token Discord n'est pas défini dans secrets.env")
@@ -50,13 +53,14 @@ def verifier_configuration(logger):
     logger.info("✅ Configuration validée avec succès")
     return True
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🏗️ Fonction 03 – Création de l'instance du bot
+# ║ 🏗️ FONCTION 03 – Création de l'instance du bot
 # ║ Description : Instancie le bot avec les intents et la configuration
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_bot(logger):
     """Crée et configure l'instance du bot"""
-
     # ── 🔹 Configuration des intents Discord
     intents = discord.Intents.default()
     for intent_name, intent_value in config.INTENTS_REQUIS.items():
@@ -73,18 +77,26 @@ def creer_bot(logger):
     logger.info(f"🤖 Instance du bot '{config.NOM_BOT}' créée avec succès")
     return bot
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 📦 Fonction 04 – Chargement des extensions
+# ║ 📦 FONCTION 04 – Chargement des extensions
 # ║ Description : Charge tous les cogs (commandes, événements)
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 async def charger_extensions(bot, logger):
     """Charge toutes les extensions du bot"""
     extensions = [
+        # ── 📝 COMMANDES
         'commandes.commandes_base',
         'commandes.commandes_admin',
+        'commandes.commandes_configuration',  # ← NOUVEAU (v0.2.1)
+
+        # ── 🎉 ÉVÉNEMENTS
         'evenements.demarrage',
         'evenements.messages',
-        'evenements.events_membres',  # ← LIGNE AJOUTÉE
+        'evenements.events_membres',
+        'evenements.events_messages',         # ← NOUVEAU (v0.2.1)
+        'evenements.events_salons',           # ← NOUVEAU (v0.2.1)
     ]
 
     # ── 🔹 Chargement de chaque extension
@@ -99,13 +111,14 @@ async def charger_extensions(bot, logger):
     logger.info(f"✅ {len(extensions)} extensions chargées avec succès")
     return True
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🎬 Fonction 05 – Démarrage du bot
+# ║ 🎬 FONCTION 05 – Démarrage du bot
 # ║ Description : Lance le bot et gère les erreurs de connexion
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 async def demarrer_bot(bot, logger):
     """Démarre le bot Discord"""
-
     try:
         # ── 🔹 Connexion au serveur Discord
         logger.info("🔌 Connexion à Discord en cours...")
@@ -121,20 +134,21 @@ async def demarrer_bot(bot, logger):
 
     return True
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🎯 Fonction 06 – Point d'entrée principal
+# ║ 🎯 FONCTION 06 – Point d'entrée principal
 # ║ Description : Fonction principale qui orchestre le démarrage
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 async def main():
     """Point d'entrée principal du programme"""
-
     # ── 🔹 Initialisation du logger
     logger = initialiser_logger()
 
     # ── 🔹 Affichage du cadre de démarrage
     logger.info("═" * 80)
     logger.info("║" + " " * 78 + "║")
-    logger.info("║" + f"🛡️  LA LOYAUTÉ - BOT DISCORD".center(78) + "║")
+    logger.info("║" + f"🛡️ LA LOYAUTÉ - BOT DISCORD".center(78) + "║")
     logger.info("║" + " " * 78 + "║")
     logger.info("║" + f"Version : {config.VERSION_BOT}".center(78) + "║")
     logger.info("║" + f"Développé par {config.DEVELOPPEUR}".center(78) + "║")
@@ -164,6 +178,7 @@ async def main():
     # ── 🔹 Démarrage du bot
     await demarrer_bot(bot, logger)
 
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ 🚀 LANCEMENT DU PROGRAMME
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -172,7 +187,14 @@ if __name__ == "__main__":
     try:
         # Lancement de la boucle asynchrone
         asyncio.run(main())
+
     except KeyboardInterrupt:
         print("\n\n🛑 Arrêt du bot demandé par l'utilisateur")
+
     except Exception as e:
         print(f"\n\n❌ Erreur fatale : {e}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FIN DU FICHIER principal.py
+# ═══════════════════════════════════════════════════════════════════════════════

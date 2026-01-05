@@ -1,22 +1,30 @@
-# ═══════════════════════════════════════════════════════
-# 🔒 Fichier .gitignore pour La Loyauté
-# Bot Discord développé en Python
-# ═══════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║
+# ║ 🛡️ LA LOYAUTÉ - FICHIERS IGNORÉS PAR GIT
+# ║
+# ║ Liste des fichiers et dossiers à ne pas versionner
+# ║ Version : 0.2.1
+# ║ Dernière mise à jour : 05/01/2026
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# ── 🔐 Secrets et tokens ──────────────────────────────
+# ⚙️ FICHIERS SECRETS ET CONFIGURATION
 secrets.env
 .env
 *.env
+*.env.local
 token.txt
 config_secret.py
 
-# ── 🐍 Python ─────────────────────────────────────────
+# 🔧 CONFIGURATION DYNAMIQUE (v0.2.1)
+configurations_serveurs.json
+
+# 🐍 PYTHON
 # Bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-detecter_doublons.py
 
 # Distribution / packaging
 .Python
@@ -35,51 +43,112 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Virtual environments
+# 🌐 ENVIRONNEMENTS VIRTUELS
+.venv/
 venv/
-ENV/
 env/
-.venv
+ENV/
+env.bak/
+venv.bak/
 
-# ── 📝 Logs ───────────────────────────────────────────
+# 🔧 IDE ET ÉDITEURS
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+Thumbs.db
+*.code-workspace
+
+# 📊 LOGS
 logs/
 *.log
 log_*.txt
+*.log.*
 
-# ── 💾 Bases de données ───────────────────────────────
+# 💾 BASES DE DONNÉES
 *.db
 *.sqlite
 *.sqlite3
 donnees/*.json
 !donnees/template.json
 
-# ── 🔧 IDE et éditeurs ────────────────────────────────
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
+# 🛠️ OUTILS DE DÉVELOPPEMENT (v0.2.1)
+# Rapports générés par les outils
+outils_dev/rapports/
+outils_dev/*.txt
+outils_dev/*.log
 
-# ── 📦 Fichiers temporaires ───────────────────────────
+# Note: Les scripts eux-mêmes DOIVENT être versionnés :
+# - outils_dev/analyser_erreurs.py ✅
+# - outils_dev/detecter_doublons.py ✅
+# - outils_dev/README.md ✅
+
+# 📦 FICHIERS TEMPORAIRES ET BACKUPS
 *.tmp
+*.temp
 *.bak
+*.backup
+*.old
+*.orig
 *.cache
 temp/
 tmp/
+*~
 
-# ── 🧪 Tests ──────────────────────────────────────────
+# 🧪 TESTS
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
 .tox/
+.hypothesis/
+*.cover
+.cache
+nosetests.xml
+coverage.xml
+*.mo
 
-# ── 📄 Documentation générée ──────────────────────────
+# 📄 DOCUMENTATION GÉNÉRÉE
 site/
 docs/_build/
+_build/
 
-# ── 🎯 Autres ─────────────────────────────────────────
+# 🔐 CERTIFICATS ET CLÉS
+*.pem
+*.key
+*.crt
+*.cer
+
+# 🎯 AUTRES
 .mypy_cache/
 .dmypy.json
 dmypy.json
+.pyre/
+.pytype/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 📦 NODE MODULES (si applicable)
+node_modules/
+
+# 🗑️ FICHIERS SYSTÈME
+.Trash-*/
+*.lnk
+Desktop.ini
+$RECYCLE.BIN/
+
+# 🎨 FICHIERS MEDIA TEMPORAIRES
+*.mp3
+*.mp4
+*.wav
+*.avi
+*.mov
+
+# 📸 CAPTURES D'ÉCRAN DE DEBUG
+screenshots/
+debug_images/
