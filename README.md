@@ -4,10 +4,10 @@
 
 **Bot Discord privé développé en Python**
 
-![Python](https://img.shields.io/badge/Python-3.14.2-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Discord.py](https://img.shields.io/badge/discord.py-2.7.0a-5865F2?style=for-the-badge&logo=discord&logoColor=white)
-![Version](https://img.shields.io/badge/Version-0.2.2-yellow?style=for-the-badge&logo=git&logoColor=white)
-![Statut](https://img.shields.io/badge/Statut-Stable-00FF00?style=for-the-badge&logo=discord&logoColor=white)
+![PYTHON](https://img.shields.io/badge/PYTHON-3.14.2-3776AB?style=for-the-badge&logo=python&logoColor=white&labelColor=384454)
+![DISCORD.PY](https://img.shields.io/badge/DISCORD.PY-2.7.0A-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=384454)
+![VERSION](https://img.shields.io/badge/VERSION-V0.2.2-F9DC5C?style=for-the-badge&logo=git&logoColor=white&labelColor=384454)
+![STATUT](https://img.shields.io/badge/STATUT-EN_D%C3%89VELOPPEMENT-E85D04?style=for-the-badge&logo=construction&logoColor=white&labelColor=384454)
 
 _Développé par [Latury](https://github.com/Latury)_
 
