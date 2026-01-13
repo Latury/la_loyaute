@@ -12,14 +12,17 @@
 # ║
 # ══════════════════════════════════════════════════════════════════════
 
+import logging
 import os
 import hashlib
 import re
 import ast
+import traceback
 from datetime import datetime
 from pathlib import Path
 from collections import defaultdict
 from typing import Dict, List, Set, Tuple, Any, Optional
+from couleurs_terminal import Couleurs
 
 # ══════════════════════════════════════════════════════════════════════
 # ║ ⚙️ CONFIGURATION
@@ -45,33 +48,6 @@ PATTERNS_TEMPORAIRES = [
 ]
 
 SEUIL_SIMILARITE = 80
-
-# ══════════════════════════════════════════════════════════════════════
-# ║ 🎨 COULEURS CONSOLE (NOUVEAU DESIGN v0.5.0)
-# ══════════════════════════════════════════════════════════════════════
-
-class Couleurs:
-    """Palette de couleurs optimisée : Bleu intense + Orange"""
-
-    # 🔵 BLEU INTENSE - Cadres et titres principaux
-    BLEU_INTENSE = '\033[1;34m'      # Bleu intense pour cadres ╔═╗
-    BLEU_TITRE = '\033[1;36m'        # Cyan bold pour sous-titres
-
-    # 🟠 ORANGE - Informations en cours / progression
-    ORANGE = '\033[38;5;208m'        # Orange pour les infos en cours
-    ORANGE_CLAIR = '\033[38;5;214m'  # Orange clair pour nuances
-
-    # ✅ AUTRES COULEURS
-    VERT = '\033[92m'                # Vert pour succès
-    JAUNE = '\033[93m'               # Jaune pour warnings
-    ROUGE = '\033[91m'               # Rouge pour erreurs
-    GRIS = '\033[90m'                # Gris pour secondaire
-
-    # 🎨 STYLES
-    ENDC = '\033[0m'                 # Reset
-    BOLD = '\033[1m'                 # Gras
-    DIM = '\033[2m'                  # Atténué
-    UNDERLINE = '\033[4m'            # Souligné
 
 # ══════════════════════════════════════════════════════════════════════
 # ║ 🛠️ FONCTIONS UTILITAIRES
@@ -647,10 +623,9 @@ def main():
     try:
         problemes = generer_rapport(resultats, fichier_rapport)
     except Exception as e:
-        print(f"\n{Couleurs.ROUGE}❌ Erreur génération rapport : {e}{Couleurs.ENDC}")
-        import traceback
-        traceback.print_exc()
-        return
+        print(f"\n{Couleurs.ROUGE}❌ Erreur lors de l'analyse : {e}{Couleurs.ENDC}")
+        logging.error(f"Erreur analyse doublons : {e}", exc_info=True)
+    return
 
     print(f"\n{Couleurs.BLEU_INTENSE}{'┌' + '─' * 78 + '┐'}{Couleurs.ENDC}")
     if problemes > 0:
@@ -672,5 +647,4 @@ if __name__ == "__main__":
         print(f"\n\n{Couleurs.JAUNE}🛑 Analyse interrompue par l'utilisateur{Couleurs.ENDC}\n")
     except Exception as e:
         print(f"\n\n{Couleurs.ROUGE}❌ Erreur critique : {e}{Couleurs.ENDC}\n")
-        import traceback
         traceback.print_exc()

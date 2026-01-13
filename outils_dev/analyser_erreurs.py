@@ -19,6 +19,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
 from typing import List, Dict, Set, Any, Tuple
+from couleurs_terminal import Couleurs
 
 # ══════════════════════════════════════════════════════════════════════
 # ║ ⚙️ CONFIGURATION
@@ -37,33 +38,6 @@ DOSSIERS_IGNORES = {
 FICHIERS_IGNORES = {
     '.DS_Store', 'Thumbs.db', '__init__.pyc', '.gitignore', '.gitattributes'
 }
-
-# ══════════════════════════════════════════════════════════════════════
-# ║ 🎨 COULEURS CONSOLE (NOUVEAU DESIGN v0.5.0)
-# ══════════════════════════════════════════════════════════════════════
-
-class Couleurs:
-    """Palette de couleurs optimisée : Bleu intense + Orange"""
-
-    # 🔵 BLEU INTENSE - Cadres et titres principaux
-    BLEU_INTENSE = '\033[1;34m'      # Bleu intense pour cadres ╔═╗
-    BLEU_TITRE = '\033[1;36m'        # Cyan bold pour sous-titres
-
-    # 🟠 ORANGE - Informations en cours / progression
-    ORANGE = '\033[38;5;208m'        # Orange pour les infos en cours
-    ORANGE_CLAIR = '\033[38;5;214m'  # Orange clair pour nuances
-
-    # ✅ AUTRES COULEURS
-    VERT = '\033[92m'                # Vert pour succès
-    JAUNE = '\033[93m'               # Jaune pour warnings
-    ROUGE = '\033[91m'               # Rouge pour erreurs
-    GRIS = '\033[90m'                # Gris pour secondaire
-
-    # 🎨 STYLES
-    ENDC = '\033[0m'                 # Reset
-    BOLD = '\033[1m'                 # Gras
-    DIM = '\033[2m'                  # Atténué
-    UNDERLINE = '\033[4m'            # Souligné
 
 # ══════════════════════════════════════════════════════════════════════
 # ║ 🔍 CLASSE : ANALYSEUR AST AVANCÉ

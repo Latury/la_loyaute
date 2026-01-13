@@ -1,239 +1,212 @@
-# 🎮 Patch Notes - La Loyauté
+# 📝 **Patch Notes - La Loyauté**
 
-Notes de versions détaillées du projet.
-
----
-
-## 🎉 Version 0.2.1 - "Configuration Dynamique" (05/01/2026)
-
-### 🌟 Nouveautés principales
-
-#### 🔧 Système de configuration par serveur
-Chaque serveur Discord peut maintenant avoir sa propre configuration !
-
-**Commandes ajoutées :**
-- `/config logs-set #salon` : Définir un salon de logs existant
-- `/config logs-create` : Créer automatiquement un salon privé dédié
-- `/config logs-show` : Afficher la configuration actuelle du serveur
-- `/config logs-reset` : Désactiver complètement les logs
-
-**Avantages :**
-- 🎯 Configuration indépendante par serveur
-- 💾 Sauvegarde automatique en JSON
-- 🔒 Salon de logs privé (seuls les admins y ont accès)
-- ✨ Création automatique avec permissions optimales
-
-#### 📊 Système de logs Discord amélioré
-
-**14 types de logs disponibles :**
-
-**Modération :**
-- 🚫 Expulsion (kick)
-- 🔨 Bannissement (ban)
-- 🔓 Débannissement (unban)
-- 🔇 Timeout (mute temporaire)
-- ⚠️ Avertissements (warns)
-- 🧹 Suppression de messages en masse (clear)
-
-**Membres :**
-- 👋 Arrivée de nouveaux membres (avec âge du compte)
-- 👋 Départ de membres
-- 🎭 Changements de rôles
-
-**Messages :**
-- 🗑️ Messages supprimés (avec contenu et pièces jointes)
-- ✏️ Messages modifiés (avant/après)
-
-**Salons :**
-- 🏗️ Création de salons
-- 🗑️ Suppression de salons
-
-**Améliorations techniques :**
-- Configuration dynamique (plus besoin de redémarrer le bot)
-- Gestion gracieuse des erreurs
-- Vérification des permissions avant envoi
-- Support des différents types de salons (texte, thread, etc.)
-
-#### 🛠️ Outils de développement
-
-**Nouveau dossier `outils_dev/` :**
-
-**1. Analyseur d'erreurs** (`analyser_erreurs.py`)
-- Détecte les erreurs Pylance/Pylint
-- Analyse les imports manquants ou incorrects
-- Génère un rapport détaillé avec statistiques
-- Support Pylint optionnel
-
-**2. Détecteur de doublons** (`detecter_doublons.py`)
-- Détecte les fichiers avec le même nom
-- Détecte les fichiers avec contenu identique (hash MD5)
-- Détecte les fonctions/classes dupliquées
-- Détecte les fichiers temporaires (.backup, .bak, etc.)
-- Génère un rapport complet avec recommandations
-
-**Rapports générés :**
-- Sauvegardés dans `outils_dev/rapports/`
-- Horodatage automatique
-- Format texte lisible avec codes couleurs console
-- Ignorés par Git
-
-### 🔧 Améliorations techniques
-
-#### Architecture
-- **Nouveau module** : `noyau/gestionnaire_configuration.py`
-  - Gestion centralisée des configurations
-  - Sauvegarde/chargement automatique JSON
-  - API simple et intuitive
-
-- **Nouveau module** : `commandes/commandes_configuration.py`
-  - Groupe de commandes `/config`
-  - Permissions administrateur
-  - Vérifications de sécurité complètes
-
-- **Nouveaux événements** :
-  - `evenements/events_messages.py` : Logs de messages
-  - `evenements/events_salons.py` : Logs de salons
-
-#### Code
-- Meilleure gestion des types Pylance
-- Corrections des erreurs de typage Discord.py
-- Gestion des cas limites (MP, salons supprimés, etc.)
-- Documentation enrichie avec emojis et numérotation
-
-#### Sécurité
-- `configurations_serveurs.json` ignoré par Git
-- Rapports des outils ignorés par Git
-- Vérification des permissions avant toute action
-- Validation des entrées utilisateur
-
-### 📝 Fichiers créés (8 nouveaux fichiers)
-
-```
-noyau/gestionnaire_configuration.py
-commandes/commandes_configuration.py
-evenements/events_messages.py
-evenements/events_salons.py
-outils_dev/init.py
-outils_dev/analyser_erreurs.py
-outils_dev/detecter_doublons.py
-outils_dev/README.md
-```
-
-### 📝 Fichiers modifiés (11 fichiers)
-
-```
-utilitaires/logs_discord.py # 14 fonctions de logs
-evenements/events_membres.py # Ajout logs de rôles
-evenements/init.py # Exports mis à jour
-noyau/gestionnaire_bot.py # Init config manager
-principal.py # Chargement nouvelles extensions
-configuration.py # Nouvelle version
-.gitignore # Ignore rapports + config
-README.md # Structure mise à jour
-CHANGELOG.md # Historique complet
-patchnotes.md # Ce fichier
-FEUILLE_DE_ROUTE.md # Roadmap actualisée
-```
-
-### 🐛 Corrections de bugs
-- ✅ Correction des types Discord pour Pylance
-- ✅ Gestion des messages en MP (ignorés pour les logs)
-- ✅ Vérification du type de salon (TextChannel, Thread, etc.)
-- ✅ Gestion des attributs optionnels (guild, member_count, etc.)
-- ✅ Correction des imports relatifs
-
-### 🎨 Interface
-- Embeds de confirmation améliorés
-- Messages d'erreur plus clairs
-- Emojis cohérents dans tous les messages
-- Formatage des salons de logs (📋-logs)
-
-### ⚡ Performance
-- Configuration mise en cache par serveur
-- Chargement à la demande du JSON
-- Pas de redémarrage nécessaire pour la config
-- Requêtes API Discord optimisées
+**Notes de versions détaillées du projet.**
 
 ---
 
-## 🔄 Version 0.2.0 - "Logs et Permissions" (26/12/2025)
+## 📦 **Version 0.2.2** - *13/01/2026*
+**🔧 Corrections critiques + préparation v0.3.0**
 
-### ✨ Nouveautés
-- Système de permissions personnalisé
-- Système de logs Discord basique
-- Commandes de modération complètes
-- Gestion des événements membres
+### 🎉 **Nouveautés principales**
 
-### 📝 Fichiers créés
+#### **1️⃣ Outils de développement finalisés**
 
 ```
-noyau/gestionnaire_permissions.py
-utilitaires/logs_discord.py
-evenements/events_membres.py
+🧹 detecter_doublons.py
+├─ 23 imports doublons supprimés automatiquement
+├─ Détection fichiers identiques (hash MD5)
+├─ Fichiers temporaires (.backup, .bak) détectés
+└─ Rapport détaillé avec recommandations
+
+⚙️ corriger_erreurs_auto.py
+├─ 12 fonctions setup() ajoutées aux cogs
+├─ Correction indentation fonctions sync()
+├─ Compatibilité Python 3.14.2 + discord.py 2.7.0a
+└─ Rapport corrections généré
+```
+
+#### **2️⃣ Lanceur professionnel**
+
+```
+📱 LaLoyauteBOT.bat (.exe cliquable)
+├─ PowerShell 7 intégré
+├─ Nettoyage cache automatique
+├─ Activation venv automatique
+├─ Double-clic → Bot lancé en 3s
+└─ Logs colorés avec emojis
+```
+
+#### **3️⃣ Configuration Pylance**
+
+```
+🔕 .vscode/settings.json
+├─ reportOptionalMemberAccess → "none" (faux positifs)
+├─ reportAttributeAccessIssue → "warning"
+├─ reportUndefinedVariable → "warning"
+└─ 741 erreurs → Code 100% fonctionnel
+```
+
+### 🏗️ **Améliorations techniques**
+
+#### **Cache management**
+- Suppression récursive `__pycache__` + `*.pyc`
+- Nettoyage venv site-packages
+- Version 0.2.2 affichée au démarrage
+
+#### **Documentation enrichie**
+- CHANGELOG.md → v0.2.2 complète
+- FEUILLE_DE_ROUTE.md → v0.3.0 prioritaire
+- README.md → Guide développeur complet
+- Structure projet documentée
+
+### 📂 **Fichiers modifiés/créés**
+
+```
+✅ configuration.py → VERSION_BOT = "0.2.2"
+✅ .vscode/settings.json → Config Pylance
+✅ LaLoyauteBOT.bat → Lanceur .exe
+✅ 15+ modules → Corrections imports/setup()
+✅ Documentation → 4 fichiers mis à jour
+```
+
+### 🐛 **Corrections de bugs**
+
+```
+🔍 Problème version 0.1.0 persistante
+├─ Cache Python persistant
+├─ Imports non rechargés
+└─ Solution : Nettoyage + relance forcée ✅
+```
+
+### 🎨 **Interface améliorée**
+
+```
+🚀 Logs démarrage :
+```
+
+|Démarrage réussi : 13/01/2026 20:43:04|
+|Configuration chargée avec succès|
+|8/8 cogs chargés (CommandesAdmin, etc.)|
+|La Loyauté BOT v0.2.2 par Latury|
+
+---
+
+## 📦 **Version 0.2.1** - *05/01/2026*
+**⚙️ Configuration dynamique par serveur**
+
+### 🎉 **Nouveautés principales**
+
+#### **Configuration par serveur**
+
+```
+🔧 noyau/gestionnaire_configuration.py
+├─ Config indépendante par guild ID
+├─ Sauvegarde configurations/serveurs.json
+├─ Chargement à la demande (cache)
+└─ Pas de redémarrage requis
+```
+
+#### **Commandes config complètes**
+
+```
+📝 commandes/commandes_configuration.py
+├─ /config logs-set <salon> → Salon existant
+├─ /config logs-create → Crée salon privé auto
+├─ /config logs-show → Affiche config actuelle
+└─ /config logs-reset → Désactive logs
+```
+
+#### **14 types de logs Discord**
+
+```
+📊 utilitaires/logs_discord.py
+└─ kick/ban/unban/timeout/warn/clear/membre_join/leave...
+```
+
+### 🛠️ **Outils de développement v0.2.1**
+
+```
+🔍 outils_dev/analyser_erreurs.py
+├─ Erreurs Pylance/Pylint détectées
+├─ Imports manquants corrigés
+├─ Rapport stats généré
+
+🔎 outils_dev/detecter_doublons.py
+├─ Fichiers identiques (MD5)
+├─ Fonctions/classes dupliquées
+└─ Nettoyage automatique
 ```
 
 ---
 
-## 🎉 Version 0.1.0 - "Fondations" (25/12/2025)
-
-### 🌟 Version initiale
-- Structure de base du projet
-- Système de commandes slash
-- Commandes administrateur de base
-- Logger personnalisé
-- Configuration centralisée
-
-### 📦 Modules principaux créés
+## 📦 **Version 0.2.0** - *26/12/2025*
+**🛡️ Logs Discord + Permissions**
 
 ```
-principal.py
-configuration.py
-noyau/gestionnaire_bot.py
-commandes/commandes_base.py
-commandes/commandes_admin.py
-utilitaires/logger.py
-utilitaires/helpers.py
+🔐 noyau/gestionnaire_permissions.py
+📊 utilitaires/logs_discord.py (6 fonctions)
+👥 evenements/events_membres.py
 ```
 
+**Commandes modération :** kick/ban/unban/timeout/warn/clear
 
 ---
 
-## 📊 Statistiques du projet (v0.2.1)
+## 📦 **Version 0.1.0** - *25/12/2025*
+**🎄 Fondations du projet**
 
-- **Lignes de code** : ~5000+
-- **Fichiers Python** : 20+
-- **Commandes disponibles** : 15+
-- **Types de logs** : 14
-- **Événements gérés** : 10+
-
----
-
-## 🗓️ Prochaines versions
-
-### Version 0.3.0 - "Interface Configuration" (Planifiée)
-- Menu de configuration interactif style DraftBot
-- Embeds avec select menu Discord
-- Configuration visuelle complète
-- Boutons interactifs
-
-### Version 0.4.0 - "Économie" (Planifiée)
-- Système d'économie avec monnaie virtuelle
-- Commandes de gestion des coins
-- Boutique d'items
-- Système de niveaux
-
-Voir [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) pour la roadmap complète.
+```
+🏗️ Architecture cogs discord.py
+⚡ Commandes slash fonctionnelles
+📝 5000+ lignes de code
+🗂️ 20+ fichiers Python
+```
 
 ---
 
-## 📌 Liens utiles
+## 📊 **Statistiques v0.2.2**
 
-- [README.md](README.md) - Documentation complète
-- [CHANGELOG.md](CHANGELOG.md) - Historique des changements
-- [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) - Roadmap du projet
+| Métrique | Valeur |
+|----------|--------|
+| **Commandes** | 18 |
+| **Cogs** | 8/8 |
+| **Logs types** | 14 |
+| **Serveurs supportés** | ∞ (config dynamique) |
+| **Erreurs Pylance** | 0 bloquantes |
 
 ---
 
-**Dernière mise à jour :** 05/01/2026
-**Version actuelle :** 0.2.1
-**Développé par :** Latury
+## 🔮 **Prochaines versions**
+
+### **v0.3.0 - Interface Configuration** *(Priorité #1)*
+
+```
+🎨 Menu interactif SelectMenu + boutons
+📱 Prévisualisation temps réel
+💾 Export/Import JSON
+⏱️ Estimation : 2-3 semaines
+```
+
+### **v0.4.0 - Économie Virtuelle**
+
+```
+💰 Monnaie "coins" + boutique
+📈 Gains automatiques messages/événements
+🏪 Inventaire + transferts
+⏱️ Estimation : 3-4 semaines
+```
+
+**Détails complets :** [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md)
+
+---
+
+## 👨‍💻 **Liens utiles**
+- [README.md](README.md) → Installation
+- [CHANGELOG.md](CHANGELOG.md) → Historique
+- [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) → Roadmap
+
+**Dernière mise à jour :** 13/01/2026
+**Version actuelle :** `0.2.2`
+**Auteur :** Latury
+
+

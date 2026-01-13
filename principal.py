@@ -4,7 +4,7 @@
 # ║
 # ║ Bot Discord privé développé en Python
 # ║ Développé par Latury
-# ║ Version : 0.2.1
+# ║ Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 

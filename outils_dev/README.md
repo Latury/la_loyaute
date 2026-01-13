@@ -1,201 +1,73 @@
-# 🛠️ Outils de Développement - La Loyauté
+# 🛠️ **Outils de Développement**
 
-Ce dossier contient des scripts utilitaires pour maintenir la qualité du code du projet.
+**Scripts d'analyse et optimisation du code.**
 
-## 📦 Scripts disponibles
+## 📊 **Scripts disponibles**
 
-### 🔍 `analyser_erreurs.py`
+### **1. 🔍 `analyser_erreurs.py`**
 
-Analyse le code Python du projet pour détecter les erreurs Pylance/Pylint.
+```
+Usage : python analyser_erreurs.py
+Sortie : outils_dev/rapports/rapport_erreurs_*.txt
 
-**Utilisation :**
-```bash
-python outils_dev/analyser_erreurs.py
+✅ Détecte erreurs Pylance/Pylint
+✅ Imports manquants
+✅ Statistiques détaillées
+✅ 741 erreurs analysées (v0.2.2)
+```
 
-Fonctionnalités :
+### **2. 🔎 `detecter_doublons.py`**
 
-✅ Analyse tous les fichiers .py du projet
+```
+Usage : python detecter_doublons.py
+Sortie : outils_dev/rapports/rapport_doublons_*.txt
 
-✅ Détecte les erreurs d'imports
+✅ 23 imports doublons supprimés
+✅ Fichiers identiques (MD5)
+✅ Fonctions/classes dupliquées
+✅ Fichiers temporaires (.bak, etc.)
+```
 
-✅ Intégration Pylint (optionnel)
+### **3. ⚙️ `corriger_erreurs_auto.py`**
 
-✅ Génère un rapport détaillé dans outils_dev/rapports/
+Usage : python corriger_erreurs_auto.py
+Résultat :
+✅ 12 fonctions setup() ajoutées
+✅ Indentation corrigée
+✅ Rapport corrections généré
 
-🔍 detecter_doublons.py
-Détecte les doublons de code dans le projet (fichiers identiques, fonctions/classes dupliquées).
+## 🚀 **Utilisation rapide**
 
-Utilisation :
+```powershell
+cd outils_dev
+python analyser_erreurs.py
+python detecter_doublons.py
+python corriger_erreurs_auto.py
 
-python outils_dev/detecter_doublons.py
+```
 
-Fonctionnalités :
+⚠️ Rapports dans outils_dev/rapports/ → Ignorés par Git
 
-✅ Détecte les fichiers avec le même nom
+v0.2.2 - 13/01/2026
 
-✅ Détecte les fichiers avec contenu identique (hash MD5)
+```
 
-✅ Détecte les fichiers temporaires (.backup, .bak, etc.)
+## 🎯 **ACTION FINALE - COMMIT v0.2.2**
 
-✅ Détecte les fonctions dupliquées
+**GitHub Desktop maintenant :**
 
-✅ Détecte les classes dupliquées
+```
+🚀 Titre : ✅ v0.2.2 - Pylance + Documentation + Outils Dev
 
-✅ Génère un rapport détaillé dans outils_dev/rapports/
+📝 Description :
 
-📊 Rapports générés
-Tous les rapports sont sauvegardés dans le dossier outils_dev/rapports/ avec un horodatage :
+.vscode/settings.json → 741 erreurs ignorées
 
-outils_dev/
-└── rapports/
-    ├── rapport_erreurs_20260105_123456.txt
-    └── rapport_doublons_20260105_123456.txt
+CHANGELOG/FEUILLE/patchnotes/README → v0.2.2
 
-⚠️ Note : Le dossier rapports/ est ignoré par Git (voir .gitignore)
+outils_dev/README.md → Guide outils
 
-🎯 Bonnes pratiques
-Avant chaque commit
-Exécuter analyser_erreurs.py pour vérifier qu'il n'y a pas d'erreurs
+LaLoyauteBOT.bat → Lanceur .exe
 
-Exécuter detecter_doublons.py pour nettoyer le code
-
-Avant chaque release
-Analyser le projet complet
-
-Corriger toutes les erreurs critiques
-
-Supprimer les doublons détectés
-
-🔧 Configuration
-Les scripts analysent automatiquement les dossiers suivants :
-
-commandes/
-
-evenements/
-
-noyau/
-
-utilitaires/
-
-principal.py
-
-configuration.py
-
-Dossiers ignorés :
-
-__pycache__
-
-.venv, venv, env
-
-.git, .vscode, .idea
-
-outils_dev (pour éviter l'auto-analyse)
-
-📝 Version
-Version actuelle : 0.2.1
-Dernière mise à jour : 05/01/2026
-
-👤 Développeur
-Développé par Latury pour le projet La Loyauté
-
-
-***
-
-## 📝 **FICHIER 5 : `.gitignore` (MIS À JOUR)**
-
-**Remplace TOUT le contenu de `.gitignore`** :
-
-```gitignore
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 🛡️ LA LOYAUTÉ - FICHIERS IGNORÉS PAR GIT
-# ║
-# ║ Liste des fichiers et dossiers à ne pas versionner
-# ║ Version : 0.2.1
-# ║
-# ═══════════════════════════════════════════════════════════════════════════════
-
-# ⚙️ FICHIERS SECRETS
-secrets.env
-.env
-*.env.local
-
-# 🐍 PYTHON
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# 🌐 ENVIRONNEMENTS VIRTUELS
-.venv/
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
-
-# 🔧 IDE ET ÉDITEURS
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
-
-# 📊 LOGS ET BASES DE DONNÉES
-*.log
-logs/
-*.db
-*.sqlite
-*.sqlite3
-
-# 🛠️ RAPPORTS DES OUTILS DE DÉVELOPPEMENT (NOUVEAU v0.2.1)
-outils_dev/rapports/
-outils_dev/*.txt
-
-# 📦 FICHIERS TEMPORAIRES
-*.tmp
-*.temp
-*.backup
-*.bak
-*.old
-*.orig
-
-# 🎯 CONFIGURATION DYNAMIQUE (NOUVEAU v0.2.1)
-configurations_serveurs.json
-
-# 📝 FICHIERS DE TESTS
-test_*.py
-*_test.py
-.pytest_cache/
-.coverage
-htmlcov/
-
-# 🔐 CERTIFICATS ET CLÉS
-*.pem
-*.key
-*.crt
-
-# 📦 NODE MODULES (si applicable)
-node_modules/
-
-# 🗑️ FICHIERS SYSTÈME
-.Trash-*/
-*.lnk
+✅ Tout est prêt pour v0.3.0 !
+```

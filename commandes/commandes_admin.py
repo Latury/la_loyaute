@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
 # ║  📄 FICHIER : commandes_admin.py
@@ -10,17 +8,21 @@ from __future__ import annotations
 # ║  🔖 VERSION : 0.2.0
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
+from __future__ import annotations
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 from datetime import datetime, timedelta
 import os
+import json
 from utilitaires.helpers import creer_embed, creer_embed_succes, creer_embed_erreur, creer_embed_avertissement
 from utilitaires.logs_discord import log_kick, log_ban, log_unban, log_timeout, log_warn, log_clear
 import configuration as config
-from utilitaires.helpers import creer_embed, creer_embed_succes, creer_embed_erreur, creer_embed_avertissement
 from typing import Optional
+from discord import Interaction, TextChannel
+from discord.ext.commands import Cog
+from discord.app_commands import command, describe
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1061,7 +1063,6 @@ class CommandesAdmin(commands.Cog):
             await interaction.response.defer(ephemeral=True)
 
             try:
-                import json
 
                 # ── 🔹 Chargement des warns
                 fichier_warns = "donnees/warns.json"
@@ -1154,7 +1155,6 @@ class CommandesAdmin(commands.Cog):
             await interaction.response.defer(ephemeral=True)
 
             try:
-                import json
 
                 # ── 🔹 Chargement des warns
                 fichier_warns = "donnees/warns.json"
@@ -1252,7 +1252,6 @@ class CommandesAdmin(commands.Cog):
             await interaction.response.defer(ephemeral=True)
 
             try:
-                import json
 
                 # ── 🔹 Chargement des warns
                 fichier_warns = "donnees/warns.json"

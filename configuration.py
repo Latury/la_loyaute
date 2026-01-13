@@ -4,7 +4,7 @@
 # ║
 # ║  Fichier de configuration principal du bot Discord
 # ║  Développé par Latury
-# ║  Version : 0.1.0
+# ║  Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -27,7 +27,7 @@ GUILD_ID = int(os.getenv('GUILD_ID', 0))
 
 # Nom du bot
 NOM_BOT = "La Loyauté"
-VERSION_BOT = "0.1.0"
+VERSION_BOT = "0.2.2"
 DEVELOPPEUR = "Latury"
 
 # Prefix des commandes
