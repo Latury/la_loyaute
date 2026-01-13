@@ -6,7 +6,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.14.2-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Discord.py](https://img.shields.io/badge/discord.py-2.7.0a-5865F2?style=for-the-badge&logo=discord&logoColor=white)
-![Version](https://img.shields.io/badge/Version-0.2.2-00D2D6?style=for-the-badge&logo=git&logoColor=white)
+![Version](https://img.shields.io/badge/Version-0.2.2-yellow?style=for-the-badge&logo=git&logoColor=white)
 ![Statut](https://img.shields.io/badge/Statut-Stable-00FF00?style=for-the-badge&logo=discord&logoColor=white)
 
 _Développé par [Latury](https://github.com/Latury)_
