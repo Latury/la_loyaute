@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
 # ║  💬 LA LOYAUTÉ - COMMANDES DE BASE
@@ -13,6 +15,7 @@ from discord.ext import commands
 from datetime import datetime
 import platform
 import psutil
+from typing import Optional  # ← AJOUTE CETTE LIGNE
 
 # Importation de la configuration
 import configuration as config
@@ -356,7 +359,7 @@ class CommandesBase(commands.Cog):
         help='Affiche les informations sur un utilisateur'
     )
     @commands.guild_only()
-    async def utilisateur(self, ctx, membre: discord.Member | None = None):
+    async def utilisateur(self, ctx, membre: Optional[discord.Member] = None):
         """Affiche les informations d'un utilisateur"""
 
         # ── 🔹 Par défaut, affiche l'auteur
@@ -438,3 +441,8 @@ class CommandesBase(commands.Cog):
 async def setup(bot):
     """Charge le cog des commandes de base"""
     await bot.add_cog(CommandesBase(bot))
+
+
+
+
+

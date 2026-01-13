@@ -3,30 +3,36 @@
 # ║ 🛡️ LA LOYAUTÉ - FICHIERS IGNORÉS PAR GIT
 # ║
 # ║ Liste des fichiers et dossiers à ne pas versionner
-# ║ Version : 0.2.1
+# ║ Version : 0.3.0
 # ║ Dernière mise à jour : 05/01/2026
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# ⚙️ FICHIERS SECRETS ET CONFIGURATION
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🔑 FICHIERS SECRETS ET CONFIGURATION
+# ══════════════════════════════════════════════════════════════════════
 secrets.env
 .env
 *.env
-*.env.local
+.env.*
+.env.local
 token.txt
 config_secret.py
 
-# 🔧 CONFIGURATION DYNAMIQUE (v0.2.1)
+# Configuration dynamique (v0.2.1)
 configurations_serveurs.json
 
-# 🐍 PYTHON
-# Bytecode
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🐍 PYTHON - Bytecode
+# ══════════════════════════════════════════════════════════════════════
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 
-# Distribution / packaging
+# ══════════════════════════════════════════════════════════════════════
+# ║ 📦 PYTHON - Distribution / packaging
+# ══════════════════════════════════════════════════════════════════════
 .Python
 build/
 develop-eggs/
@@ -45,7 +51,9 @@ wheels/
 *.egg
 MANIFEST
 
-# 🌐 ENVIRONNEMENTS VIRTUELS
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🌐 ENVIRONNEMENTS VIRTUELS
+# ══════════════════════════════════════════════════════════════════════
 .venv/
 venv/
 env/
@@ -53,54 +61,59 @@ ENV/
 env.bak/
 venv.bak/
 
-# 🔧 IDE ET ÉDITEURS
+# ══════════════════════════════════════════════════════════════════════
+# ║ 💻 IDE ET ÉDITEURS
+# ══════════════════════════════════════════════════════════════════════
 .vscode/
 .idea/
 *.swp
 *.swo
 *.swn
-*~
 .DS_Store
 Thumbs.db
 *.code-workspace
 
-# 📊 LOGS
+# ══════════════════════════════════════════════════════════════════════
+# ║ 📝 LOGS
+# ══════════════════════════════════════════════════════════════════════
 logs/
 *.log
-log_*.txt
+log.txt
 *.log.*
 
-# 💾 BASES DE DONNÉES
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🗄️ BASES DE DONNÉES
+# ══════════════════════════════════════════════════════════════════════
 *.db
 *.sqlite
 *.sqlite3
 donnees/*.json
 !donnees/template.json
 
-# 🛠️ OUTILS DE DÉVELOPPEMENT (v0.2.1)
-# Rapports générés par les outils
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🔧 OUTILS DE DÉVELOPPEMENT (v0.2.1)
+# ══════════════════════════════════════════════════════════════════════
 outils_dev/rapports/
 outils_dev/*.txt
 outils_dev/*.log
 
-# Note: Les scripts eux-mêmes DOIVENT être versionnés :
-# - outils_dev/analyser_erreurs.py ✅
-# - outils_dev/detecter_doublons.py ✅
-# - outils_dev/README.md ✅
-
-# 📦 FICHIERS TEMPORAIRES ET BACKUPS
+# ══════════════════════════════════════════════════════════════════════
+# ║ 📁 FICHIERS TEMPORAIRES (v0.3.0)
+# ══════════════════════════════════════════════════════════════════════
+temp/
 *.tmp
-*.temp
+.tmp/
+.temp/
 *.bak
 *.backup
 *.old
 *.orig
-*.cache
-temp/
+.cache/
 tmp/
-*~
 
-# 🧪 TESTS
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🧪 TESTS
+# ══════════════════════════════════════════════════════════════════════
 .pytest_cache/
 .coverage
 .coverage.*
@@ -113,18 +126,24 @@ nosetests.xml
 coverage.xml
 *.mo
 
-# 📄 DOCUMENTATION GÉNÉRÉE
+# ══════════════════════════════════════════════════════════════════════
+# ║ 📚 DOCUMENTATION GÉNÉRÉE
+# ══════════════════════════════════════════════════════════════════════
 site/
 docs/_build/
-_build/
+build/
 
-# 🔐 CERTIFICATS ET CLÉS
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🔐 CERTIFICATS ET CLÉS
+# ══════════════════════════════════════════════════════════════════════
 *.pem
 *.key
 *.crt
 *.cer
 
-# 🎯 AUTRES
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🔍 AUTRES
+# ══════════════════════════════════════════════════════════════════════
 .mypy_cache/
 .dmypy.json
 dmypy.json
@@ -133,22 +152,30 @@ dmypy.json
 pip-log.txt
 pip-delete-this-directory.txt
 
-# 📦 NODE MODULES (si applicable)
+# ══════════════════════════════════════════════════════════════════════
+# ║ 📦 NODE MODULES (si applicable)
+# ══════════════════════════════════════════════════════════════════════
 node_modules/
 
-# 🗑️ FICHIERS SYSTÈME
-.Trash-*/
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🖼️ FICHIERS SYSTÈME
+# ══════════════════════════════════════════════════════════════════════
+.Trash-*
 *.lnk
 Desktop.ini
 $RECYCLE.BIN/
 
-# 🎨 FICHIERS MEDIA TEMPORAIRES
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🎬 FICHIERS MEDIA TEMPORAIRES
+# ══════════════════════════════════════════════════════════════════════
 *.mp3
 *.mp4
 *.wav
 *.avi
 *.mov
 
-# 📸 CAPTURES D'ÉCRAN DE DEBUG
+# ══════════════════════════════════════════════════════════════════════
+# ║ 📸 CAPTURES D'ÉCRAN DE DEBUG
+# ══════════════════════════════════════════════════════════════════════
 screenshots/
 debug_images/

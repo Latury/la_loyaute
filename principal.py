@@ -87,25 +87,30 @@ async def charger_extensions(bot, logger):
     """Charge toutes les extensions du bot"""
     extensions = [
         # ── 📝 COMMANDES
-        'commandes.commandes_base',
+        # 'commandes.commandes_base',           # ← DOIT AVOIR UN # DEVANT !
         'commandes.commandes_admin',
-        'commandes.commandes_configuration',  # ← NOUVEAU (v0.2.1)
+        'commandes.commandes_configuration',
+        'commandes.commandes_menu',
 
         # ── 🎉 ÉVÉNEMENTS
         'evenements.demarrage',
         'evenements.messages',
         'evenements.events_membres',
-        'evenements.events_messages',         # ← NOUVEAU (v0.2.1)
-        'evenements.events_salons',           # ← NOUVEAU (v0.2.1)
+        'evenements.events_messages',
+        'evenements.events_salons',
     ]
 
-    # ── 🔹 Chargement de chaque extension
+
+
+ # ── 🔹 Chargement de chaque extension
     for extension in extensions:
         try:
             await bot.load_extension(extension)
             logger.info(f"📦 Extension chargée : {extension}")
         except Exception as e:
+            import traceback
             logger.error(f"❌ Erreur lors du chargement de {extension} : {e}")
+            logger.error(f"Traceback complet:\n{traceback.format_exc()}")
             return False
 
     logger.info(f"✅ {len(extensions)} extensions chargées avec succès")
@@ -198,3 +203,4 @@ if __name__ == "__main__":
 # ═══════════════════════════════════════════════════════════════════════════════
 # FIN DU FICHIER principal.py
 # ═══════════════════════════════════════════════════════════════════════════════
+

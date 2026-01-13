@@ -5,7 +5,7 @@
 
 # ── 🤖 Discord ────────────────────────────────────────
 # Bibliothèque principale pour Discord
-discord.py==2.3.2
+# discord.py - installer avec: pip install -U git+https://github.com/Rapptz/discord.py
 
 # ── 🔐 Gestion des variables d'environnement ──────────
 python-dotenv==1.0.0

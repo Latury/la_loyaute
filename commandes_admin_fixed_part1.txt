@@ -1,0 +1,35 @@
+from __future__ import annotations
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║
+# ║  📄 FICHIER : commandes_admin.py
+# ║  📦 MODULE : commandes
+# ║  📝 DESCRIPTION : Commandes administratives (slash commands)
+# ║  👤 AUTEUR : Latury
+# ║  📅 DATE : 25/12/2025
+# ║  🔖 VERSION : 0.2.0
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+import discord
+from discord import app_commands
+from discord.ext import commands
+from datetime import datetime, timedelta
+import os
+from utilitaires.helpers import creer_embed, creer_embed_succes, creer_embed_erreur, creer_embed_avertissement
+from utilitaires.logs_discord import log_kick, log_ban, log_unban, log_timeout, log_warn, log_clear
+import configuration as config
+from typing import Optional
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 👑 CLASSE : CommandesAdmin
+# ║ Description : Gestion des commandes administratives (slash commands)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+class CommandesAdmin(commands.Cog):
+    """Commandes administratives réservées aux modérateurs et administrateurs"""
+    
+    def __init__(self, bot):
+        """Initialise le cog des commandes administratives"""
+        self.bot = bot
+        self.bot.logger.info("✅ Cog CommandesAdmin chargé")

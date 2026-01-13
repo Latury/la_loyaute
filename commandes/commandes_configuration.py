@@ -1,437 +1,555 @@
-# ═══════════════════════════════════════════════════════════════════════════════
+from __future__ import annotations
+
+# ══════════════════════════════════════════════════════════════════════
 # ║
-# ║ ⚙️ LA LOYAUTÉ - COMMANDES DE CONFIGURATION
+# ║  ⚙️ COMMANDES DE CONFIGURATION - LA LOYAUTÉ
 # ║
-# ║ Commandes pour configurer le bot (salon de logs, etc.)
-# ║ Développé par Latury
-# ║ Version : 0.2.1
+# ║  Commandes pour configurer le bot de manière interactive
+# ║  Interface visuelle avec Select Menu et boutons
 # ║
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║  📄 Fichier : commandes/commandes_configuration.py
+# ║  👤 Auteur : Latury
+# ║  📅 Date : 06/01/2026
+# ║  🔖 Version : 0.3.0
+# ║
+# ══════════════════════════════════════════════════════════════════════
 
 import discord
 from discord import app_commands
 from discord.ext import commands
-from utilitaires.helpers import creer_embed
-import configuration as config
+from typing import Optional
+import json
+from pathlib import Path
+from datetime import datetime
 
+from noyau.gestionnaire_permissions import verifier_permissions
+from utilitaires.embeds_interactifs import (
+    creer_embed_menu_principal,
+    VueMenuPrincipal
+)
+from configuration import COULEUR_PRINCIPALE, COULEUR_SUCCES, COULEUR_ERREUR
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║ 📦 CLASSE PRINCIPALE
-# ║ Description : Commandes de configuration du bot
-# ═══════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════
+# ║ 📋 CLASSE : COMMANDES DE CONFIGURATION
+# ══════════════════════════════════════════════════════════════════════
 
 class CommandesConfiguration(commands.Cog):
-    """Commandes pour configurer le bot"""
+    """
+    ⚙️ Cog contenant toutes les commandes de configuration du bot
+    """
 
     def __init__(self, bot):
         """
-        Initialisation du cog CommandesConfiguration
+        📌 1️⃣ Initialise le cog de configuration
 
         Args:
             bot: Instance du bot Discord
         """
         self.bot = bot
-        self.bot.logger.info("⚙️ Module CommandesConfiguration chargé")
+        self.logger = bot.logger
+        self.config_manager = bot.config_manager
 
+        self.logger.info("✅ Module CommandesConfiguration chargé")
 
-    # ═══════════════════════════════════════════════════════════════════════════
-    # ║ 🎯 GROUPE DE COMMANDES : /config
-    # ║ Description : Groupe principal pour toutes les configurations
-    # ═══════════════════════════════════════════════════════════════════════════
+    # ══════════════════════════════════════════════════════════════════
+    # ║ 🎨 COMMANDE : CONFIG (MENU INTERACTIF)
+    # ══════════════════════════════════════════════════════════════════
 
-    config_group = app_commands.Group(
+    @app_commands.command(
         name="config",
-        description="Configuration du bot"
+        description="⚙️ Ouvrir le menu de configuration interactif"
     )
+    @app_commands.checks.has_permissions(administrator=True)
+    async def config(self, interaction: discord.Interaction):
+        """
+        ⚙️ 2️⃣ Affiche le menu de configuration interactif
 
+        Args:
+            interaction: discord.Interaction Discord
+        """
+        try:
+            # Vérifier que guild_id existe
+            if not interaction.guild_id or not interaction.guild:
+                await interaction.response.send_message(
+                    "❌ Cette commande ne peut être utilisée qu'en serveur.",
+                    ephemeral=True
+                )
+                return
 
-    # ═══════════════════════════════════════════════════════════════════════════
-    # ║ 📝 FONCTION 01 – Commande : /config logs-set
-    # ║ Description : Définir le salon de logs
-    # ═══════════════════════════════════════════════════════════════════════════
+            guild_id = interaction.guild_id
 
-    @config_group.command(
-        name="logs-set",
-        description="Définir le salon où afficher les logs du bot"
+            # Créer l'embed du menu principal
+            embed = creer_embed_menu_principal(guild_id)
+
+            # Créer la vue avec le Select Menu
+            view = VueMenuPrincipal(self.config_manager, guild_id)
+
+            # Envoyer le message
+            await interaction.response.send_message(
+                embed=embed,
+                view=view,
+                ephemeral=True
+            )
+
+            self.logger.info(
+                f"📊 Menu de configuration ouvert par {interaction.user} "
+                f"sur {interaction.guild.name}"
+            )
+
+        except Exception as e:
+            self.logger.error(f"❌ Erreur dans /config : {e}")
+            await interaction.response.send_message(
+                f"❌ Une erreur est survenue : {e}",
+                ephemeral=True
+            )
+
+    # ══════════════════════════════════════════════════════════════════
+    # ║ 📤 COMMANDE : CONFIG EXPORT
+    # ══════════════════════════════════════════════════════════════════
+
+    @app_commands.command(
+        name="config-export",
+        description="📤 Exporter la configuration du serveur en JSON"
+    )
+    @app_commands.checks.has_permissions(administrator=True)
+    async def config_export(self, interaction: discord.Interaction):
+        """
+        📤 3️⃣ Exporte la configuration actuelle du serveur
+
+        Args:
+            interaction: discord.Interaction Discord
+        """
+        try:
+            await interaction.response.defer(ephemeral=True)
+
+            # Vérifier que guild_id et guild existent
+            if not interaction.guild_id or not interaction.guild:
+                await interaction.followup.send(
+                    "❌ Cette commande ne peut être utilisée qu'en serveur.",
+                    ephemeral=True
+                )
+                return
+
+            guild_id = interaction.guild_id
+            config = self.config_manager.obtenir_configuration(guild_id)
+
+            # Créer le fichier JSON
+            nom_fichier = f"config_{interaction.guild.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            chemin_fichier = Path("temp") / nom_fichier
+
+            # Créer le dossier temp s'il n'existe pas
+            chemin_fichier.parent.mkdir(exist_ok=True)
+
+            # Sauvegarder la configuration
+            with open(chemin_fichier, 'w', encoding='utf-8') as f:
+                json.dump(config, f, indent=4, ensure_ascii=False)
+
+            # Créer l'embed
+            embed = discord.Embed(
+                title="📤 Export de Configuration",
+                description=(
+                    f"Configuration du serveur **{interaction.guild.name}** exportée avec succès !\n\n"
+                    f"📄 **Fichier** : `{nom_fichier}`\n"
+                    f"📊 **Éléments** : {len(config)} paramètres"
+                ),
+                color=COULEUR_SUCCES,
+                timestamp=datetime.now()
+            )
+
+            # Envoyer le fichier
+            await interaction.followup.send(
+                embed=embed,
+                file=discord.File(chemin_fichier, filename=nom_fichier),
+                ephemeral=True
+            )
+
+            # Supprimer le fichier temporaire
+            chemin_fichier.unlink()
+
+            self.logger.info(
+                f"📤 Configuration exportée par {interaction.user} "
+                f"sur {interaction.guild.name}"
+            )
+
+        except Exception as e:
+            self.logger.error(f"❌ Erreur dans /config-export : {e}")
+            await interaction.followup.send(
+                f"❌ Une erreur est survenue lors de l'export : {e}",
+                ephemeral=True
+            )
+
+    # ══════════════════════════════════════════════════════════════════
+    # ║ 📥 COMMANDE : CONFIG IMPORT
+    # ══════════════════════════════════════════════════════════════════
+
+    @app_commands.command(
+        name="config-import",
+        description="📥 Importer une configuration depuis un fichier JSON"
     )
     @app_commands.describe(
-        salon="Le salon textuel à utiliser pour les logs"
+        fichier="Fichier JSON de configuration à importer"
     )
-    @app_commands.default_permissions(administrator=True)
-    @app_commands.guild_only()
+    @app_commands.checks.has_permissions(administrator=True)
+    async def config_import(
+        self,
+        interaction: discord.Interaction,
+        fichier: discord.Attachment
+    ):
+        """
+        📥 4️⃣ Importe une configuration depuis un fichier JSON
+
+        Args:
+            interaction: discord.Interaction Discord
+            fichier: Fichier JSON à importer
+        """
+        try:
+            await interaction.response.defer(ephemeral=True)
+
+            # Vérifier que guild_id existe
+            if not interaction.guild_id:
+                await interaction.followup.send(
+                    "❌ Cette commande ne peut être utilisée qu'en serveur.",
+                    ephemeral=True
+                )
+                return
+
+            # Vérifier le type de fichier
+            if not fichier.filename.endswith('.json'):
+                await interaction.followup.send(
+                    "❌ Le fichier doit être au format JSON (.json)",
+                    ephemeral=True
+                )
+                return
+
+            # Télécharger et lire le fichier
+            contenu = await fichier.read()
+            config_importee = json.loads(contenu.decode('utf-8'))
+
+            # Valider la configuration
+            if not isinstance(config_importee, dict):
+                await interaction.followup.send(
+                    "❌ Le fichier JSON est invalide (doit être un objet)",
+                    ephemeral=True
+                )
+                return
+
+            guild_id = interaction.guild_id
+
+            # Sauvegarder l'ancienne configuration (backup)
+            config_actuelle = self.config_manager.obtenir_configuration(guild_id)
+
+            # Créer l'embed de confirmation
+            embed = discord.Embed(
+                title="⚠️ Confirmation d'Import",
+                description=(
+                    "Vous êtes sur le point d'importer une nouvelle configuration.\n\n"
+                    "**Cette action va remplacer la configuration actuelle !**\n\n"
+                    f"📊 **Paramètres à importer** : {len(config_importee)}\n"
+                    f"📊 **Paramètres actuels** : {len(config_actuelle)}\n\n"
+                    "Voulez-vous continuer ?"
+                ),
+                color=COULEUR_PRINCIPALE,
+                timestamp=datetime.now()
+            )
+
+            # Créer les boutons de confirmation
+            view = ConfirmationImportView(
+                self.config_manager,
+                guild_id,
+                config_importee,
+                self.logger
+            )
+
+            await interaction.followup.send(
+                embed=embed,
+                view=view,
+                ephemeral=True
+            )
+
+        except json.JSONDecodeError:
+            await interaction.followup.send(
+                "❌ Erreur : Le fichier JSON est mal formaté",
+                ephemeral=True
+            )
+        except Exception as e:
+            self.logger.error(f"❌ Erreur dans /config-import : {e}")
+            await interaction.followup.send(
+                f"❌ Une erreur est survenue lors de l'import : {e}",
+                ephemeral=True
+            )
+
+    # ══════════════════════════════════════════════════════════════════
+    # ║ 🔧 COMMANDES LEGACY (COMPATIBILITÉ)
+    # ══════════════════════════════════════════════════════════════════
+
+    @app_commands.command(
+        name="config-logs-set",
+        description="📊 Définir le salon de logs Discord"
+    )
+    @app_commands.describe(salon="Salon où envoyer les logs")
+    @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_set(
         self,
         interaction: discord.Interaction,
         salon: discord.TextChannel
     ):
-        """Définit le salon de logs"""
+        """
+        📊 5️⃣ Définit le salon de logs (commande legacy)
+
+        Args:
+            interaction: discord.Interaction Discord
+            salon: Salon de logs
+        """
         try:
-            # ── 🔹 ÉTAPE 0 : Vérifications de sécurité
-            if not interaction.guild:
-                return
-
-            if not isinstance(interaction.user, discord.Member):
-                return
-
-            # ── 🔹 ÉTAPE 1 : Vérification des permissions
-            if not interaction.user.guild_permissions.administrator:
-                if not interaction.user.guild_permissions.manage_guild:
-                    embed = creer_embed(
-                        titre="❌ Permission refusée",
-                        description="Vous devez être **administrateur** ou avoir la permission **Gérer le serveur**.",
-                        couleur=config.COULEUR_ERREUR
-                    )
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
-                    return
-
-            # ── 🔹 ÉTAPE 2 : Vérifier que le salon est dans le même serveur
-            if salon.guild.id != interaction.guild.id:
-                embed = creer_embed(
-                    titre="❌ Erreur",
-                    description="Le salon doit être sur ce serveur !",
-                    couleur=config.COULEUR_ERREUR
+            # Vérifier que guild_id et guild existent
+            if not interaction.guild_id or not interaction.guild:
+                await interaction.response.send_message(
+                    "❌ Cette commande ne peut être utilisée qu'en serveur.",
+                    ephemeral=True
                 )
-                await interaction.response.send_message(embed=embed, ephemeral=True)
                 return
 
-            # ── 🔹 ÉTAPE 3 : Vérifier que le bot peut écrire dans ce salon
-            permissions = salon.permissions_for(interaction.guild.me)
-            if not permissions.send_messages or not permissions.embed_links:
-                embed = creer_embed(
-                    titre="❌ Permissions insuffisantes",
-                    description=f"Je n'ai pas les permissions nécessaires dans {salon.mention}.\n\n"
-                                f"**Permissions requises :**\n"
-                                f"• Envoyer des messages\n"
-                                f"• Intégrer des liens",
-                    couleur=config.COULEUR_ERREUR
-                )
-                await interaction.response.send_message(embed=embed, ephemeral=True)
-                return
+            guild_id = interaction.guild_id
 
-            # ── 🔹 ÉTAPE 4 : Définir le salon de logs
-            succes = self.bot.config_manager.definir_salon_logs(
-                interaction.guild.id,
-                salon.id
+            # Enregistrer le salon
+            self.config_manager.definir_salon_logs(guild_id, salon.id)
+
+            # Créer l'embed de confirmation
+            embed = discord.Embed(
+                title="✅ Salon de logs configuré",
+                description=(
+                    f"Le salon {salon.mention} a été défini comme salon de logs.\n\n"
+                    "Tous les événements seront maintenant enregistrés dans ce salon."
+                ),
+                color=COULEUR_SUCCES,
+                timestamp=datetime.now()
             )
 
-            if succes:
-                # ── 🔹 ÉTAPE 5 : Confirmation
-                embed = creer_embed(
-                    titre="✅ Salon de logs configuré",
-                    description=f"Les logs seront maintenant envoyés dans {salon.mention}",
-                    couleur=config.COULEUR_SUCCES
-                )
-                await interaction.response.send_message(embed=embed, ephemeral=True)
-
-                # ── 🔹 ÉTAPE 6 : Message de test dans le salon de logs
-                embed_test = creer_embed(
-                    titre="🛡️ Salon de logs configuré",
-                    description=f"Ce salon a été défini comme salon de logs par {interaction.user.mention}.\n\n"
-                                f"Tous les événements importants du serveur seront enregistrés ici.",
-                    couleur=config.COULEUR_INFO
-                )
-                await salon.send(embed=embed_test)
-
-                # ── 🔹 ÉTAPE 7 : Log dans la console
-                self.bot.logger.info(
-                    f"⚙️ Config | "
-                    f"Salon de logs défini : {salon.name} ({salon.id}) | "
-                    f"Serveur : {interaction.guild.name} | "
-                    f"Par : {interaction.user}"
-                )
-
-            else:
-                embed = creer_embed(
-                    titre="❌ Erreur",
-                    description="Une erreur est survenue lors de la configuration.",
-                    couleur=config.COULEUR_ERREUR
-                )
-                await interaction.response.send_message(embed=embed, ephemeral=True)
-
-        except Exception as e:
-            self.bot.logger.error(f"❌ Erreur dans config_logs_set : {e}")
-            embed = creer_embed(
-                titre="❌ Erreur",
-                description="Une erreur inattendue s'est produite.",
-                couleur=config.COULEUR_ERREUR
-            )
             await interaction.response.send_message(embed=embed, ephemeral=True)
 
+            self.logger.info(
+                f"📊 Salon de logs défini par {interaction.user} "
+                f"sur {interaction.guild.name} : {salon.name}"
+            )
 
-    # ═══════════════════════════════════════════════════════════════════════════
-    # ║ 🏗️ FONCTION 02 – Commande : /config logs-create
-    # ║ Description : Créer automatiquement un salon de logs
-    # ═══════════════════════════════════════════════════════════════════════════
+        except Exception as e:
+            self.logger.error(f"❌ Erreur dans /config-logs-set : {e}")
+            await interaction.response.send_message(
+                f"❌ Une erreur est survenue : {e}",
+                ephemeral=True
+            )
 
-    @config_group.command(
-        name="logs-create",
-        description="Créer automatiquement un salon dédié aux logs"
+    @app_commands.command(
+        name="config-logs-create",
+        description="➕ Créer automatiquement un salon de logs privé"
     )
-    @app_commands.default_permissions(administrator=True)
-    @app_commands.guild_only()
+    @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_create(self, interaction: discord.Interaction):
-        """Crée automatiquement un salon de logs"""
+        """
+        ➕ 6️⃣ Crée automatiquement un salon de logs (commande legacy)
+
+        Args:
+            interaction: discord.Interaction Discord
+        """
         try:
-            # ── 🔹 ÉTAPE 0 : Vérifications de sécurité
-            if not interaction.guild:
-                return
-
-            if not isinstance(interaction.user, discord.Member):
-                return
-
-            # ── 🔹 ÉTAPE 1 : Vérification des permissions
-            if not interaction.user.guild_permissions.administrator:
-                if not interaction.user.guild_permissions.manage_guild:
-                    embed = creer_embed(
-                        titre="❌ Permission refusée",
-                        description="Vous devez être **administrateur** ou avoir la permission **Gérer le serveur**.",
-                        couleur=config.COULEUR_ERREUR
-                    )
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
-                    return
-
-            # ── 🔹 ÉTAPE 2 : Vérifier que le bot peut créer des salons
-            if not interaction.guild.me.guild_permissions.manage_channels:
-                embed = creer_embed(
-                    titre="❌ Permissions insuffisantes",
-                    description="Je n'ai pas la permission **Gérer les salons** sur ce serveur.",
-                    couleur=config.COULEUR_ERREUR
-                )
-                await interaction.response.send_message(embed=embed, ephemeral=True)
-                return
-
-            # ── 🔹 ÉTAPE 3 : Différer la réponse (création peut prendre du temps)
             await interaction.response.defer(ephemeral=True)
 
-            # ── 🔹 ÉTAPE 4 : Créer le salon
-            overwrites = {
-                interaction.guild.default_role: discord.PermissionOverwrite(
-                    read_messages=False
-                ),
-                interaction.guild.me: discord.PermissionOverwrite(
-                    read_messages=True,
-                    send_messages=True,
-                    embed_links=True
+            # Vérifier que guild et guild_id existent
+            if not interaction.guild or not interaction.guild_id:
+                await interaction.followup.send(
+                    "❌ Cette commande ne peut être utilisée qu'en serveur.",
+                    ephemeral=True
                 )
+                return
+
+            guild = interaction.guild
+            guild_id = interaction.guild_id
+
+            # Permissions : seuls les admins peuvent voir
+            perm_default = discord.PermissionOverwrite()
+            perm_default.read_messages = False
+
+            perm_bot = discord.PermissionOverwrite()
+            perm_bot.read_messages = True
+            perm_bot.send_messages = True
+            perm_bot.embed_links = True
+
+            overwrites = {
+                guild.default_role: perm_default,
+                guild.me: perm_bot
             }
 
-            salon = await interaction.guild.create_text_channel(
-                name="📋-logs-bot",
-                topic="Salon de logs automatique - Tous les événements du serveur sont enregistrés ici",
-                overwrites=overwrites,
-                reason=f"Création automatique par {interaction.user}"
+            # Ajouter les administrateurs
+            for role in guild.roles:
+                if role.permissions.administrator:
+                    perm_admin = discord.PermissionOverwrite()
+                    perm_admin.read_messages = True
+                    overwrites[role] = perm_admin
+
+            # Créer le salon
+            salon = await guild.create_text_channel(
+                name="🔒-logs",
+                topic="📊 Logs automatiques du bot La Loyauté - Réservé aux administrateurs",
+                overwrites=overwrites
             )
 
-            # ── 🔹 ÉTAPE 5 : Définir comme salon de logs
-            succes = self.bot.config_manager.definir_salon_logs(
-                interaction.guild.id,
-                salon.id
+            # Enregistrer dans la config
+            self.config_manager.definir_salon_logs(guild_id, salon.id)
+
+            # Créer l'embed de confirmation
+            embed = discord.Embed(
+                title="✅ Salon de logs créé",
+                description=(
+                    f"Le salon {salon.mention} a été créé avec succès !\n\n"
+                    "📊 Les logs sont maintenant activés.\n"
+                    "🔒 Seuls les administrateurs peuvent voir ce salon."
+                ),
+                color=COULEUR_SUCCES,
+                timestamp=datetime.now()
             )
 
-            if succes:
-                # ── 🔹 ÉTAPE 6 : Confirmation
-                embed = creer_embed(
-                    titre="✅ Salon de logs créé",
-                    description=f"Le salon {salon.mention} a été créé et configuré !\n\n"
-                                f"**Caractéristiques :**\n"
-                                f"• Visible uniquement par les administrateurs\n"
-                                f"• Tous les événements y seront enregistrés\n"
-                                f"• Peut être personnalisé selon vos besoins",
-                    couleur=config.COULEUR_SUCCES
-                )
-                await interaction.followup.send(embed=embed, ephemeral=True)
+            await interaction.followup.send(embed=embed, ephemeral=True)
 
-                # ── 🔹 ÉTAPE 7 : Message de bienvenue dans le salon
-                embed_bienvenue = creer_embed(
-                    titre="🛡️ Salon de logs activé",
-                    description=f"Ce salon a été créé automatiquement par {interaction.user.mention}.\n\n"
-                                f"**📊 Ce qui sera enregistré ici :**\n"
-                                f"• Messages supprimés ou modifiés\n"
-                                f"• Membres rejoignant ou quittant\n"
-                                f"• Changements de rôles\n"
-                                f"• Salons créés ou supprimés\n"
-                                f"• Actions de modération (kick, ban, warn, etc.)\n\n"
-                                f"Vous pouvez personnaliser les permissions de ce salon selon vos besoins.",
-                    couleur=config.COULEUR_INFO
-                )
-                await salon.send(embed=embed_bienvenue)
+            self.logger.info(
+                f"➕ Salon de logs créé par {interaction.user} "
+                f"sur {guild.name}"
+            )
 
-                # ── 🔹 ÉTAPE 8 : Log dans la console
-                self.bot.logger.info(
-                    f"⚙️ Config | "
-                    f"Salon de logs créé : {salon.name} ({salon.id}) | "
-                    f"Serveur : {interaction.guild.name} | "
-                    f"Par : {interaction.user}"
-                )
-
-            else:
-                # Si échec de la config, supprimer le salon créé
-                await salon.delete(reason="Échec de la configuration")
-                embed = creer_embed(
-                    titre="❌ Erreur",
-                    description="Une erreur est survenue lors de la configuration.",
-                    couleur=config.COULEUR_ERREUR
-                )
-                await interaction.followup.send(embed=embed, ephemeral=True)
-
+        except discord.Forbidden:
+            await interaction.followup.send(
+                "❌ Je n'ai pas les permissions pour créer un salon.",
+                ephemeral=True
+            )
         except Exception as e:
-            self.bot.logger.error(f"❌ Erreur dans config_logs_create : {e}")
-            embed = creer_embed(
-                titre="❌ Erreur",
-                description="Une erreur inattendue s'est produite.",
-                couleur=config.COULEUR_ERREUR
+            self.logger.error(f"❌ Erreur dans /config-logs-create : {e}")
+            await interaction.followup.send(
+                f"❌ Une erreur est survenue : {e}",
+                ephemeral=True
             )
 
-            # Vérifier si on doit utiliser followup ou response
-            if interaction.response.is_done():
-                await interaction.followup.send(embed=embed, ephemeral=True)
-            else:
-                await interaction.response.send_message(embed=embed, ephemeral=True)
-
-
-    # ═══════════════════════════════════════════════════════════════════════════
-    # ║ 🔍 FONCTION 03 – Commande : /config logs-show
-    # ║ Description : Afficher la configuration actuelle
-    # ═══════════════════════════════════════════════════════════════════════════
-
-    @config_group.command(
-        name="logs-show",
-        description="Afficher la configuration actuelle des logs"
+    @app_commands.command(
+        name="config-logs-reset",
+        description="🔴 Désactiver les logs Discord"
     )
-    @app_commands.default_permissions(administrator=True)
-    @app_commands.guild_only()
-    async def config_logs_show(self, interaction: discord.Interaction):
-        """Affiche la configuration actuelle des logs"""
-        try:
-            # ── 🔹 ÉTAPE 0 : Vérifications de sécurité
-            if not interaction.guild:
-                return
-
-            # ── 🔹 ÉTAPE 1 : Récupérer la config
-            salon_id = self.bot.config_manager.obtenir_salon_logs(interaction.guild.id)
-
-            # ── 🔹 ÉTAPE 2 : Vérifier si configuré
-            if salon_id:
-                salon = interaction.guild.get_channel(salon_id)
-
-                if salon:
-                    embed = creer_embed(
-                        titre="📋 Configuration des logs",
-                        description=f"**Salon de logs actuel :**\n{salon.mention}\n\n"
-                                    f"**ID du salon :** `{salon_id}`\n"
-                                    f"**Statut :** ✅ Actif",
-                        couleur=config.COULEUR_SUCCES
-                    )
-                else:
-                    # Salon supprimé mais toujours en config
-                    embed = creer_embed(
-                        titre="⚠️ Configuration des logs",
-                        description=f"**Salon de logs configuré :** `{salon_id}`\n\n"
-                                    f"**⚠️ Attention :** Le salon n'existe plus !\n"
-                                    f"Utilisez `/config logs-reset` puis reconfigurez un nouveau salon.",
-                        couleur=config.COULEUR_AVERTISSEMENT
-                    )
-            else:
-                embed = creer_embed(
-                    titre="📋 Configuration des logs",
-                    description="**Statut :** ❌ Aucun salon de logs configuré\n\n"
-                                f"**Pour configurer :**\n"
-                                f"• `/config logs-set #salon` - Définir un salon existant\n"
-                                f"• `/config logs-create` - Créer un nouveau salon automatiquement",
-                    couleur=config.COULEUR_INFO
-                )
-
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-
-        except Exception as e:
-            self.bot.logger.error(f"❌ Erreur dans config_logs_show : {e}")
-            embed = creer_embed(
-                titre="❌ Erreur",
-                description="Une erreur inattendue s'est produite.",
-                couleur=config.COULEUR_ERREUR
-            )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-
-
-    # ═══════════════════════════════════════════════════════════════════════════
-    # ║ 🗑️ FONCTION 04 – Commande : /config logs-reset
-    # ║ Description : Réinitialiser la configuration des logs
-    # ═══════════════════════════════════════════════════════════════════════════
-
-    @config_group.command(
-        name="logs-reset",
-        description="Désactiver les logs (réinitialiser la configuration)"
-    )
-    @app_commands.default_permissions(administrator=True)
-    @app_commands.guild_only()
+    @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_reset(self, interaction: discord.Interaction):
-        """Réinitialise la configuration des logs"""
+        """
+        🔴 7️⃣ Désactive les logs (commande legacy)
+
+        Args:
+            interaction: discord.Interaction Discord
+        """
         try:
-            # ── 🔹 ÉTAPE 0 : Vérifications de sécurité
-            if not interaction.guild:
+            # Vérifier que guild_id et guild existent
+            if not interaction.guild_id or not interaction.guild:
+                await interaction.response.send_message(
+                    "❌ Cette commande ne peut être utilisée qu'en serveur.",
+                    ephemeral=True
+                )
                 return
 
-            if not isinstance(interaction.user, discord.Member):
-                return
+            guild_id = interaction.guild_id
 
-            # ── 🔹 ÉTAPE 1 : Vérification des permissions
-            if not interaction.user.guild_permissions.administrator:
-                if not interaction.user.guild_permissions.manage_guild:
-                    embed = creer_embed(
-                        titre="❌ Permission refusée",
-                        description="Vous devez être **administrateur** ou avoir la permission **Gérer le serveur**.",
-                        couleur=config.COULEUR_ERREUR
-                    )
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
-                    return
+            # Désactiver les logs
+            self.config_manager.definir_salon_logs(guild_id, None)
 
-            # ── 🔹 ÉTAPE 2 : Réinitialiser
-            succes = self.bot.config_manager.reinitialiser_salon_logs(interaction.guild.id)
-
-            if succes:
-                embed = creer_embed(
-                    titre="✅ Configuration réinitialisée",
-                    description="Les logs ont été désactivés.\n\n"
-                                f"Pour réactiver :\n"
-                                f"• `/config logs-set #salon`\n"
-                                f"• `/config logs-create`",
-                    couleur=config.COULEUR_SUCCES
-                )
-
-                # ── 🔹 ÉTAPE 3 : Log dans la console
-                self.bot.logger.info(
-                    f"⚙️ Config | "
-                    f"Salon de logs réinitialisé | "
-                    f"Serveur : {interaction.guild.name} | "
-                    f"Par : {interaction.user}"
-                )
-            else:
-                embed = creer_embed(
-                    titre="⚠️ Information",
-                    description="Aucune configuration à réinitialiser.",
-                    couleur=config.COULEUR_AVERTISSEMENT
-                )
+            # Créer l'embed de confirmation
+            embed = discord.Embed(
+                title="✅ Logs désactivés",
+                description="Les logs Discord ont été désactivés avec succès.",
+                color=COULEUR_SUCCES,
+                timestamp=datetime.now()
+            )
 
             await interaction.response.send_message(embed=embed, ephemeral=True)
+
+            self.logger.info(
+                f"🔴 Logs désactivés par {interaction.user} "
+                f"sur {interaction.guild.name}"
+            )
 
         except Exception as e:
-            self.bot.logger.error(f"❌ Erreur dans config_logs_reset : {e}")
-            embed = creer_embed(
-                titre="❌ Erreur",
-                description="Une erreur inattendue s'est produite.",
-                couleur=config.COULEUR_ERREUR
+            self.logger.error(f"❌ Erreur dans /config-logs-reset : {e}")
+            await interaction.response.send_message(
+                f"❌ Une erreur est survenue : {e}",
+                ephemeral=True
             )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
 
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🔘 CLASSE : VUE DE CONFIRMATION D'IMPORT
+# ══════════════════════════════════════════════════════════════════════
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║ 🔧 FONCTION SETUP
-# ║ Description : Fonction requise pour charger le cog dans le bot
-# ═══════════════════════════════════════════════════════════════════════════════
+class ConfirmationImportView(discord.ui.View):
+    """🔘 Vue avec boutons de confirmation pour l'import"""
+
+    def __init__(self, config_manager, guild_id: int, config_importee: dict, logger):
+        super().__init__(timeout=60)
+        self.config_manager = config_manager
+        self.guild_id = guild_id
+        self.config_importee = config_importee
+        self.logger = logger
+
+    @discord.ui.button(label="✅ Confirmer", style=discord.ButtonStyle.success)
+    async def confirmer(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+        """✅ Confirme l'import de la configuration"""
+        try:
+            # Sauvegarder la nouvelle configuration
+            for cle, valeur in self.config_importee.items():
+                self.config_manager.definir(self.guild_id, cle, valeur)
+
+            # Créer l'embed de succès
+            embed = discord.Embed(
+                title="✅ Configuration Importée",
+                description=(
+                    f"La configuration a été importée avec succès !\n\n"
+                    f"📊 **{len(self.config_importee)} paramètres** ont été appliqués."
+                ),
+                color=COULEUR_SUCCES,
+                timestamp=datetime.now()
+            )
+
+            await interaction.response.edit_message(embed=embed, view=None)
+
+            if interaction.guild:
+                self.logger.info(
+                    f"📥 Configuration importée par {interaction.user} "
+                    f"sur {interaction.guild.name}"
+                )
+
+        except Exception as e:
+            self.logger.error(f"❌ Erreur lors de l'import : {e}")
+            await interaction.response.send_message(
+                f"❌ Erreur lors de l'import : {e}",
+                ephemeral=True
+            )
+
+    @discord.ui.button(label="❌ Annuler", style=discord.ButtonStyle.danger)
+    async def annuler(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+        """❌ Annule l'import"""
+        embed = discord.Embed(
+            title="❌ Import Annulé",
+            description="L'import de la configuration a été annulé.",
+            color=COULEUR_ERREUR,
+            timestamp=datetime.now()
+        )
+
+        await interaction.response.edit_message(embed=embed, view=None)
+
+# ══════════════════════════════════════════════════════════════════════
+# ║ 🎯 SETUP
+# ══════════════════════════════════════════════════════════════════════
 
 async def setup(bot):
     """
-    Charge le cog CommandesConfiguration dans le bot
+    🎯 8️⃣ Fonction appelée par Discord.py pour charger le cog
 
     Args:
         bot: Instance du bot Discord
@@ -439,6 +557,3 @@ async def setup(bot):
     await bot.add_cog(CommandesConfiguration(bot))
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# FIN DU FICHIER commandes_configuration.py
-# ═══════════════════════════════════════════════════════════════════════════════
