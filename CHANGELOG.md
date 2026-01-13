@@ -4,6 +4,61 @@ Historique des versions et modifications du projet.
 
 ---
 
+## [0.2.2] - 13/01/2026
+
+### 🔧 Corrections critiques
+
+#### 🐛 Migration Python 3.14 et discord.py 2.7.0a
+- **Python 3.14.2** : Migration vers la dernière version de Python
+- **discord.py 2.7.0a** : Upgrade vers la version développement (commit b9b21ca2)
+- **Annotations futures** : Ajout de `from __future__ import annotations` dans tous les modules
+  - `commandes/__init__.py`
+  - `commandes/commandes_admin.py`
+  - `commandes/commandes_configuration.py`
+  - `commandes/commandes_menu.py`
+  - `commandes/commandes_base.py`
+  - `utilitaires/embeds_interactifs.py`
+  - `evenements/__init__.py`
+  - `utilitaires/__init__.py`
+  - `noyau/__init__.py`
+
+#### 🔨 Corrections de structure
+- **CommandesAdmin** : Correction de l'indentation de la fonction `/sync`
+  - Fonction incorrectement placée en dehors de la classe
+  - Réindentation avec 4 espaces pour être dans la classe `CommandesAdmin`
+- **Fonction setup()** : Déplacement hors de la classe `CommandesAdmin`
+  - Fonction incorrectement indentée dans la classe
+  - Placée au niveau racine du module comme requis par discord.py
+
+#### ⚡ Résolution d'erreurs
+- **TypeError** : Résolution de `unsupported type annotation <class 'discord.interactions.Interaction'>`
+- **Import annotations** : Compatibilité totale avec Python 3.14+
+- **Cache Python** : Nettoyage complet des `__pycache__` pour éviter les conflits
+
+### 📝 Fichiers modifiés
+
+```
+commandes/init.py
+commandes/commandes_admin.py (indentation sync + setup)
+commandes/commandes_configuration.py
+commandes/commandes_menu.py
+commandes/commandes_base.py
+utilitaires/embeds_interactifs.py
+evenements/init.py
+utilitaires/init.py
+noyau/init.py
+requirements.txt (discord.py version)
+```
+
+
+### 🎯 Impact
+- ✅ Le bot démarre correctement avec Python 3.14.2
+- ✅ Toutes les commandes slash sont chargées
+- ✅ Aucune erreur d'annotation de type
+- ✅ Compatibilité totale discord.py 2.7.0a
+
+---
+
 ## [0.2.1] - 05/01/2026
 
 ### ✨ Nouveautés majeures
@@ -67,6 +122,8 @@ Historique des versions et modifications du projet.
 - Réduction des appels API Discord
 
 ### 📝 Fichiers créés
+
+```
 noyau/gestionnaire_configuration.py
 commandes/commandes_configuration.py
 evenements/events_messages.py
@@ -75,9 +132,12 @@ outils_dev/init.py
 outils_dev/analyser_erreurs.py
 outils_dev/detecter_doublons.py
 outils_dev/README.md
+```
 
 
 ### 📝 Fichiers modifiés
+
+```
 utilitaires/logs_discord.py
 evenements/events_membres.py
 evenements/init.py
@@ -89,6 +149,7 @@ README.md
 CHANGELOG.md
 patchnotes.md
 FEUILLE_DE_ROUTE.md
+```
 
 
 ### 🐛 Corrections de bugs
@@ -113,9 +174,12 @@ FEUILLE_DE_ROUTE.md
 - Gestion des événements membres
 
 ### 📝 Fichiers créés
+
+```
 noyau/gestionnaire_permissions.py
 utilitaires/logs_discord.py
 evenements/events_membres.py
+```
 
 
 ---
@@ -149,8 +213,9 @@ evenements/events_membres.py
 - 🔒 Sécurité
 - ⚡ Performance
 - 🎨 Interface/Design
+- 🔨 Refactoring
 
 ---
 
-**Dernière mise à jour :** 05/01/2026
-**Version actuelle :** 0.2.1
+**Dernière mise à jour :** 13/01/2026
+**Version actuelle :** 0.2.2

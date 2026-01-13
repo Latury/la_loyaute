@@ -2,9 +2,9 @@
 
 Bot Discord privé développé en Python avec discord.py, offrant des fonctionnalités de modération avancées et un système de logs complet.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
-![Discord.py](https://img.shields.io/badge/Discord.py-2.3+-blue?logo=discord)
-![Version](https://img.shields.io/badge/Version-0.2.1-green)
+![Python](https://img.shields.io/badge/Python-3.14.2-blue?logo=python)
+![Discord.py](https://img.shields.io/badge/Discord.py-2.7.0a-purple?logo=discord)
+![Version](https://img.shields.io/badge/Version-0.2.2-green)
 ![Statut](https://img.shields.io/badge/Statut-En%20développement-yellow)
 
 ---
@@ -13,8 +13,6 @@ Bot Discord privé développé en Python avec discord.py, offrant des fonctionna
 
 - [Fonctionnalités](#-fonctionnalités)
 - [Structure du projet](#-structure-du-projet)
-- [Configuration](#️-configuration)
-- [Utilisation](#-utilisation)
 - [Commandes disponibles](#-commandes-disponibles)
 - [Outils de développement](#-outils-de-développement)
 - [Développement](#-développement)
@@ -113,94 +111,66 @@ la_loyaute/
 └── requirements.txt
 ```
 
+
 ---
 
-## ⚙️ Configuration
+## 📜 Commandes disponibles
 
-### Fichier `secrets.env`
+### Commandes basiques
 
-```env
-# TOKEN DISCORD
-DISCORD_TOKEN=votre_token_ici
+| Commande | Description | Permissions |
+|----------|-------------|-------------|
+| `/ping` | Vérifie la latence du bot | Aucune |
+| `/info` | Informations sur le bot | Aucune |
+| `/serveur` | Informations sur le serveur | Aucune |
+| `/userinfo [@membre]` | Informations sur un membre | Aucune |
 
-# CONFIGURATION
-NIVEAU_LOG=INFO
+### Commandes de modération
 
-Obtenir un token Discord
-Aller sur Discord Developer Portal
+| Commande | Description | Permissions |
+|----------|-------------|-------------|
+| `/kick @membre [raison]` | Expulser un membre | Exclure des membres |
+| `/ban @membre [raison]` | Bannir un membre | Bannir des membres |
+| `/unban ID [raison]` | Débannir un membre | Bannir des membres |
+| `/timeout @membre durée [raison]` | Mute temporaire | Timeout des membres |
+| `/warn @membre raison` | Avertir un membre | Gérer les messages |
+| `/warns @membre` | Liste des warns | Gérer les messages |
+| `/clear nombre` | Supprimer des messages | Gérer les messages |
 
-Créer une nouvelle application
+### Commandes de configuration (v0.2.1)
 
-Aller dans "Bot" → "Add Bot"
+| Commande | Description | Permissions |
+|----------|-------------|-------------|
+| `/config logs-set #salon` | Définir le salon de logs | Administrateur |
+| `/config logs-create` | Créer un salon de logs | Administrateur |
+| `/config logs-show` | Voir la configuration | Administrateur |
+| `/config logs-reset` | Désactiver les logs | Administrateur |
 
-Copier le token
+### Commandes administrateur
 
-Activer les Privileged Gateway Intents :
+| Commande | Description | Permissions |
+|----------|-------------|-------------|
+| `/sync` | Synchroniser les commandes | Administrateur |
+| `/reload extension` | Recharger une extension | Administrateur |
+| `/logs nombre` | Voir les logs du bot | Administrateur |
+| `/shutdown` | Arrêter le bot | Administrateur |
 
-Presence Intent
+---
 
-Server Members Intent
+## 🛠️ Outils de développement
 
-Message Content Intent
-
-📖 Utilisation
-Première utilisation
-Inviter le bot sur votre serveur
-
-Configurer les logs : /config logs-create
-
-Le bot créera automatiquement un salon privé 📋-logs
-
-Tester avec /ping
-
-Configuration des logs
-
-/config logs-set #mon-salon     → Définir un salon existant
-/config logs-create             → Créer un salon automatiquement
-/config logs-show               → Voir la configuration
-/config logs-reset              → Désactiver les logs
-
-📜 Commandes disponibles
-Commandes basiques
-
-| Commande            | Description                 |
-| ------------------- | --------------------------- |
-| /ping               | Vérifie la latence du bot   |
-| /info               | Informations sur le bot     |
-| /serveur            | Informations sur le serveur |
-| /userinfo [@membre] | Informations sur un membre  |
-
-Commandes de modération
-
-| Commande                        | Description            | Permissions         |
-| ------------------------------- | ---------------------- | ------------------- |
-| /kick @membre [raison]          | Expulser un membre     | Exclure des membres |
-| /ban @membre [raison]           | Bannir un membre       | Bannir des membres  |
-| /unban ID [raison]              | Débannir un membre     | Bannir des membres  |
-| /timeout @membre durée [raison] | Mute temporaire        | Timeout des membres |
-| /warn @membre raison            | Avertir un membre      | Gérer les messages  |
-| /warns @membre                  | Liste des warns        | Gérer les messages  |
-| /clear nombre                   | Supprimer des messages | Gérer les messages  |
-
-Commandes de configuration (v0.2.1)
-
-| Commande                | Description              | Permissions    |
-| ----------------------- | ------------------------ | -------------- |
-| /config logs-set #salon | Définir le salon de logs | Administrateur |
-| /config logs-create     | Créer un salon de logs   | Administrateur |
-| /config logs-show       | Voir la configuration    | Administrateur |
-| /config logs-reset      | Désactiver les logs      | Administrateur |
-
-🛠️ Outils de développement
-Analyseur d'erreurs
+### Analyseur d'erreurs
 Détecte les erreurs Pylance/Pylint dans le code :
 
+```bash
 python outils_dev/analyser_erreurs.py
 
+```
 Génère un rapport dans outils_dev/rapports/
 
 Détecteur de doublons
 Détecte les doublons de code :
+```
 
 python outils_dev/detecter_doublons.py
 
@@ -237,6 +207,8 @@ Utiliser @commands.Cog.listener()
 Charger le cog dans principal.py
 
 Standards de code
+✅ Python 3.14+ : Utiliser from __future__ import annotations
+
 ✅ Commentaires détaillés avec emojis
 
 ✅ Numérotation des fonctions
@@ -287,30 +259,16 @@ Ouvrir une issue sur GitHub
 Consulter la FEUILLE_DE_ROUTE.md
 
 📌 Versions
-Actuelle : 0.2.1 (05/01/2026)
+Actuelle : 0.2.2 (13/01/2026) - Corrections Python 3.14
 
-Précédente : 0.2.0 (26/12/2025)
+Précédente : 0.2.1 (05/01/2026) - Système de configuration
 
-Initiale : 0.1.0 (25/12/2025)
+Première : 0.1.0 (25/12/2025) - Version initiale
 
 Voir CHANGELOG.md pour l'historique complet.
 
-Développé avec Python par Latury
+Développé en Python par Latury
 
-
-***
-
-## 🔍 **CORRECTIONS APPLIQUÉES :**
-
-1. ✅ `__init__.py` avec underscores corrects
-2. ✅ Fermeture des code blocks
-3. ✅ "Obtenir un token Discord" en sous-section (###)
-4. ✅ **AJOUT DU TABLEAU DES COMMANDES DE MODÉRATION** (kick, ban, timeout, warn, etc.)
-5. ✅ Formatage Markdown corrigé partout
-6. ✅ Structure cohérente
-7. ✅ Liens internes fonctionnels
-
-***
 
 
 
