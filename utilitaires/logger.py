@@ -1,19 +1,34 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║                                                                             
-# ║  📝 LA LOYAUTÉ - SYSTÈME DE LOGS
 # ║
-# ║  Gestionnaire de logs professionnel avec fichiers datés
-# ║  Développé par Latury
-# ║  Version : 0.1.0
+# ║ 🦁 LA LOYAUTÉ - logger.py
+# ║
+# ║ 📝 Bot Discord privé développé en Python
+# ║ 👨‍💻 Développé par Latury
+# ║ 📦 Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║
+# ║ 📄 FICHIER : logger.py
+# ║ ⚙️ MODULE : Système de logs professionnel
+# ║ 📝 DESCRIPTION : Gestionnaire de logs avec fichiers datés, rotation automatique, formatage coloré et 6 fonctions utilitaires
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15/01/2026
+# ║ 🔢 VERSION : 0.2.2
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+"""
+🦁 LA LOYAUTÉ - Système de logs professionnel
+══════════════════════════════════════════════════════════════════════════════
+"""
 
 import logging
 import os
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
 
-# Importation de la configuration
 import configuration as config
 
 # ╔══════════════════════════════════════════════════════════════════════════════
@@ -232,3 +247,7 @@ def lire_dernieres_lignes(nombre_lignes: int = 50) -> list:
     except Exception as e:
         print(f"❌ Erreur lors de la lecture du log : {e}")
         return []
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ ✅ FIN DU FICHIER – Système de logs professionnel complet
+# ║ 📦 6 fonctions de gestion et monitoring des logs
+# ╚═══════════════════════════════════════════════════════════════════════════════

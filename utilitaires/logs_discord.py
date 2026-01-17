@@ -1,23 +1,40 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║ 📊 LA LOYAUTÉ - SYSTÈME DE LOGS DISCORD
+# ║ 🦁 LA LOYAUTÉ - logs_discord.py
 # ║
-# ║ Gestion des logs dans un salon Discord dédié
-# ║ Développé par Latury
-# ║ Version : 0.2.1
+# ║ 📊 Bot Discord privé développé en Python
+# ║ 👨‍💻 Développé par Latury
+# ║ 📦 Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║
+# ║ 📄 FICHIER : logs_discord.py
+# ║ ⚙️ MODULE : Système de logs Discord
+# ║ 📝 DESCRIPTION : Gestion complète des logs Discord avec 14 types de logs (modération, membres, messages, salons)
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15/01/2026
+# ║ 🔢 VERSION : 0.2.2
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+"""
+🦁 LA LOYAUTÉ - Système de logs Discord
+══════════════════════════════════════════════════════════════════════════════
+Gestion avancée des logs dans un salon Discord dédié
+"""
 
 import discord
 from datetime import datetime
 from typing import Optional, List, Dict, Any
+
 import configuration as config
 from utilitaires.helpers import creer_embed
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 📝 FONCTION 01 – Envoi d'un log dans le salon
-# ║ Description : Envoie un embed de log dans le salon configuré
+# ║ 📝 FONCTION 01 – envoyer_log
+# ║ 🎯 Envoie un embed de log dans le salon configuré avec gestion des erreurs
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def envoyer_log(
@@ -53,7 +70,6 @@ async def envoyer_log(
 
         # ── 🔹 ÉTAPE 3 : Récupération du salon Discord
         salon_logs = guild.get_channel(salon_id)
-
         if not salon_logs:
             bot.logger.warning(
                 f"⚠️ Salon de logs (ID: {salon_id}) introuvable pour {guild.name}"
@@ -98,10 +114,9 @@ async def envoyer_log(
     except Exception as e:
         bot.logger.error(f"❌ Erreur lors de l'envoi du log : {e}")
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🚫 FONCTION 02 – Log d'expulsion
-# ║ Description : Log une expulsion
+# ║ 🚫 FONCTION 02 – log_kick
+# ║ 👢 Log l'expulsion d'un membre du serveur
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_kick(bot, guild: discord.Guild, membre: discord.Member, moderateur: discord.User | discord.Member, raison: str):
@@ -122,10 +137,9 @@ async def log_kick(bot, guild: discord.Guild, membre: discord.Member, moderateur
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🔨 FONCTION 03 – Log de bannissement
-# ║ Description : Log un bannissement
+# ║ 🔨 FONCTION 03 – log_ban
+# ║ 🔐 Log le bannissement permanent d'un membre
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_ban(bot, guild: discord.Guild, membre: discord.Member, moderateur: discord.User | discord.Member, raison: str, jours_messages: int = 0):
@@ -151,10 +165,9 @@ async def log_ban(bot, guild: discord.Guild, membre: discord.Member, moderateur:
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🔓 FONCTION 04 – Log de débannissement
-# ║ Description : Log un débannissement
+# ║ 🔓 FONCTION 04 – log_unban
+# ║ ✅ Log le débannissement d'un utilisateur
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_unban(bot, guild: discord.Guild, utilisateur: discord.User, moderateur: discord.User | discord.Member, raison: str):
@@ -175,10 +188,9 @@ async def log_unban(bot, guild: discord.Guild, utilisateur: discord.User, modera
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🔇 FONCTION 05 – Log de timeout
-# ║ Description : Log un timeout
+# ║ 🔇 FONCTION 05 – log_timeout
+# ║ ⏱️ Log la mise en timeout temporaire d'un membre
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_timeout(bot, guild: discord.Guild, membre: discord.Member, moderateur: discord.User | discord.Member, duree: str, raison: str):
@@ -200,10 +212,9 @@ async def log_timeout(bot, guild: discord.Guild, membre: discord.Member, moderat
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ ⚠️ FONCTION 06 – Log d'avertissement
-# ║ Description : Log un avertissement
+# ║ ⚠️ FONCTION 06 – log_warn
+# ║ 📢 Log l'attribution d'un avertissement à un membre
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_warn(bot, guild: discord.Guild, membre: discord.Member, moderateur: discord.User | discord.Member, raison: str, warn_id: int, total: int):
@@ -226,10 +237,9 @@ async def log_warn(bot, guild: discord.Guild, membre: discord.Member, moderateur
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🧹 FONCTION 07 – Log de nettoyage de messages
-# ║ Description : Log une suppression de messages en masse
+# ║ 🧹 FONCTION 07 – log_clear
+# ║ 🗑️ Log la suppression en masse de messages
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_clear(bot, guild: discord.Guild, salon: discord.TextChannel, moderateur: discord.User | discord.Member, nombre: int):
@@ -247,10 +257,9 @@ async def log_clear(bot, guild: discord.Guild, salon: discord.TextChannel, moder
         ]
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 👋 FONCTION 08 – Log d'arrivée
-# ║ Description : Log l'arrivée d'un membre
+# ║ 👋 FONCTION 08 – log_member_join
+# ║🪄 Log l'arrivée d'un nouveau membre sur le serveur
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_member_join(bot, membre: discord.Member):
@@ -275,10 +284,9 @@ async def log_member_join(bot, membre: discord.Member):
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 👋 FONCTION 09 – Log de départ
-# ║ Description : Log le départ d'un membre
+# ║ 👋 FONCTION 09 – log_member_leave
+# ║ 🚪 Log le départ d'un membre du serveur
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_member_leave(bot, membre: discord.Member):
@@ -298,10 +306,9 @@ async def log_member_leave(bot, membre: discord.Member):
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🗑️ FONCTION 10 – Log de message supprimé
-# ║ Description : Log la suppression d'un message
+# ║ 🗑️ FONCTION 10 – log_message_delete
+# ║ 💬 Log la suppression d'un message avec son contenu
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_message_delete(bot, message: discord.Message):
@@ -351,11 +358,9 @@ async def log_message_delete(bot, message: discord.Message):
         thumbnail=thumbnail_url
     )
 
-
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ ✏️ FONCTION 11 – Log de message modifié
-# ║ Description : Log la modification d'un message
+# ║ ✏️ FONCTION 11 – log_message_edit
+# ║ 📝 Log la modification d'un message avec avant/après
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_message_edit(bot, before: discord.Message, after: discord.Message):
@@ -409,11 +414,9 @@ async def log_message_edit(bot, before: discord.Message, after: discord.Message)
         thumbnail=thumbnail_url
     )
 
-
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🎭 FONCTION 12 – Log de mise à jour des rôles
-# ║ Description : Log les changements de rôles d'un membre
+# ║ 🎭 FONCTION 12 – log_member_roles_update
+# ║ 🔄 Log les changements de rôles d'un membre
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_member_roles_update(bot, before: discord.Member, after: discord.Member):
@@ -461,10 +464,9 @@ async def log_member_roles_update(bot, before: discord.Member, after: discord.Me
         thumbnail=thumbnail_url
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🏗️ FONCTION 13 – Log de création de salon
-# ║ Description : Log la création d'un salon
+# ║ 🏗️ FONCTION 13 – log_channel_create
+# ║ ➕ Log la création d'un nouveau salon
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_channel_create(bot, channel):
@@ -497,10 +499,9 @@ async def log_channel_create(bot, channel):
         champs=champs
     )
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 🗑️ FONCTION 14 – Log de suppression de salon
-# ║ Description : Log la suppression d'un salon
+# ║ 🗑️ FONCTION 14 – log_channel_delete
+# ║ ➖ Log la suppression d'un salon
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_channel_delete(bot, channel):
@@ -533,7 +534,7 @@ async def log_channel_delete(bot, channel):
         champs=champs
     )
 
-
 # ═══════════════════════════════════════════════════════════════════════════════
-# FIN DU FICHIER logs_discord.py
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ ✅ FIN DU FICHIER – 14 types de logs Discord disponibles
+# ║ 📦 Modération, membres, messages et salons entièrement couverts
+# ╚══════════════════════════════════════════════════════════════════════════════

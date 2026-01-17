@@ -1,16 +1,29 @@
-# ══════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  🎨 EMBEDS INTERACTIFS - LA LOYAUTÉ
+# ║ 🦁 LA LOYAUTÉ - embeds_interactifs.py
 # ║
-# ║  Système d'embeds avec menus déroulants et boutons interactifs
-# ║  Interface de configuration visuelle et intuitive
+# ║ 🎨 Bot Discord privé développé en Python
+# ║ 👨‍💻 Développé par Latury
+# ║ 📦 Version : 0.2.2
 # ║
-# ║  📄 Fichier : utilitaires/embeds_interactifs.py
-# ║  👤 Auteur : Latury
-# ║  📅 Date : 06/01/2026
-# ║  🔖 Version : 0.3.1
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ══════════════════════════════════════════════════════════════════════
+# ║ 📄 FICHIER : embeds_interactifs.py
+# ║ ⚙️ MODULE : Système d'embeds interactifs
+# ║ 📝 DESCRIPTION : Système complet d'embeds Discord avec menus déroulants, boutons et modals pour interface de configuration
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15/01/2026
+# ║ 🔢 VERSION : 0.2.2
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+"""
+🦁 LA LOYAUTÉ - Système d'embeds interactifs
+══════════════════════════════════════════════════════════════════════════════
+Menus déroulants, boutons et modals pour configuration visuelle
+"""
 
 import discord
 from discord.ui import Select, View, Button, Modal, TextInput
@@ -377,3 +390,7 @@ class VuePagination(View):
         embed.set_footer(text=f"Page {self.page_actuelle + 1}/{self.max_pages}")
 
         await interaction.response.edit_message(embed=embed, view=self)
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ ✅ FIN DU FICHIER – Système d'embeds interactifs complet
+# ║ 📦 Menus déroulants, boutons, modals et pagination disponibles
+# ╚═══════════════════════════════════════════════════════════════════════════════

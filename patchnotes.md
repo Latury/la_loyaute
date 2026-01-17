@@ -4,10 +4,11 @@
 
 ---
 
-## 📦 **Version 0.2.2** - *13/01/2026*
+## 🧬 [V0.2.2] - _13/01/2026_
+
 **🔧 Corrections critiques + préparation v0.3.0**
 
-### 🎉 **Nouveautés principales**
+### 🪄 **Nouveautés principales**
 
 #### **1️⃣ Outils de développement finalisés**
 
@@ -46,14 +47,16 @@
 └─ 741 erreurs → Code 100% fonctionnel
 ```
 
-### 🏗️ **Améliorations techniques**
+### 🤖 **Améliorations techniques**
 
 #### **Cache management**
+
 - Suppression récursive `__pycache__` + `*.pyc`
 - Nettoyage venv site-packages
 - Version 0.2.2 affichée au démarrage
 
-#### **Documentation enrichie**
+#### **🗃️ Documentation enrichie**
+
 - CHANGELOG.md → v0.2.2 complète
 - FEUILLE_DE_ROUTE.md → v0.3.0 prioritaire
 - README.md → Guide développeur complet
@@ -69,7 +72,7 @@
 ✅ Documentation → 4 fichiers mis à jour
 ```
 
-### 🐛 **Corrections de bugs**
+### 🚧 **Corrections de bugs**
 
 ```
 🔍 Problème version 0.1.0 persistante
@@ -91,10 +94,11 @@
 
 ---
 
-## 📦 **Version 0.2.1** - *05/01/2026*
+## 🧬 [V0.2.1] - _05/01/2026_
+
 **⚙️ Configuration dynamique par serveur**
 
-### 🎉 **Nouveautés principales**
+### 🪄 **Nouvelles fonctionnalités**
 
 #### **Configuration par serveur**
 
@@ -106,7 +110,7 @@
 └─ Pas de redémarrage requis
 ```
 
-#### **Commandes config complètes**
+#### **🛠️ Commandes config complètes**
 
 ```
 📝 commandes/commandes_configuration.py
@@ -139,7 +143,8 @@
 
 ---
 
-## 📦 **Version 0.2.0** - *26/12/2025*
+## 🧬 [V0.2.0] - _26/12/2025_
+
 **🛡️ Logs Discord + Permissions**
 
 ```
@@ -152,8 +157,9 @@
 
 ---
 
-## 📦 **Version 0.1.0** - *25/12/2025*
-**🎄 Fondations du projet**
+## 🧬 [V0.1.0] - _25/12/2025_
+
+**🧱 Fondations du projet**
 
 ```
 🏗️ Architecture cogs discord.py
@@ -166,19 +172,19 @@
 
 ## 📊 **Statistiques v0.2.2**
 
-| Métrique | Valeur |
-|----------|--------|
-| **Commandes** | 18 |
-| **Cogs** | 8/8 |
-| **Logs types** | 14 |
+| Métrique               | Valeur               |
+| ---------------------- | -------------------- |
+| **Commandes**          | 18                   |
+| **Cogs**               | 8/8                  |
+| **Logs types**         | 14                   |
 | **Serveurs supportés** | ∞ (config dynamique) |
-| **Erreurs Pylance** | 0 bloquantes |
+| **Erreurs Pylance**    | 0 bloquantes         |
 
 ---
 
 ## 🔮 **Prochaines versions**
 
-### **v0.3.0 - Interface Configuration** *(Priorité #1)*
+### **v0.3.0 - Interface Configuration** _(Priorité #1)_
 
 ```
 🎨 Menu interactif SelectMenu + boutons
@@ -200,7 +206,26 @@
 
 ---
 
+## 📝 **Légende des symboles**
+
+| Symbole | Signification             |
+| ------- | ------------------------- |
+| 🪄      | Nouvelles fonctionnalités |
+| 🤖      | Améliorations             |
+| 🚧      | Corrections de bugs       |
+| 🗃️      | Documentation             |
+| 🔐      | Sécurité                  |
+| 🔋      | Performance               |
+| 🎨      | Interface/Design          |
+| 🔧      | restructuration           |
+| 🛠️      | Fonctionnalités           |
+| 🧬      | Version du bot            |
+| ❌      | Les erreurs               |
+
+---
+
 ## 👨‍💻 **Liens utiles**
+
 - [README.md](README.md) → Installation
 - [CHANGELOG.md](CHANGELOG.md) → Historique
 - [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) → Roadmap
@@ -208,5 +233,3 @@
 **Dernière mise à jour :** 13/01/2026
 **Version actuelle :** `0.2.2`
 **Auteur :** Latury
-
-

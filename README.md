@@ -20,7 +20,7 @@ _Développé par [Latury](https://github.com/Latury)_
 **La Loyauté** est un bot Discord **privé** conçu pour la modération avancée et la gestion de serveurs.
 **Version actuelle :** `0.2.2` (13/01/2026)
 
-### ✨ **Fonctionnalités principales**
+### 🪄 **Fonctionnalités principales**
 
 #### **⚙️ Configuration dynamique (v0.2.1+)**
 
@@ -173,10 +173,21 @@ la_loyaute/
 ### **2. Détecteur de doublons** `outils_dev/detecter_doublons.py`
 
 ```
-🖱️ Double-clic → Bot lancé
-🧹 Nettoie cache auto
-🐍 Active venv
-📊 Logs colorés
+🔎 Détecte :
+├─ Fichiers identiques (MD5)
+├─ Imports doublons (23 supprimés)
+├─ Fonctions/classes dupliquées
+└─ Fichiers temporaires (.bak)
+```
+
+### **3. Lanceur professionnel** `LaLoyauteBOT.bat`
+
+```
+🚀 Fonctionnalités :
+├─ Double-clic → Bot lancé
+├─ Nettoie cache auto
+├─ Active venv
+└─ Logs colorés
 ```
 
 ---
@@ -203,6 +214,24 @@ la_loyaute/
 | [CHANGELOG.md](CHANGELOG.md)               | Historique versions |
 | [patchnotes.md](patchnotes.md)             | Notes techniques    |
 | [FEUILLE_DE_ROUTE.md](FEUILLE_DE_ROUTE.md) | Roadmap détaillée   |
+
+---
+
+## 📝 **Légende des symboles**
+
+| Symbole | Signification             |
+| ------- | ------------------------- |
+| 🪄      | Nouvelles fonctionnalités |
+| 🤖      | Améliorations             |
+| 🚧      | Corrections de bugs       |
+| 🗃️      | Documentation             |
+| 🔐      | Sécurité                  |
+| 🔋      | Performance               |
+| 🎨      | Interface/Design          |
+| 🔧      | restructuration           |
+| 🛠️      | Fonctionnalités           |
+| 🧬      | Version du bot            |
+| ❌      | Les erreurs               |
 
 ---
 

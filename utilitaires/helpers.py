@@ -1,19 +1,34 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║                                                                             
-# ║  🔧 LA LOYAUTÉ - FONCTIONS UTILITAIRES
 # ║
-# ║  Fonctions helpers réutilisables dans tout le projet
-# ║  Développé par Latury
-# ║  Version : 0.1.0
+# ║ 🦁 LA LOYAUTÉ - helpers.py
+# ║
+# ║ 🔧 Bot Discord privé développé en Python
+# ║ 👨‍💻 Développé par Latury
+# ║ 📦 Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║
+# ║ 📄 FICHIER : helpers.py
+# ║ ⚙️ MODULE : Fonctions utilitaires réutilisables
+# ║ 📝 DESCRIPTION : Ensemble complet de 12+ fonctions helpers pour formatage, embeds, validation et manipulation de données
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15/01/2026
+# ║ 🔢 VERSION : 0.2.2
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+"""
+🦁 LA LOYAUTÉ - Fonctions utilitaires
+══════════════════════════════════════════════════════════════════════════════
+"""
 
 import discord
 from datetime import datetime, timedelta
 from typing import Union, Optional
 import re
 
-# Importation de la configuration
 import configuration as config
 
 # ╔══════════════════════════════════════════════════════════════════════════════
@@ -286,3 +301,7 @@ def obtenir_nom_affichage(user: Union[discord.User, discord.Member]) -> str:
     if isinstance(user, discord.Member) and user.nick:
         return user.nick
     return user.display_name
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ ✅ FIN DU FICHIER – 12+ fonctions helpers disponibles
+# ║ 📦 Formatage, embeds, validation et manipulation de données
+# ╚═══════════════════════════════════════════════════════════════════════════════

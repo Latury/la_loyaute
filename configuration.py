@@ -1,45 +1,64 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  🛡️  LA LOYAUTÉ - CONFIGURATION CENTRALE
+# ║ 🦁 LA LOYAUTÉ - configuration.py
 # ║
-# ║  Fichier de configuration principal du bot Discord
-# ║  Développé par Latury
-# ║  Version : 0.2.2
+# ║ ⚙️ Bot Discord privé développé en Python
+# ║ 👨‍💻 Développé par Latury
+# ║ 📦 Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║
+# ║ 📄 FICHIER : configuration.py
+# ║ ⚙️ MODULE : Configuration centrale du bot
+# ║ 📝 DESCRIPTION : Centralise toutes les variables de configuration, tokens, rôles, couleurs, intents et messages du bot
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15/01/2026
+# ║ 🔢 VERSION : 0.2.2
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+"""
+🦁 LA LOYAUTÉ - Configuration centrale du bot Discord
+══════════════════════════════════════════════════════════════════════════════
+"""
 
 import os
 from dotenv import load_dotenv
+# 🔧 Chargement des variables d'environnement depuis secrets.env
 
-# Chargement des variables d'environnement
 load_dotenv('secrets.env')
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 🔐 TOKENS & SECRETS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🔐 SECTION 01 – TOKENS & SECRETS
+# ║ 🔑 Variables sensibles chargées depuis secrets.env
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD_ID = int(os.getenv('GUILD_ID', 0))
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 🎮 CONFIGURATION DU BOT
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🎮 SECTION 02 – CONFIGURATION DU BOT
+# ║ 📋 Paramètres généraux du bot (nom, version, préfixe, debug)
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 # Nom du bot
 NOM_BOT = "La Loyauté"
-VERSION_BOT = "0.2.2"
+VERSION_BOT = "0.2.2"  # Stable
 DEVELOPPEUR = "Latury"
 
-# Prefix des commandes
-PREFIX_BASE = "!"       # Commandes publiques
-PREFIX_ADMIN = "/"      # Commandes administratives (slash commands)
+# Préfixe des commandes
+PREFIXE_BASE = "!"      # Commandes publiques
+PREFIXE_ADMIN = "/"     # Commandes administratives (slash commands)
 
 # Mode debug
 DEBUG_MODE = os.getenv('DEBUG_MODE', 'False').lower() == 'true'
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 👑 RÔLES & PERMISSIONS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 👑 SECTION 03 – RÔLES & PERMISSIONS
+# ║ 🛡️ IDs des rôles et salons critiques (chargés depuis secrets.env)
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 # IDs des rôles (à configurer dans secrets.env)
 ROLE_ADMIN_ID = int(os.getenv('ROLE_ADMIN_ID', 0))
@@ -51,11 +70,13 @@ LOGS_CHANNEL_ID = int(os.getenv('LOGS_CHANNEL_ID', '0'))
 # Liste des IDs utilisateurs autorisés (développeurs)
 DEVELOPPEURS_IDS = [
     # Ajoute ton ID Discord ici
+    # Exemple: 123456789012345678,
 ]
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 🎨 COULEURS DES EMBEDS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🎨 SECTION 04 – COULEURS DES EMBEDS
+# ║ 🌈 Palette de couleurs pour les embeds Discord
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 # Couleurs principales
 COULEUR_PRINCIPALE = 0x5865F2    # Bleu Discord
@@ -65,8 +86,9 @@ COULEUR_AVERTISSEMENT = 0xFEE75C # Jaune
 COULEUR_INFO = 0x5865F2          # Bleu
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 📝 CONFIGURATION DES LOGS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 📝 SECTION 05 – CONFIGURATION DES LOGS
+# ║ 🗂️ Paramètres du système de logging
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 # Niveau de logs
 NIVEAU_LOG = os.getenv('LOG_LEVEL', 'INFO')
@@ -79,8 +101,9 @@ FORMAT_LOG = '[%(asctime)s] [%(levelname)s] %(message)s'
 FORMAT_DATE_LOG = '%d/%m/%Y %H:%M:%S'
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 🔧 PARAMÈTRES AVANCÉS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🔧 SECTION 06 – PARAMÈTRES AVANCÉS
+# ║ ⚙️ Intents Discord et limites système
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 # Intents Discord requis
 INTENTS_REQUIS = {
@@ -99,8 +122,9 @@ TIMEOUT_COMMANDE = 30
 MAX_MESSAGES_CLEAR = 100
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 📊 MESSAGES DU BOT
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 💬 SECTION 07 – MESSAGES DU BOT
+# ║ 🗨️ Messages standards pour les réponses du bot
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 # Messages d'erreur
 MSG_ERREUR_PERMISSION = "🚫 Vous n'avez pas la permission d'utiliser cette commande."
@@ -111,8 +135,9 @@ MSG_ERREUR_ARGUMENTS = "⚠️ Arguments invalides. Utilisez `!aide` pour plus d
 MSG_SUCCES_COMMANDE = "✅ Commande exécutée avec succès !"
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ 🎯 EMOJIS PERSONNALISÉS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🎯 SECTION 08 – EMOJIS PERSONNALISÉS
+# ║ 😎 Emojis utilisés dans tout le bot
+# ╚══════════════════════════════════════════════════════════════════════════════
 
 EMOJI_SUCCES = "✅"
 EMOJI_ERREUR = "❌"
@@ -125,3 +150,7 @@ EMOJI_ADMIN = "👑"
 EMOJI_MODERATEUR = "🛡️"
 EMOJI_UTILISATEUR = "👤"
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ ✅ FIN DU FICHIER – Configuration chargée
+# ║ 📦 Toutes les variables sont maintenant disponibles globalement
+# ╚══════════════════════════════════════════════════════════════════════════════

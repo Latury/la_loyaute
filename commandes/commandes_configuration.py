@@ -1,18 +1,30 @@
 from __future__ import annotations
 
-# ══════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  ⚙️ COMMANDES DE CONFIGURATION - LA LOYAUTÉ
+# ║ ⚙️ LA LOYAUTÉ - commandes_configuration.py
 # ║
-# ║  Commandes pour configurer le bot de manière interactive
-# ║  Interface visuelle avec Select Menu et boutons
+# ║ 🤖 Bot Discord privé développé en Python
+# ║ 👨‍💻 Développé par Latury
+# ║ 📦 Version : 0.2.2
 # ║
-# ║  📄 Fichier : commandes/commandes_configuration.py
-# ║  👤 Auteur : Latury
-# ║  📅 Date : 06/01/2026
-# ║  🔖 Version : 0.3.0
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ══════════════════════════════════════════════════════════════════════
+# ║ 📄 FICHIER : commandes_configuration.py
+# ║ ⚙️ MODULE : Commandes de configuration interactive
+# ║ 📝 DESCRIPTION : Gestion complète de la configuration du bot - menus, import/export, logs
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15/01/2026
+# ║ 📦 VERSION : 0.2.2
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+"""
+⚙️ LA LOYAUTÉ - Commandes de Configuration
+══════════════════════════════════════════════════════════════════════════════
+"""
 
 import discord
 from discord import app_commands
@@ -29,9 +41,10 @@ from utilitaires.embeds_interactifs import (
 )
 from configuration import COULEUR_PRINCIPALE, COULEUR_SUCCES, COULEUR_ERREUR
 
-# ══════════════════════════════════════════════════════════════════════
-# ║ 📋 CLASSE : COMMANDES DE CONFIGURATION
-# ══════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ ⚙️ CLASSE : CommandesConfiguration
+# ║ 📝 Gestion complète des commandes de configuration du bot
+# ═══════════════════════════════════════════════════════════════════════════════
 
 class CommandesConfiguration(commands.Cog):
     """
@@ -39,21 +52,16 @@ class CommandesConfiguration(commands.Cog):
     """
 
     def __init__(self, bot):
-        """
-        📌 1️⃣ Initialise le cog de configuration
-
-        Args:
-            bot: Instance du bot Discord
-        """
+        """Initialise le cog de configuration"""
         self.bot = bot
         self.logger = bot.logger
         self.config_manager = bot.config_manager
-
         self.logger.info("✅ Module CommandesConfiguration chargé")
 
-    # ══════════════════════════════════════════════════════════════════
-    # ║ 🎨 COMMANDE : CONFIG (MENU INTERACTIF)
-    # ══════════════════════════════════════════════════════════════════
+    # ╔═════════════════════════════════════════════════════════════════════════
+    # ║ ⚙️ FONCTION 01 – /config
+    # ║ ⚙️ Affiche le menu de configuration interactif avec Select Menu
+    # ╚═════════════════════════════════════════════════════════════════════════
 
     @app_commands.command(
         name="config",
@@ -61,12 +69,7 @@ class CommandesConfiguration(commands.Cog):
     )
     @app_commands.checks.has_permissions(administrator=True)
     async def config(self, interaction: discord.Interaction):
-        """
-        ⚙️ 2️⃣ Affiche le menu de configuration interactif
-
-        Args:
-            interaction: discord.Interaction Discord
-        """
+        """Affiche le menu de configuration interactif"""
         try:
             # Vérifier que guild_id existe
             if not interaction.guild_id or not interaction.guild:
@@ -103,9 +106,10 @@ class CommandesConfiguration(commands.Cog):
                 ephemeral=True
             )
 
-    # ══════════════════════════════════════════════════════════════════
-    # ║ 📤 COMMANDE : CONFIG EXPORT
-    # ══════════════════════════════════════════════════════════════════
+    # ╔═════════════════════════════════════════════════════════════════════════
+    # ║ 📤 FONCTION 02 – /config-export
+    # ║ 📤 Exporte la configuration actuelle en fichier JSON téléchargeable
+    # ╚═════════════════════════════════════════════════════════════════════════
 
     @app_commands.command(
         name="config-export",
@@ -113,12 +117,7 @@ class CommandesConfiguration(commands.Cog):
     )
     @app_commands.checks.has_permissions(administrator=True)
     async def config_export(self, interaction: discord.Interaction):
-        """
-        📤 3️⃣ Exporte la configuration actuelle du serveur
-
-        Args:
-            interaction: discord.Interaction Discord
-        """
+        """Exporte la configuration actuelle du serveur"""
         try:
             await interaction.response.defer(ephemeral=True)
 
@@ -178,9 +177,10 @@ class CommandesConfiguration(commands.Cog):
                 ephemeral=True
             )
 
-    # ══════════════════════════════════════════════════════════════════
-    # ║ 📥 COMMANDE : CONFIG IMPORT
-    # ══════════════════════════════════════════════════════════════════
+    # ╔═════════════════════════════════════════════════════════════════════════
+    # ║ 📥 FONCTION 03 – /config-import
+    # ║ 📥 Importe une configuration depuis un fichier JSON sauvegardé
+    # ╚═════════════════════════════════════════════════════════════════════════
 
     @app_commands.command(
         name="config-import",
@@ -195,13 +195,7 @@ class CommandesConfiguration(commands.Cog):
         interaction: discord.Interaction,
         fichier: discord.Attachment
     ):
-        """
-        📥 4️⃣ Importe une configuration depuis un fichier JSON
-
-        Args:
-            interaction: discord.Interaction Discord
-            fichier: Fichier JSON à importer
-        """
+        """Importe une configuration depuis un fichier JSON"""
         try:
             await interaction.response.defer(ephemeral=True)
 
@@ -278,9 +272,10 @@ class CommandesConfiguration(commands.Cog):
                 ephemeral=True
             )
 
-    # ══════════════════════════════════════════════════════════════════
-    # ║ 🔧 COMMANDES LEGACY (COMPATIBILITÉ)
-    # ══════════════════════════════════════════════════════════════════
+    # ╔═════════════════════════════════════════════════════════════════════════
+    # ║ 📊 FONCTION 04 – /config-logs-set
+    # ║ 📊 Configure le salon Discord où envoyer tous les logs du bot
+    # ╚═════════════════════════════════════════════════════════════════════════
 
     @app_commands.command(
         name="config-logs-set",
@@ -293,13 +288,7 @@ class CommandesConfiguration(commands.Cog):
         interaction: discord.Interaction,
         salon: discord.TextChannel
     ):
-        """
-        📊 5️⃣ Définit le salon de logs (commande legacy)
-
-        Args:
-            interaction: discord.Interaction Discord
-            salon: Salon de logs
-        """
+        """Configure le salon de logs"""
         try:
             # Vérifier que guild_id et guild existent
             if not interaction.guild_id or not interaction.guild:
@@ -345,12 +334,7 @@ class CommandesConfiguration(commands.Cog):
     )
     @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_create(self, interaction: discord.Interaction):
-        """
-        ➕ 6️⃣ Crée automatiquement un salon de logs (commande legacy)
-
-        Args:
-            interaction: discord.Interaction Discord
-        """
+        """Crée automatiquement un salon de logs privé"""
         try:
             await interaction.response.defer(ephemeral=True)
 
@@ -433,12 +417,7 @@ class CommandesConfiguration(commands.Cog):
     )
     @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_reset(self, interaction: discord.Interaction):
-        """
-        🔴 7️⃣ Désactive les logs (commande legacy)
-
-        Args:
-            interaction: discord.Interaction Discord
-        """
+        """Désactive les logs"""
         try:
             # Vérifier que guild_id et guild existent
             if not interaction.guild_id or not interaction.guild:
@@ -475,12 +454,13 @@ class CommandesConfiguration(commands.Cog):
                 ephemeral=True
             )
 
-# ══════════════════════════════════════════════════════════════════════
-# ║ 🔘 CLASSE : VUE DE CONFIRMATION D'IMPORT
-# ══════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🔘 CLASSE : ConfirmationImportView
+# ║ 🔘 Vue avec boutons de confirmation pour l'import de configuration
+# ═══════════════════════════════════════════════════════════════════════════════
 
 class ConfirmationImportView(discord.ui.View):
-    """🔘 Vue avec boutons de confirmation pour l'import"""
+    """Vue avec boutons de confirmation pour l'import"""
 
     def __init__(self, config_manager, guild_id: int, config_importee: dict, logger):
         super().__init__(timeout=60)
@@ -543,17 +523,13 @@ class ConfirmationImportView(discord.ui.View):
 
         await interaction.response.edit_message(embed=embed, view=None)
 
-# ══════════════════════════════════════════════════════════════════════
-# ║ 🎯 SETUP
-# ══════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🔌 FONCTION SETUP
+# ║ 🔌 Charge le cog des commandes de configuration dans le bot
+# ═══════════════════════════════════════════════════════════════════════════════
 
 async def setup(bot):
-    """
-    🎯 8️⃣ Fonction appelée par Discord.py pour charger le cog
-
-    Args:
-        bot: Instance du bot Discord
-    """
+    """Charge le cog des commandes de configuration"""
     await bot.add_cog(CommandesConfiguration(bot))
 
 

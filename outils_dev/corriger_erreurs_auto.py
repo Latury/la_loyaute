@@ -1,18 +1,22 @@
-# ══════════════════════════════════════════════════════════════════════
+# ╔═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  🔧 LA LOYAUTÉ - CORRECTEUR AUTOMATIQUE D'ERREURS
+# ║ 🔧 LA LOYAUTÉ - CORRECTEUR AUTOMATIQUE D'ERREURS
+# ║ Outils Dev | Corrige automatiquement les erreurs détectées dans le projet
+# ║ Développé par Latury
+# ║ Version 1.0.0
 # ║
-# ║  Corrige automatiquement les erreurs détectées dans le projet
-# ║  - Supprime les imports en double
-# ║  - Ajoute les fonctions setup() manquantes
-# ║  - Crée des backups avant modification
+# ╚═══════════════════════════════════════════════════════════════════════════════
+
+# ╔═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  📄 Fichier : outils_dev/corriger_erreurs_auto.py
-# ║  👤 Auteur : Latury
-# ║  📅 Date : 13/01/2026
-# ║  🔖 Version : 1.0.0
+# ║ 🔧 FICHIER : corriger_erreurs_auto.py
+# ║ 📦 MODULE : outils_dev
+# ║ 📝 DESCRIPTION : Corrige automatiquement les erreurs détectées dans le projet
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15 janvier 2026
+# ║ 🔖 VERSION : 1.0.0
 # ║
-# ══════════════════════════════════════════════════════════════════════
+# ╚═══════════════════════════════════════════════════════════════════════════════
 
 import os
 import re
@@ -21,9 +25,10 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Tuple, Any
 
-# ══════════════════════════════════════════════════════════════════════
+# ╔═══════════════════════════════════════════════════════════════════════════════
 # ║ 📁 CONFIGURATION
-# ══════════════════════════════════════════════════════════════════════
+# ║ 📝 Chemins et configurations des dossiers
+# ╚═══════════════════════════════════════════════════════════════════════════════
 
 DOSSIER_RACINE = Path(__file__).parent.parent
 DOSSIER_BACKUPS = DOSSIER_RACINE / "outils_dev" / "backups"
@@ -33,9 +38,10 @@ DOSSIER_RAPPORTS = DOSSIER_RACINE / "outils_dev" / "rapports"
 DOSSIER_BACKUPS.mkdir(exist_ok=True, parents=True)
 DOSSIER_RAPPORTS.mkdir(exist_ok=True, parents=True)
 
-# ══════════════════════════════════════════════════════════════════════
-# ║ 🎨 COULEURS
-# ══════════════════════════════════════════════════════════════════════
+# ╔═══════════════════════════════════════════════════════════════════════════════
+# ║ 🎨 CLASSE 01 – Couleurs
+# ║ 📝 Palette de couleurs ANSI pour le terminal
+# ╚═══════════════════════════════════════════════════════════════════════════════
 
 class Couleurs:
     """Couleurs pour l'affichage terminal"""
@@ -49,9 +55,10 @@ class Couleurs:
     ENDC = "\033[0m"
     BOLD = "\033[1m"
 
-# ══════════════════════════════════════════════════════════════════════
+# ╔═══════════════════════════════════════════════════════════════════════════════
 # ║ 🔧 FONCTIONS DE CORRECTION
-# ══════════════════════════════════════════════════════════════════════
+# ║ 📝 Fonctions pour corriger les erreurs détectées
+# ╚═══════════════════════════════════════════════════════════════════════════════
 
 def creer_backup(fichier: Path) -> Path:
     """Crée un backup horodaté du fichier"""
@@ -170,9 +177,10 @@ def corriger_fichier(chemin_fichier: Path) -> Dict[str, Any]:
         return resultat
 
 
-# ══════════════════════════════════════════════════════════════════════
-# ║ 📊 ANALYSE ET CORRECTION DU PROJET
-# ══════════════════════════════════════════════════════════════════════
+# ╔═══════════════════════════════════════════════════════════════════════════════
+# ║ 📊 FONCTIONS D'ANALYSE ET DE RAPPORT
+# ║ 📝 Analyse et génération de rapports détaillés
+# ╚═══════════════════════════════════════════════════════════════════════════════
 
 def obtenir_fichiers_python() -> List[Path]:
     """Récupère tous les fichiers Python du projet (sauf .venv)"""
@@ -205,7 +213,7 @@ def generer_rapport(resultats: List[Dict]) -> Path:
         f.write("╔" + "═" * 78 + "╗\n")
         f.write("║" + " " * 78 + "║\n")
         f.write("║  🔧 RAPPORT DE CORRECTION AUTOMATIQUE - LA LOYAUTÉ".ljust(79) + "║\n")
-        f.write("║  ⚡ Version 1.0.0".ljust(79) + "║\n")
+        f.write("║  🔋 Version 1.0.0".ljust(79) + "║\n")
         f.write("║" + " " * 78 + "║\n")
         f.write("╚" + "═" * 78 + "╝\n\n")
 
@@ -254,16 +262,17 @@ def generer_rapport(resultats: List[Dict]) -> Path:
     return fichier_rapport
 
 
-# ══════════════════════════════════════════════════════════════════════
-# ║ 🚀 FONCTION PRINCIPALE
-# ══════════════════════════════════════════════════════════════════════
+# ╔═══════════════════════════════════════════════════════════════════════════════
+# ║ 🚀 FONCTION PRINCIPALE – main
+# ║ 📝 Point d'entrée du script de correction
+# ╚═══════════════════════════════════════════════════════════════════════════════
 
 def main():
     """Fonction principale"""
     print(f"\n{Couleurs.BLEU_INTENSE}{'═' * 80}{Couleurs.ENDC}")
     print(f"{Couleurs.BLEU_INTENSE}{'═' * 80}{Couleurs.ENDC}")
     print(f"{Couleurs.BLEU_INTENSE}  🔧 CORRECTEUR AUTOMATIQUE D'ERREURS - LA LOYAUTÉ{'  ' * 17}{Couleurs.ENDC}")
-    print(f"{Couleurs.BLEU_INTENSE}  ⚡ Version 1.0.0{'  ' * 32}{Couleurs.ENDC}")
+    print(f"{Couleurs.BLEU_INTENSE}  🔋 Version 1.0.0{'  ' * 32}{Couleurs.ENDC}")
     print(f"{Couleurs.BLEU_INTENSE}{'═' * 80}{Couleurs.ENDC}")
     print(f"{Couleurs.BLEU_INTENSE}{'═' * 80}{Couleurs.ENDC}\n")
 
@@ -341,3 +350,8 @@ if __name__ == "__main__":
         print(f"\n\n{Couleurs.ROUGE}❌ Erreur critique : {e}{Couleurs.ENDC}\n")
         import traceback
         traceback.print_exc()
+
+
+# ╔══════════════════════════════════════════════════════════════════════════════
+# ║
+# ╚══════════════════════════════════════════════════════════════════════════════

@@ -2,20 +2,36 @@ from __future__ import annotations
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  💬 LA LOYAUTÉ - COMMANDES DE BASE
+# ║ 💬 LA LOYAUTÉ - commandes_base.py
 # ║
-# ║  Commandes publiques accessibles à tous (prefix !)
-# ║  Développé par Latury
-# ║  Version : 0.1.0
+# ║ 🤖 Bot Discord privé développé en Python
+# ║ 👨‍💻 Développé par Latury
+# ║ 📦 Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║
+# ║ 📄 FICHIER : commandes_base.py
+# ║ 💬 MODULE : Commandes de base publiques
+# ║ 📝 DESCRIPTION : Commandes publiques accessibles à tous (prefix !) - aide, info, ping, stats, serveur, utilisateur
+# ║ 👤 AUTEUR : Latury
+# ║ 📅 DATE : 15/01/2026
+# ║ 📦 VERSION : 0.2.2
+# ║
+# ═══════════════════════════════════════════════════════════════════════════════
+
+"""
+💬 LA LOYAUTÉ - Commandes de Base
+══════════════════════════════════════════════════════════════════════════════
+"""
 
 import discord
 from discord.ext import commands
 from datetime import datetime
 import platform
 import psutil
-from typing import Optional  # ← AJOUTE CETTE LIGNE
+from typing import Optional
 
 # Importation de la configuration
 import configuration as config
@@ -29,21 +45,21 @@ from utilitaires.helpers import (
 )
 from noyau.gestionnaire_permissions import obtenir_niveau_permission
 
-# ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 📦 Classe 01 – Cog des commandes de base
-# ║ Description : Contient toutes les commandes publiques du bot
-# ╚══════════════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 💬 CLASSE : CommandesBase
+# ║ 📝 Gestion complète des commandes publiques accessibles à tous
+# ═══════════════════════════════════════════════════════════════════════════════
 class CommandesBase(commands.Cog):
     """Cog contenant les commandes de base accessibles à tous"""
 
     def __init__(self, bot):
         """Initialise le cog des commandes de base"""
-
         self.bot = bot
+        self.bot.logger.info("✅ Cog CommandesBase chargé")
 
     # ╔═════════════════════════════════════════════════════════════════════════
-    # ║ 📖 Fonction 01 – Commande !aide
-    # ║ Description : Affiche la liste des commandes disponibles
+    # ║ 📖 FONCTION 01 – !aide
+    # ║ 📖 Affiche la liste complète des commandes disponibles du bot
     # ╚═════════════════════════════════════════════════════════════════════════
     @commands.command(
         name='aide',
@@ -102,8 +118,8 @@ class CommandesBase(commands.Cog):
         await ctx.send(embed=embed)
 
     # ╔═════════════════════════════════════════════════════════════════════════
-    # ║ 🤖 Fonction 02 – Commande !info
-    # ║ Description : Affiche les informations sur le bot
+    # ║ 🤖 FONCTION 02 – !info
+    # ║ 🤖 Affiche les informations détaillées et statistiques du bot
     # ╚═════════════════════════════════════════════════════════════════════════
     @commands.command(
         name='info',
@@ -171,8 +187,8 @@ class CommandesBase(commands.Cog):
         await ctx.send(embed=embed)
 
     # ╔═════════════════════════════════════════════════════════════════════════
-    # ║ 🏓 Fonction 03 – Commande !ping
-    # ║ Description : Teste la latence du bot
+    # ║ 🏓 FONCTION 03 – !ping
+    # ║ 🏓 Teste la latence (WebSocket) et affiche la qualité de connexion
     # ╚═════════════════════════════════════════════════════════════════════════
     @commands.command(
         name='ping',
@@ -208,8 +224,8 @@ class CommandesBase(commands.Cog):
         await ctx.send(embed=embed)
 
     # ╔═════════════════════════════════════════════════════════════════════════
-    # ║ 📊 Fonction 04 – Commande !stats
-    # ║ Description : Affiche les statistiques détaillées du bot
+    # ║ 📊 FONCTION 04 – !stats
+    # ║ 📊 Affiche les statistiques complètes du bot (serveurs, messages, RAM)
     # ╚═════════════════════════════════════════════════════════════════════════
     @commands.command(
         name='stats',
@@ -287,8 +303,8 @@ class CommandesBase(commands.Cog):
         await ctx.send(embed=embed)
 
     # ╔═════════════════════════════════════════════════════════════════════════
-    # ║ 🏠 Fonction 05 – Commande !serveur
-    # ║ Description : Affiche les informations sur le serveur
+    # ║ 🏠 FONCTION 05 – !serveur
+    # ║ 🏠 Affiche les informations détaillées du serveur Discord
     # ╚═════════════════════════════════════════════════════════════════════════
     @commands.command(
         name='serveur',
@@ -350,8 +366,8 @@ class CommandesBase(commands.Cog):
         await ctx.send(embed=embed)
 
     # ╔═════════════════════════════════════════════════════════════════════════
-    # ║ 👤 Fonction 06 – Commande !utilisateur
-    # ║ Description : Affiche les informations sur un utilisateur
+    # ║ 👤 FONCTION 06 – !utilisateur
+    # ║ 👤 Affiche le profil complet d'un membre (rôles, dates, permissions)
     # ╚═════════════════════════════════════════════════════════════════════════
     @commands.command(
         name='utilisateur',
@@ -421,8 +437,8 @@ class CommandesBase(commands.Cog):
         await ctx.send(embed=embed)
 
     # ╔═════════════════════════════════════════════════════════════════════════
-    # ║ 🔧 Fonction utilitaire – Calcul du taux de succès
-    # ║ Description : Calcule le pourcentage de commandes réussies
+    # ║ 🔧 FONCTION UTILITAIRE – _calculer_taux_succes
+    # ║ 🔧 Calcule le pourcentage de réussite des commandes exécutées
     # ╚═════════════════════════════════════════════════════════════════════════
     def _calculer_taux_succes(self, stats: dict) -> float:
         """Calcule le taux de succès des commandes"""
@@ -434,10 +450,11 @@ class CommandesBase(commands.Cog):
         succes = total - stats['erreurs']
         return round((succes / total) * 100, 2)
 
-# ╔══════════════════════════════════════════════════════════════════════════════
-# ║ 📦 Fonction setup
-# ║ Description : Fonction requise pour charger le cog
-# ╚══════════════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🔌 FONCTION SETUP
+# ║ 🔌 Charge le cog des commandes de base dans le bot
+# ═══════════════════════════════════════════════════════════════════════════════
+
 async def setup(bot):
     """Charge le cog des commandes de base"""
     await bot.add_cog(CommandesBase(bot))
