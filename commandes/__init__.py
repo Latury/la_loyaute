@@ -1,34 +1,45 @@
-from __future__ import annotations
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║ 💬 LA LOYAUTÉ - __init__.py
+# ║ 🦁 LA LOYAUTÉ - commandes/__init__.py
 # ║
-# ║ 🤖 Bot Discord privé développé en Python
-# ║ 👨‍💻 Développé par Latury
-# ║ 📦 Version : 0.2.2
+# ║ 📦 Initialisation du package commandes
+# ║ 👨💻 Développé par Latury
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 📄 FICHIER : __init__.py
-# ║ 💬 MODULE : Initialisation du package commandes
-# ║ 📝 DESCRIPTION : Expose les cogs des commandes pour l'importation
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15/01/2026
-# ║ 📦 VERSION : 0.2.2
-# ║
-# ═══════════════════════════════════════════════════════════════════════════════
+"""
+📦 Package contenant toutes les commandes du bot
+══════════════════════════════════════════════════════════════════════════════
+"""
 
-from .commandes_admin import CommandesAdmin
-from .commandes_configuration import CommandesConfiguration
-from .commandes_menu import CommandesMenu
+# Imports des commandes disponibles
+try:
+    from .commandes_configuration import CommandesConfiguration
+except ImportError:
+    CommandesConfiguration = None
 
+try:
+    from .commandes_bienvenue import CommandesBienvenue
+except ImportError:
+    CommandesBienvenue = None
+
+try:
+    from .commandes_menu import CommandesMenu
+except ImportError:
+    CommandesMenu = None
+
+# ⚠️ TEMPORAIREMENT DÉSACTIVÉ - À CORRIGER
+# try:
+#     from .commandes_interface import CommandesInterface
+# except ImportError:
+#     CommandesInterface = None
+
+CommandesInterface = None  # ⚠️ Placeholder temporaire
+
+# Liste des exports
 __all__ = [
-    'CommandesAdmin',
     'CommandesConfiguration',
+    'CommandesBienvenue',
     'CommandesMenu',
+    # 'CommandesInterface'  # ⚠️ Désactivé temporairement
 ]
-
-

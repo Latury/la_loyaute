@@ -4,10 +4,9 @@
 # ║
 # ║ ⚙️ Bot Discord privé développé en Python
 # ║ 👨‍💻 Développé par Latury
-# ║ 📦 Version : 0.2.2
+# ║ 📦 Version : 0.3.0
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
 # ║ 📄 FICHIER : configuration.py
@@ -15,7 +14,7 @@
 # ║ 📝 DESCRIPTION : Centralise toutes les variables de configuration, tokens, rôles, couleurs, intents et messages du bot
 # ║ 👤 AUTEUR : Latury
 # ║ 📅 DATE : 15/01/2026
-# ║ 🔢 VERSION : 0.2.2
+# ║ 🔢 VERSION : 0.3.0
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -26,8 +25,8 @@
 
 import os
 from dotenv import load_dotenv
-# 🔧 Chargement des variables d'environnement depuis secrets.env
 
+# 🔧 Chargement des variables d'environnement depuis secrets.env
 load_dotenv('secrets.env')
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -38,19 +37,23 @@ load_dotenv('secrets.env')
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD_ID = int(os.getenv('GUILD_ID', 0))
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════
 # ║ 🎮 SECTION 02 – CONFIGURATION DU BOT
 # ║ 📋 Paramètres généraux du bot (nom, version, préfixe, debug)
-# ╚══════════════════════════════════════════════════════════════════════════════
+# ╚══════════════════════════════════════════════════════════════
 
 # Nom du bot
 NOM_BOT = "La Loyauté"
-VERSION_BOT = "0.2.2"  # Stable
+VERSION_BOT = "0.3.0"  # Stable
 DEVELOPPEUR = "Latury"
 
 # Préfixe des commandes
-PREFIXE_BASE = "!"      # Commandes publiques
-PREFIXE_ADMIN = "/"     # Commandes administratives (slash commands)
+PREFIXE_BASE = "!"   # Commandes publiques
+PREFIXE_ADMIN = "/"  # Commandes administratives (slash commands)
+
+# ⚙️ Alias anglais pour compatibilité avec le code existant
+PREFIX_BASE = PREFIXE_BASE
+PREFIX_ADMIN = PREFIXE_ADMIN
 
 # Mode debug
 DEBUG_MODE = os.getenv('DEBUG_MODE', 'False').lower() == 'true'
@@ -79,11 +82,11 @@ DEVELOPPEURS_IDS = [
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 # Couleurs principales
-COULEUR_PRINCIPALE = 0x5865F2    # Bleu Discord
-COULEUR_SUCCES = 0x57F287        # Vert
-COULEUR_ERREUR = 0xED4245        # Rouge
-COULEUR_AVERTISSEMENT = 0xFEE75C # Jaune
-COULEUR_INFO = 0x5865F2          # Bleu
+COULEUR_PRINCIPALE = 0x5865F2      # Bleu Discord
+COULEUR_SUCCES = 0x57F287          # Vert
+COULEUR_ERREUR = 0xED4245          # Rouge
+COULEUR_AVERTISSEMENT = 0xFEE75C   # Jaune
+COULEUR_INFO = 0x5865F2            # Bleu
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ 📝 SECTION 05 – CONFIGURATION DES LOGS
@@ -149,6 +152,19 @@ EMOJI_HORS_LIGNE = "🔴"
 EMOJI_ADMIN = "👑"
 EMOJI_MODERATEUR = "🛡️"
 EMOJI_UTILISATEUR = "👤"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ║ 🎉 SECTION 09 – CONFIGURATION BIENVENUE/DÉPART (v0.3.0)
+# ║ ⚙️ Paramètres du système de bienvenue et départ automatique
+# ╚══════════════════════════════════════════════════════════════════════════════
+
+# Messages par défaut
+MESSAGE_BIENVENUE_DEFAUT = "Bienvenue {mention} sur **{serveur}** ! 🎉\nNous sommes maintenant {compteur} membres !"
+MESSAGE_DEPART_DEFAUT = "**{username}** a quitté le serveur après {jours} jour(s). 👋"
+
+# Couleurs des embeds
+COULEUR_BIENVENUE = 0x57F287  # Vert
+COULEUR_DEPART = 0xED4245     # Rouge
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ ✅ FIN DU FICHIER – Configuration chargée

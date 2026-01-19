@@ -7,7 +7,6 @@
 # ║ 📦 Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
 # ║ 📄 FICHIER : principal.py
@@ -36,7 +35,6 @@ from datetime import datetime
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 import configuration as config
-
 from noyau.gestionnaire_bot import LoyauteBot
 from utilitaires.logger import creer_logger
 
@@ -66,7 +64,7 @@ def verifier_configuration(logger):
         logger.error("Le token Discord n'a pas été configuré dans secrets.env")
         return False
 
-    logger.info("Configuration valide avec succès")
+    logger.info("Configuration validée avec succès")
     return True
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -100,32 +98,32 @@ def creer_bot(logger):
 async def charger_extensions(bot, logger):
     """Charge toutes les extensions du bot"""
     extensions = [
-        # Commandes
-        "commandes.commandes_admin",
-        "commandes.commandes_configuration",
-        "commandes.commandes_menu",
-        "commandes.commandes_config_interactive",  # NOUVEAU v0.3.0
-        "commandes.commandes_base",  # DOIT AVOIR UN DEVANT !
-
-        # Événements
-        "evenements.demarrage",
-        "evenements.messages",
-        "evenements.evenements_membres",
-        "evenements.evenements_messages",
-        "evenements.evenements_salons",
+        # ── 📝 COMMANDES
+        #'commandes.commandes_admin',
+        'commandes.commandes_configuration',
+        'commandes.commandes_menu',
+        'commandes.commandes_interface',
+        'commandes.commandes_bienvenue',  # ✅ NOUVEAU
+        # ── 🎉 ÉVÉNEMENTS
+        'evenements.demarrage',
+        'evenements.messages',
+        'evenements.events_membres',
+        'evenements.events_messages',
+        'evenements.events_salons',
+        'evenements.bienvenue_depart',  # ✅ NOUVEAU
     ]
 
     for extension in extensions:
         try:
             await bot.load_extension(extension)
-            logger.info(f"Extension chargée : {extension}")
+            logger.info(f"✅ Extension chargée : {extension}")
         except Exception as e:
             import traceback
-            logger.error(f"Erreur lors du chargement de {extension}: {e}")
+            logger.error(f"❌ Erreur lors du chargement de {extension}: {e}")
             logger.error(f"Traceback complet: {traceback.format_exc()}")
             return False
 
-    logger.info(f"{len(extensions)} extensions chargées avec succès")
+    logger.info(f"✅ {len(extensions)} extensions chargées avec succès")
     return True
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -136,14 +134,15 @@ async def charger_extensions(bot, logger):
 async def demarrer_bot(bot, logger):
     """Démarre le bot Discord"""
     try:
-        logger.info("Connexion Discord en cours...")
+        logger.info("🔌 Connexion à Discord en cours...")
         await bot.start(config.DISCORD_TOKEN)
     except discord.LoginFailure:
-        logger.error("Échec de connexion - Token Discord invalide")
+        logger.error("❌ Échec de connexion - Token Discord invalide")
         return False
     except Exception as e:
-        logger.error(f"Erreur critique lors du démarrage: {e}")
+        logger.error(f"❌ Erreur critique lors du démarrage: {e}")
         return False
+
     return True
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -167,11 +166,11 @@ async def main():
     logger.info("╚" + "═" * 80)
 
     date_demarrage = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    logger.info(f"Démarrage: {date_demarrage}")
+    logger.info(f"🕐 Démarrage: {date_demarrage}")
 
     # Vérification de la configuration
     if not verifier_configuration(logger):
-        logger.error("Arrêt du programme en raison d'erreurs de configuration")
+        logger.error("❌ Arrêt du programme en raison d'erreurs de configuration")
         return
 
     # Création de l'instance du bot
@@ -179,8 +178,9 @@ async def main():
 
     # Chargement des extensions
     if not await charger_extensions(bot, logger):
-        logger.error("Arrêt du programme en raison d'erreurs de chargement")
+        logger.error("❌ Arrêt du programme en raison d'erreurs de chargement")
         return
+
     logger.info("✅ Chargement des extensions terminé")
 
     # Démarrage du bot

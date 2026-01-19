@@ -8,17 +8,6 @@
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 📄 FICHIER : embeds_interactifs.py
-# ║ ⚙️ MODULE : Système d'embeds interactifs
-# ║ 📝 DESCRIPTION : Système complet d'embeds Discord avec menus déroulants, boutons et modals pour interface de configuration
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15/01/2026
-# ║ 🔢 VERSION : 0.2.2
-# ║
-# ═══════════════════════════════════════════════════════════════════════════════
-
 """
 🦁 LA LOYAUTÉ - Système d'embeds interactifs
 ══════════════════════════════════════════════════════════════════════════════
@@ -29,7 +18,6 @@ import discord
 from discord.ui import Select, View, Button, Modal, TextInput
 from typing import Optional
 from datetime import datetime
-
 from configuration import COULEUR_PRINCIPALE, COULEUR_SUCCES, COULEUR_ERREUR, COULEUR_AVERTISSEMENT
 
 # ══════════════════════════════════════════════════════════════════════
@@ -61,7 +49,6 @@ def creer_embed_menu_principal(guild_id: int) -> discord.Embed:
         color=COULEUR_PRINCIPALE,
         timestamp=datetime.now()
     )
-
     embed.set_footer(text="La Loyauté • Configuration Interactive")
     return embed
 
@@ -94,9 +81,9 @@ def creer_embed_logs(config: dict) -> discord.Embed:
         color=COULEUR_PRINCIPALE,
         timestamp=datetime.now()
     )
-
     embed.set_footer(text="📊 Module Logs")
     return embed
+
 
 # ══════════════════════════════════════════════════════════════════════
 # ║ 🎯 CLASSE : VUE MENU PRINCIPAL
@@ -189,6 +176,7 @@ class SelectMenuConfiguration(Select):
             )
             await interaction.response.edit_message(embed=embed, view=self.view)
 
+
 # ══════════════════════════════════════════════════════════════════════
 # ║ 📊 CLASSE : VUE CONFIGURATION LOGS
 # ══════════════════════════════════════════════════════════════════════
@@ -253,7 +241,6 @@ class VueConfigurationLogs(View):
             # Mettre à jour l'embed
             config = self.config_manager.obtenir_configuration(guild_id)
             embed = creer_embed_logs(config)
-
             if interaction.message:
                 await interaction.message.edit(embed=embed)
 
@@ -293,8 +280,8 @@ class VueConfigurationLogs(View):
             # Mettre à jour l'embed
             config = self.config_manager.obtenir_configuration(guild_id)
             embed = creer_embed_logs(config)
-
             await interaction.response.edit_message(embed=embed)
+
             await interaction.followup.send(
                 "✅ Les logs ont été désactivés avec succès !",
                 ephemeral=True
@@ -305,6 +292,7 @@ class VueConfigurationLogs(View):
                 f"❌ Une erreur est survenue : {e}",
                 ephemeral=True
             )
+
 
 # ══════════════════════════════════════════════════════════════════════
 # ║ 📝 CLASSE : MODAL DE CONFIGURATION
@@ -326,7 +314,6 @@ class ModalConfigurationTexte(Modal):
             max_length=2000,
             style=discord.TextStyle.paragraph
         )
-
         self.add_item(self.champ_texte)
 
     async def on_submit(self, interaction: discord.Interaction):
@@ -341,7 +328,6 @@ class ModalConfigurationTexte(Modal):
                 color=COULEUR_SUCCES,
                 timestamp=datetime.now()
             )
-
             await interaction.response.send_message(embed=embed, ephemeral=True)
 
         except Exception as e:
@@ -349,6 +335,7 @@ class ModalConfigurationTexte(Modal):
                 f"❌ Une erreur est survenue : {e}",
                 ephemeral=True
             )
+
 
 # ══════════════════════════════════════════════════════════════════════
 # ║ 🎨 CLASSE : VUE AVEC PAGINATION
@@ -377,7 +364,6 @@ class VuePagination(View):
 
         embed = self.embeds[self.page_actuelle]
         embed.set_footer(text=f"Page {self.page_actuelle + 1}/{self.max_pages}")
-
         await interaction.response.edit_message(embed=embed, view=self)
 
     @discord.ui.button(label="▶️ Suivant", style=discord.ButtonStyle.secondary)
@@ -388,8 +374,8 @@ class VuePagination(View):
 
         embed = self.embeds[self.page_actuelle]
         embed.set_footer(text=f"Page {self.page_actuelle + 1}/{self.max_pages}")
-
         await interaction.response.edit_message(embed=embed, view=self)
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ ✅ FIN DU FICHIER – Système d'embeds interactifs complet
 # ║ 📦 Menus déroulants, boutons, modals et pagination disponibles

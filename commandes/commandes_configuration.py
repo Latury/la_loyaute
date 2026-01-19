@@ -10,17 +10,6 @@ from __future__ import annotations
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 📄 FICHIER : commandes_configuration.py
-# ║ ⚙️ MODULE : Commandes de configuration interactive
-# ║ 📝 DESCRIPTION : Gestion complète de la configuration du bot - menus, import/export, logs
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15/01/2026
-# ║ 📦 VERSION : 0.2.2
-# ║
-# ═══════════════════════════════════════════════════════════════════════════════
-
 """
 ⚙️ LA LOYAUTÉ - Commandes de Configuration
 ══════════════════════════════════════════════════════════════════════════════
@@ -34,12 +23,13 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-from noyau.gestionnaire_permissions import verifier_permissions
+from configuration import COULEUR_PRINCIPALE, COULEUR_SUCCES, COULEUR_ERREUR
+
+# Import direct des utilitaires
 from utilitaires.embeds_interactifs import (
     creer_embed_menu_principal,
     VueMenuPrincipal
 )
-from configuration import COULEUR_PRINCIPALE, COULEUR_SUCCES, COULEUR_ERREUR
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ ⚙️ CLASSE : CommandesConfiguration
@@ -63,10 +53,7 @@ class CommandesConfiguration(commands.Cog):
     # ║ ⚙️ Affiche le menu de configuration interactif avec Select Menu
     # ╚═════════════════════════════════════════════════════════════════════════
 
-    @app_commands.command(
-        name="config",
-        description="⚙️ Ouvrir le menu de configuration interactif"
-    )
+    @app_commands.command(name="config", description="⚙️ Ouvrir le menu de configuration interactif")
     @app_commands.checks.has_permissions(administrator=True)
     async def config(self, interaction: discord.Interaction):
         """Affiche le menu de configuration interactif"""
@@ -111,10 +98,7 @@ class CommandesConfiguration(commands.Cog):
     # ║ 📤 Exporte la configuration actuelle en fichier JSON téléchargeable
     # ╚═════════════════════════════════════════════════════════════════════════
 
-    @app_commands.command(
-        name="config-export",
-        description="📤 Exporter la configuration du serveur en JSON"
-    )
+    @app_commands.command(name="config-export", description="📤 Exporter la configuration du serveur en JSON")
     @app_commands.checks.has_permissions(administrator=True)
     async def config_export(self, interaction: discord.Interaction):
         """Exporte la configuration actuelle du serveur"""
@@ -182,13 +166,8 @@ class CommandesConfiguration(commands.Cog):
     # ║ 📥 Importe une configuration depuis un fichier JSON sauvegardé
     # ╚═════════════════════════════════════════════════════════════════════════
 
-    @app_commands.command(
-        name="config-import",
-        description="📥 Importer une configuration depuis un fichier JSON"
-    )
-    @app_commands.describe(
-        fichier="Fichier JSON de configuration à importer"
-    )
+    @app_commands.command(name="config-import", description="📥 Importer une configuration depuis un fichier JSON")
+    @app_commands.describe(fichier="Fichier JSON de configuration à importer")
     @app_commands.checks.has_permissions(administrator=True)
     async def config_import(
         self,
@@ -277,10 +256,7 @@ class CommandesConfiguration(commands.Cog):
     # ║ 📊 Configure le salon Discord où envoyer tous les logs du bot
     # ╚═════════════════════════════════════════════════════════════════════════
 
-    @app_commands.command(
-        name="config-logs-set",
-        description="📊 Définir le salon de logs Discord"
-    )
+    @app_commands.command(name="config-logs-set", description="📊 Définir le salon de logs Discord")
     @app_commands.describe(salon="Salon où envoyer les logs")
     @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_set(
@@ -328,10 +304,7 @@ class CommandesConfiguration(commands.Cog):
                 ephemeral=True
             )
 
-    @app_commands.command(
-        name="config-logs-create",
-        description="➕ Créer automatiquement un salon de logs privé"
-    )
+    @app_commands.command(name="config-logs-create", description="➕ Créer automatiquement un salon de logs privé")
     @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_create(self, interaction: discord.Interaction):
         """Crée automatiquement un salon de logs privé"""
@@ -411,10 +384,7 @@ class CommandesConfiguration(commands.Cog):
                 ephemeral=True
             )
 
-    @app_commands.command(
-        name="config-logs-reset",
-        description="🔴 Désactiver les logs Discord"
-    )
+    @app_commands.command(name="config-logs-reset", description="🔴 Désactiver les logs Discord")
     @app_commands.checks.has_permissions(administrator=True)
     async def config_logs_reset(self, interaction: discord.Interaction):
         """Désactive les logs"""
@@ -453,6 +423,7 @@ class CommandesConfiguration(commands.Cog):
                 f"❌ Une erreur est survenue : {e}",
                 ephemeral=True
             )
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ 🔘 CLASSE : ConfirmationImportView
@@ -520,8 +491,8 @@ class ConfirmationImportView(discord.ui.View):
             color=COULEUR_ERREUR,
             timestamp=datetime.now()
         )
-
         await interaction.response.edit_message(embed=embed, view=None)
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ 🔌 FONCTION SETUP
@@ -531,5 +502,3 @@ class ConfirmationImportView(discord.ui.View):
 async def setup(bot):
     """Charge le cog des commandes de configuration"""
     await bot.add_cog(CommandesConfiguration(bot))
-
-

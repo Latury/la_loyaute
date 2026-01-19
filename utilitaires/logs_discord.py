@@ -3,19 +3,8 @@
 # ║ 🦁 LA LOYAUTÉ - logs_discord.py
 # ║
 # ║ 📊 Bot Discord privé développé en Python
-# ║ 👨‍💻 Développé par Latury
-# ║ 📦 Version : 0.2.2
-# ║
-# ═══════════════════════════════════════════════════════════════════════════════
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 📄 FICHIER : logs_discord.py
-# ║ ⚙️ MODULE : Système de logs Discord
-# ║ 📝 DESCRIPTION : Gestion complète des logs Discord avec 14 types de logs (modération, membres, messages, salons)
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15/01/2026
-# ║ 🔢 VERSION : 0.2.2
+# ║ 👨💻 Développé par Latury
+# ║ 📦 Version : 0.2.3 (CORRIGÉ)
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -28,7 +17,6 @@ Gestion avancée des logs dans un salon Discord dédié
 import discord
 from datetime import datetime
 from typing import Optional, List, Dict, Any
-
 import configuration as config
 from utilitaires.helpers import creer_embed
 
@@ -71,9 +59,7 @@ async def envoyer_log(
         # ── 🔹 ÉTAPE 3 : Récupération du salon Discord
         salon_logs = guild.get_channel(salon_id)
         if not salon_logs:
-            bot.logger.warning(
-                f"⚠️ Salon de logs (ID: {salon_id}) introuvable pour {guild.name}"
-            )
+            bot.logger.warning(f"⚠️ Salon de logs (ID: {salon_id}) introuvable pour {guild.name}")
             return
 
         # ── 🔹 ÉTAPE 4 : Vérification du type de salon
@@ -259,7 +245,7 @@ async def log_clear(bot, guild: discord.Guild, salon: discord.TextChannel, moder
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 👋 FONCTION 08 – log_member_join
-# ║🪄 Log l'arrivée d'un nouveau membre sur le serveur
+# ║ 🪄 Log l'arrivée d'un nouveau membre sur le serveur
 # ╚══════════════════════════════════════════════════════════════════════════════
 
 async def log_member_join(bot, membre: discord.Member):
@@ -323,7 +309,7 @@ async def log_message_delete(bot, message: discord.Message):
 
     # ── 🔹 Construction des champs
     champs = [
-        {"name": "👤 Auteur", "value": f"{message.author.mention}\n`{message.author.id}`", "inline": True},
+        {"name": "👤 Auteur", "value": f"{message.author.mention}\n`{message.author.id}`", "inline": True}
     ]
 
     # ── 🔹 Salon (avec vérification du type)
@@ -379,7 +365,7 @@ async def log_message_edit(bot, before: discord.Message, after: discord.Message)
 
     # ── 🔹 Construction des champs
     champs = [
-        {"name": "👤 Auteur", "value": f"{after.author.mention}\n`{after.author.id}`", "inline": True},
+        {"name": "👤 Auteur", "value": f"{after.author.mention}\n`{after.author.id}`", "inline": True}
     ]
 
     # ── 🔹 Salon (avec vérification du type)

@@ -7,7 +7,6 @@
 # ║ 📦 Version : 0.2.2
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║
 # ║ 📄 FICHIER : logger.py
@@ -28,16 +27,15 @@ import logging
 import os
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
-
 import configuration as config
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 📁 Fonction 01 – Création du dossier de logs
 # ║ Description : Crée le dossier logs s'il n'existe pas
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_dossier_logs():
     """Crée le dossier de logs s'il n'existe pas"""
-
     if not os.path.exists(config.DOSSIER_LOGS):
         os.makedirs(config.DOSSIER_LOGS)
         print(f"📁 Dossier '{config.DOSSIER_LOGS}' créé")
@@ -46,6 +44,7 @@ def creer_dossier_logs():
 # ║ 🎨 Fonction 02 – Formateur coloré pour console
 # ║ Description : Ajoute des couleurs aux logs de la console
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 class FormateurCouleur(logging.Formatter):
     """Formateur de logs avec couleurs pour la console"""
 
@@ -69,19 +68,18 @@ class FormateurCouleur(logging.Formatter):
 
     def format(self, record):
         """Formate le message de log avec la couleur appropriée"""
-
         # ── 🔹 Récupération de la couleur
         couleur = self.COULEURS.get(record.levelno, self.RESET)
 
         # ── 🔹 Formatage du message
         record.levelname = f"{couleur}{record.levelname}{self.RESET}"
-
         return super().format(record)
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 📝 Fonction 03 – Création du logger
 # ║ Description : Crée et configure un logger avec fichier et console
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_logger(nom: str, niveau: str = 'INFO') -> logging.Logger:
     """
     Crée un logger personnalisé pour le bot
@@ -93,7 +91,6 @@ def creer_logger(nom: str, niveau: str = 'INFO') -> logging.Logger:
     Returns:
         logging.Logger: Le logger configuré
     """
-
     # ── 🔹 Création du dossier de logs
     creer_dossier_logs()
 
@@ -146,6 +143,7 @@ def creer_logger(nom: str, niveau: str = 'INFO') -> logging.Logger:
 # ║ 🗑️ Fonction 04 – Nettoyage des anciens logs
 # ║ Description : Supprime les fichiers de logs trop anciens
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def nettoyer_anciens_logs(jours: int = 30):
     """
     Supprime les fichiers de logs plus anciens que X jours
@@ -153,7 +151,6 @@ def nettoyer_anciens_logs(jours: int = 30):
     Args:
         jours: Nombre de jours de rétention
     """
-
     if not os.path.exists(config.DOSSIER_LOGS):
         return
 
@@ -185,9 +182,9 @@ def nettoyer_anciens_logs(jours: int = 30):
 # ║ 📊 Fonction 05 – Statistiques des logs
 # ║ Description : Retourne des statistiques sur les fichiers de logs
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def obtenir_stats_logs() -> dict:
     """Retourne des statistiques sur les fichiers de logs"""
-
     if not os.path.exists(config.DOSSIER_LOGS):
         return {
             'nombre_fichiers': 0,
@@ -198,8 +195,8 @@ def obtenir_stats_logs() -> dict:
     # ── 🔹 Comptage des fichiers et taille
     fichiers = [f for f in os.listdir(config.DOSSIER_LOGS) if f.endswith('.log')]
     nombre_fichiers = len(fichiers)
-
     taille_totale = 0
+
     for fichier in fichiers:
         chemin = os.path.join(config.DOSSIER_LOGS, fichier)
         taille_totale += os.path.getsize(chemin)
@@ -221,6 +218,7 @@ def obtenir_stats_logs() -> dict:
 # ║ 📋 Fonction 06 – Lire les dernières lignes d'un log
 # ║ Description : Lit les N dernières lignes d'un fichier de log
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def lire_dernieres_lignes(nombre_lignes: int = 50) -> list:
     """
     Lit les dernières lignes du fichier de log actuel
@@ -231,7 +229,6 @@ def lire_dernieres_lignes(nombre_lignes: int = 50) -> list:
     Returns:
         list: Liste des dernières lignes
     """
-
     # ── 🔹 Détermination du fichier actuel
     date_actuelle = datetime.now().strftime('%d-%m-%Y')
     fichier_log = os.path.join(config.DOSSIER_LOGS, f"la_loyaute_{date_actuelle}.log")
@@ -247,6 +244,7 @@ def lire_dernieres_lignes(nombre_lignes: int = 50) -> list:
     except Exception as e:
         print(f"❌ Erreur lors de la lecture du log : {e}")
         return []
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # ║ ✅ FIN DU FICHIER – Système de logs professionnel complet
 # ║ 📦 6 fonctions de gestion et monitoring des logs

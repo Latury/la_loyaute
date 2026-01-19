@@ -1,20 +1,9 @@
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  🏗️ LA LOYAUTÉ - ÉVÉNEMENTS DE SALONS
-# ║  Discord Bot | Gestion des événements liés aux salons Discord
-# ║  Développé par Latury
-# ║  Version 0.2.2
-# ║
-# ╚═══════════════════════════════════════════════════════════════════════════════
-
-# ╔═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 🏗️ FICHIER : events_salons.py
-# ║ 📦 MODULE : evenements
-# ║ 📝 DESCRIPTION : Gestion des événements liés aux salons Discord
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15 janvier 2026
-# ║ 🔖 VERSION : 0.2.2
+# ║ 🏗️ LA LOYAUTÉ - ÉVÉNEMENTS DE SALONS
+# ║ Discord Bot | Gestion des événements liés aux salons Discord
+# ║ Développé par Latury
+# ║ Version 0.2.2 (CORRIGÉ)
 # ║
 # ╚═══════════════════════════════════════════════════════════════════════════════
 
@@ -22,11 +11,11 @@ import discord
 from discord.ext import commands
 from utilitaires import logs_discord
 
-
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║ 📦 CLASSE 01 – EventsSalons
 # ║ 🎯 Cog pour gérer tous les événements liés aux salons Discord
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 class EventsSalons(commands.Cog):
     """Gestion des événements de salons Discord"""
 
@@ -39,7 +28,6 @@ class EventsSalons(commands.Cog):
         """
         self.bot = bot
         self.bot.logger.info("🏗️ Module EventsSalons chargé")
-
 
     # ╔═══════════════════════════════════════════════════════════════════════════════
     # ║ 🏗️ FONCTION 01 – on_guild_channel_create
@@ -71,7 +59,6 @@ class EventsSalons(commands.Cog):
             # ── 🔹 ÉTAPE 3 : Log console
             # Afficher l'information dans la console du bot
             channel_name = getattr(channel, 'name', 'Inconnu')
-
             self.bot.logger.info(
                 f"🏗️ Salon créé | "
                 f"Nom: #{channel_name} | "
@@ -87,6 +74,7 @@ class EventsSalons(commands.Cog):
     # ║ 🗑️ FONCTION 02 – on_guild_channel_delete
     # ║ 📝 Événement déclenché lors de la suppression d'un salon
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel):
         """
@@ -112,7 +100,6 @@ class EventsSalons(commands.Cog):
             # ── 🔹 ÉTAPE 3 : Log console
             # Afficher l'information dans la console du bot
             channel_name = getattr(channel, 'name', 'Inconnu')
-
             self.bot.logger.info(
                 f"🗑️ Salon supprimé | "
                 f"Nom: #{channel_name} | "
@@ -123,7 +110,6 @@ class EventsSalons(commands.Cog):
         except Exception as e:
             # ── ⚠️ Gestion des erreurs
             self.bot.logger.error(f"❌ Erreur dans on_guild_channel_delete : {e}")
-
 
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║ 🔌 FONCTION SETUP – setup
@@ -139,7 +125,6 @@ async def setup(bot):
     """
     await bot.add_cog(EventsSalons(bot))
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║  FIN DU FICHIER events_salons.py
+# ║ FIN DU FICHIER events_salons.py
 # ╚══════════════════════════════════════════════════════════════════════════════

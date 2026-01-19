@@ -1,0 +1,17 @@
+{
+    "bienvenue": {
+        "active": false,
+        "salon_id": null,
+        "message": "Bienvenue {mention} sur **{serveur}** ! 👋🏻",
+        "embed_actif": true,
+        "couleur": 5814663,
+        "role_auto_id": null
+    },
+    "depart": {
+        "active": false,
+        "salon_id": null,
+        "message": "**{username}** a quitté le serveur. 🚪",
+        "embed_actif": true,
+        "couleur": 15548997
+    }
+}

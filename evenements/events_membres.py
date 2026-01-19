@@ -1,9 +1,9 @@
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  👥 LA LOYAUTÉ - ÉVÉNEMENTS MEMBRES
-# ║  Discord Bot | Gestion des événements liés aux membres du serveur
-# ║  Développé par Latury
-# ║  Version 0.2.2
+# ║ 👥 LA LOYAUTÉ - ÉVÉNEMENTS MEMBRES
+# ║ Discord Bot | Gestion des événements liés aux membres du serveur
+# ║ Développé par Latury
+# ║ Version 0.2.2 (CORRIGÉ)
 # ║
 # ╚═══════════════════════════════════════════════════════════════════════════════
 
@@ -22,11 +22,11 @@ import discord
 from discord.ext import commands
 from utilitaires import logs_discord
 
-
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║ 📦 CLASSE 01 – EventsMembres
 # ║ 🎯 Cog pour gérer tous les événements liés aux membres du serveur
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 class EventsMembres(commands.Cog):
     """Gestion des événements liés aux membres"""
 
@@ -39,7 +39,6 @@ class EventsMembres(commands.Cog):
         """
         self.bot = bot
         self.bot.logger.info("👥 Module EventsMembres chargé")
-
 
     # ╔═══════════════════════════════════════════════════════════════════════════════
     # ║ 👋 FONCTION 01 – on_member_join
@@ -71,7 +70,6 @@ class EventsMembres(commands.Cog):
         except Exception as e:
             # ── ⚠️ Gestion des erreurs
             self.bot.logger.error(f"❌ Erreur dans on_member_join : {e}")
-
 
     # ╔═══════════════════════════════════════════════════════════════════════════════
     # ║ 👋 FONCTION 02 – on_member_remove
@@ -108,6 +106,7 @@ class EventsMembres(commands.Cog):
     # ║ 🎭 FONCTION 03 – on_member_update
     # ║ 📝 Événement déclenché lors de changements au profil d'un membre
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
         """
@@ -125,7 +124,6 @@ class EventsMembres(commands.Cog):
 
             # ── 🔹 ÉTAPE 2 : Si des rôles ont changé
             if roles_added or roles_removed:
-
                 # ── 🔹 ÉTAPE 3 : Log console
                 # Afficher l'information dans la console du bot
                 if roles_added:
@@ -166,7 +164,6 @@ async def setup(bot):
     """
     await bot.add_cog(EventsMembres(bot))
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║  FIN DU FICHIER events_membres.py
+# ║ FIN DU FICHIER events_membres.py
 # ╚══════════════════════════════════════════════════════════════════════════════

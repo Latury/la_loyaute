@@ -1,9 +1,9 @@
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  📨 LA LOYAUTÉ - ÉVÉNEMENTS DE MESSAGES
-# ║  Discord Bot | Gestion des événements liés aux messages Discord
-# ║  Développé par Latury
-# ║  Version 0.2.2
+# ║ 📨 LA LOYAUTÉ - ÉVÉNEMENTS DE MESSAGES
+# ║ Discord Bot | Gestion des événements liés aux messages Discord
+# ║ Développé par Latury
+# ║ Version 0.2.2 (CORRIGÉ)
 # ║
 # ╚═══════════════════════════════════════════════════════════════════════════════
 
@@ -22,11 +22,11 @@ import discord
 from discord.ext import commands
 from utilitaires import logs_discord
 
-
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║ 📦 CLASSE 01 – EventsMessages
 # ║ 🎯 Cog pour gérer tous les événements liés aux messages Discord
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 class EventsMessages(commands.Cog):
     """Gestion des événements de messages Discord"""
 
@@ -39,7 +39,6 @@ class EventsMessages(commands.Cog):
         """
         self.bot = bot
         self.bot.logger.info("📨 Module EventsMessages chargé")
-
 
     # ╔═══════════════════════════════════════════════════════════════════════════════
     # ║ 🗑️ FONCTION 01 – on_message_delete
@@ -84,7 +83,6 @@ class EventsMessages(commands.Cog):
         except Exception as e:
             # ── ⚠️ Gestion des erreurs
             self.bot.logger.error(f"❌ Erreur dans on_message_delete : {e}")
-
 
     # ╔═══════════════════════════════════════════════════════════════════════════════
     # ║ ✏️ FONCTION 02 – on_message_edit
@@ -135,7 +133,6 @@ class EventsMessages(commands.Cog):
             # ── ⚠️ Gestion des erreurs
             self.bot.logger.error(f"❌ Erreur dans on_message_edit : {e}")
 
-
 # ═══════════════════════════════════════════════════════════════════════════════
 
 async def setup(bot):
@@ -146,7 +143,6 @@ async def setup(bot):
         bot: Instance du bot Discord
     """
     await bot.add_cog(EventsMessages(bot))
-
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║  FIN DU FICHIER events_messages.py

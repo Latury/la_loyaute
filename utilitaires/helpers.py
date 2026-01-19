@@ -8,17 +8,6 @@
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 📄 FICHIER : helpers.py
-# ║ ⚙️ MODULE : Fonctions utilitaires réutilisables
-# ║ 📝 DESCRIPTION : Ensemble complet de 12+ fonctions helpers pour formatage, embeds, validation et manipulation de données
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15/01/2026
-# ║ 🔢 VERSION : 0.2.2
-# ║
-# ═══════════════════════════════════════════════════════════════════════════════
-
 """
 🦁 LA LOYAUTÉ - Fonctions utilitaires
 ══════════════════════════════════════════════════════════════════════════════
@@ -28,13 +17,13 @@ import discord
 from datetime import datetime, timedelta
 from typing import Union, Optional
 import re
-
 import configuration as config
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 📅 Fonction 01 – Formatage de la date
 # ║ Description : Formate une date au format français
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def formater_date(date: datetime, inclure_heure: bool = True) -> str:
     """
     Formate une date au format français
@@ -46,16 +35,17 @@ def formater_date(date: datetime, inclure_heure: bool = True) -> str:
     Returns:
         str: Date formatée (ex: "24/12/2025 05:03:00")
     """
-
     if inclure_heure:
         return date.strftime('%d/%m/%Y %H:%M:%S')
     else:
         return date.strftime('%d/%m/%Y')
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ ⏱️ Fonction 02 – Formatage de la durée
 # ║ Description : Convertit un timedelta en texte lisible
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def formater_duree(duree: timedelta) -> str:
     """
     Formate une durée en texte lisible
@@ -66,15 +56,12 @@ def formater_duree(duree: timedelta) -> str:
     Returns:
         str: Durée formatée (ex: "2j 5h 30m")
     """
-
     secondes_totales = int(duree.total_seconds())
-
     jours, reste = divmod(secondes_totales, 86400)
     heures, reste = divmod(reste, 3600)
     minutes, secondes = divmod(reste, 60)
 
     parties = []
-
     if jours > 0:
         parties.append(f"{jours}j")
     if heures > 0:
@@ -86,10 +73,12 @@ def formater_duree(duree: timedelta) -> str:
 
     return " ".join(parties) if parties else "0s"
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 🎨 Fonction 03 – Création d'embed de base
 # ║ Description : Crée un embed Discord avec style uniforme
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_embed(
     titre: str,
     description: str = "",
@@ -110,7 +99,6 @@ def creer_embed(
     Returns:
         discord.Embed: L'embed créé
     """
-
     embed = discord.Embed(
         title=titre,
         description=description,
@@ -130,62 +118,68 @@ def creer_embed(
 
     return embed
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ ✅ Fonction 04 – Embed de succès
 # ║ Description : Crée un embed de succès avec style prédéfini
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_embed_succes(titre: str, description: str = "") -> discord.Embed:
     """Crée un embed de succès"""
-
     return creer_embed(
         titre=f"{config.EMOJI_SUCCES} {titre}",
         description=description,
         couleur=config.COULEUR_SUCCES
     )
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ ❌ Fonction 05 – Embed d'erreur
 # ║ Description : Crée un embed d'erreur avec style prédéfini
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_embed_erreur(titre: str, description: str = "") -> discord.Embed:
     """Crée un embed d'erreur"""
-
     return creer_embed(
         titre=f"{config.EMOJI_ERREUR} {titre}",
         description=description,
         couleur=config.COULEUR_ERREUR
     )
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ ⚠️ Fonction 06 – Embed d'avertissement
 # ║ Description : Crée un embed d'avertissement avec style prédéfini
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_embed_avertissement(titre: str, description: str = "") -> discord.Embed:
     """Crée un embed d'avertissement"""
-
     return creer_embed(
         titre=f"{config.EMOJI_AVERTISSEMENT} {titre}",
         description=description,
         couleur=config.COULEUR_AVERTISSEMENT
     )
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ ℹ️ Fonction 07 – Embed d'information
 # ║ Description : Crée un embed d'information avec style prédéfini
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_embed_info(titre: str, description: str = "") -> discord.Embed:
     """Crée un embed d'information"""
-
     return creer_embed(
         titre=f"{config.EMOJI_INFO} {titre}",
         description=description,
         couleur=config.COULEUR_INFO
     )
 
+
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 🔢 Fonction 08 – Formatage des nombres
 # ║ Description : Formate un nombre avec séparateurs de milliers
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def formater_nombre(nombre: int) -> str:
     """
     Formate un nombre avec des espaces comme séparateurs
@@ -196,13 +190,14 @@ def formater_nombre(nombre: int) -> str:
     Returns:
         str: Nombre formaté (ex: "1 234 567")
     """
-
     return f"{nombre:,}".replace(',', ' ')
+
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 📊 Fonction 09 – Barre de progression
 # ║ Description : Crée une barre de progression visuelle
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def creer_barre_progression(
     valeur_actuelle: int,
     valeur_max: int,
@@ -223,7 +218,6 @@ def creer_barre_progression(
     Returns:
         str: Barre de progression (ex: "████░░░░░░ 40%")
     """
-
     if valeur_max == 0:
         pourcentage = 0
     else:
@@ -233,13 +227,14 @@ def creer_barre_progression(
     vide = longueur - rempli
 
     barre = caractere_rempli * rempli + caractere_vide * vide
-
     return f"{barre} {pourcentage}%"
+
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 🔗 Fonction 10 – Validation d'URL
 # ║ Description : Vérifie si une chaîne est une URL valide
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def est_url_valide(url: str) -> bool:
     """
     Vérifie si une chaîne est une URL valide
@@ -250,21 +245,22 @@ def est_url_valide(url: str) -> bool:
     Returns:
         bool: True si l'URL est valide
     """
-
     regex_url = re.compile(
         r'^https?://'  # http:// ou https://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'  # domaine
         r'localhost|'  # localhost
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ou IP
         r'(?::\d+)?'  # port optionnel
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE
+    )
     return url is not None and regex_url.search(url) is not None
+
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 📝 Fonction 11 – Tronquer un texte
 # ║ Description : Tronque un texte avec ellipse si trop long
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def tronquer_texte(texte: str, longueur_max: int = 100, ellipse: str = "...") -> str:
     """
     Tronque un texte s'il dépasse la longueur maximale
@@ -277,16 +273,16 @@ def tronquer_texte(texte: str, longueur_max: int = 100, ellipse: str = "...") ->
     Returns:
         str: Texte tronqué
     """
-
     if len(texte) <= longueur_max:
         return texte
-
     return texte[:longueur_max - len(ellipse)] + ellipse
+
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║ 👤 Fonction 12 – Obtenir le nom d'affichage
 # ║ Description : Obtient le meilleur nom à afficher pour un utilisateur
 # ╚══════════════════════════════════════════════════════════════════════════════
+
 def obtenir_nom_affichage(user: Union[discord.User, discord.Member]) -> str:
     """
     Obtient le meilleur nom à afficher pour un utilisateur
@@ -297,11 +293,12 @@ def obtenir_nom_affichage(user: Union[discord.User, discord.Member]) -> str:
     Returns:
         str: Le nom à afficher
     """
-
     if isinstance(user, discord.Member) and user.nick:
         return user.nick
     return user.display_name
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
-# ║ ✅ FIN DU FICHIER – 12+ fonctions helpers disponibles
+# ║ ✅ FIN DU FICHIER – 12 fonctions helpers disponibles
 # ║ 📦 Formatage, embeds, validation et manipulation de données
 # ╚═══════════════════════════════════════════════════════════════════════════════

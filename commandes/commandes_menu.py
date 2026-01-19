@@ -5,19 +5,8 @@ from __future__ import annotations
 # ║ 🎨 LA LOYAUTÉ - commandes_menu.py
 # ║
 # ║ 🤖 Bot Discord privé développé en Python
-# ║ 👨‍💻 Développé par Latury
-# ║ 📦 Version : 0.2.2
-# ║
-# ═══════════════════════════════════════════════════════════════════════════════
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 📄 FICHIER : commandes_menu.py
-# ║ 🎨 MODULE : Système de menu interactif
-# ║ 📝 DESCRIPTION : Gestion complète du menu de configuration avec vues et boutons Discord
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15/01/2026
-# ║ 📦 VERSION : 0.2.2
+# ║ 👨💻 Développé par Latury
+# ║ 📦 Version : 0.2.2 (CORRIGÉ)
 # ║
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -398,14 +387,10 @@ class CommandesMenu(commands.Cog):
     # ║ 🎨 Affiche le menu de configuration interactif du serveur
     # ╚═════════════════════════════════════════════════════════════════════════
 
-    @app_commands.command(
-        name="menu",
-        description="🎨 Affiche le menu de configuration du serveur"
-    )
+    @app_commands.command(name="menu", description="🎨 Affiche le menu de configuration du serveur")
     @app_commands.default_permissions(administrator=True)
     async def menu(self, interaction: discord.Interaction):
         """Affiche le menu principal de configuration"""
-
         if not interaction.guild:
             await interaction.response.send_message("❌ Cette commande ne fonctionne que dans un serveur.", ephemeral=True)
             return
@@ -476,5 +461,3 @@ class CommandesMenu(commands.Cog):
 async def setup(bot):
     """Charge le cog des commandes de menu"""
     await bot.add_cog(CommandesMenu(bot))
-
-

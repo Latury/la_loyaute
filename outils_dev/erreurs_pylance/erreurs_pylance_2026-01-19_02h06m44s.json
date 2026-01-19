@@ -1,0 +1,23 @@
+{
+  "timestamp": "19/01/2026 à 02:06:44",
+  "projectRoot": "C:\\Users\\Latury\\Desktop\\Projet Dev\\la_loyaute",
+  "totalErrors": 0,
+  "diagnostics": [],
+  "summary": {
+    "filesAnalyzed": 26,
+    "errorCount": 0,
+    "warningCount": 0,
+    "informationCount": 0,
+    "timeInSec": 1.989
+  },
+  "statistics": {
+    "bySeverity": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "byCategory": {},
+    "byFile": {},
+    "topFiles": []
+  }
+}

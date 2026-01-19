@@ -1,20 +1,9 @@
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  📨 LA LOYAUTÉ - ÉVÉNEMENTS DE MESSAGES
-# ║  Discord Bot | Gestion des événements liés aux messages Discord
-# ║  Développé par Latury
-# ║  Version 0.2.2
-# ║
-# ╚═══════════════════════════════════════════════════════════════════════════════
-
-# ╔═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 📨 FICHIER : messages.py
-# ║ 📦 MODULE : evenements
-# ║ 📝 DESCRIPTION : Gestion des événements liés aux messages Discord
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15 janvier 2026
-# ║ 🔖 VERSION : 0.2.2
+# ║ 📨 LA LOYAUTÉ - ÉVÉNEMENTS DE MESSAGES
+# ║ Discord Bot | Gestion des événements liés aux messages Discord
+# ║ Développé par Latury
+# ║ Version 0.2.2 (CORRIGÉ)
 # ║
 # ╚═══════════════════════════════════════════════════════════════════════════════
 
@@ -30,12 +19,12 @@ from utilitaires.helpers import formater_date
 # ║ 📦 CLASSE 01 – Messages
 # ║ 🎯 Cog gérant tous les événements et statistiques liés aux messages
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 class Messages(commands.Cog):
     """Cog gérant les événements de messages"""
 
     def __init__(self, bot):
         """Initialise le cog de messages"""
-
         self.bot = bot
         self.messages_traites = 0
         self.messages_supprimes = 0
@@ -45,6 +34,7 @@ class Messages(commands.Cog):
     # ║ 📝 FONCTION 01 – on_message
     # ║ 📝 Événement déclenché à chaque nouveau message reçu
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         """Événement déclenché à chaque nouveau message"""
@@ -73,11 +63,11 @@ class Messages(commands.Cog):
         # ── 🔹 NOTE : Ne pas appeler process_commands ici
         # Le bot le fait déjà automatiquement via commands.Bot
 
-
     # ╔═══════════════════════════════════════════════════════════════════════════════
     # ║ 💬 FONCTION 02 – gerer_message_prive
     # ║ 📝 Traite les messages privés envoyés directement au bot
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     async def gerer_message_prive(self, message: discord.Message):
         """Gère les messages privés"""
 
@@ -95,6 +85,7 @@ class Messages(commands.Cog):
             ),
             color=config.COULEUR_INFO
         )
+
         embed.set_footer(text=f"{config.NOM_BOT} v{config.VERSION_BOT}")
         embed.timestamp = datetime.now()
 
@@ -107,6 +98,7 @@ class Messages(commands.Cog):
     # ║ 🗑️ FONCTION 03 – on_message_delete
     # ║ 📝 Événement déclenché quand un message est supprimé
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):
         """Événement déclenché quand un message est supprimé"""
@@ -135,6 +127,7 @@ class Messages(commands.Cog):
     # ║ ✏️ FONCTION 04 – on_message_edit
     # ║ 📝 Événement déclenché quand un message est modifié
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_message_edit(self, avant: discord.Message, apres: discord.Message):
         """Événement déclenché quand un message est modifié"""
@@ -168,9 +161,9 @@ class Messages(commands.Cog):
     # ║ 📊 FONCTION 05 – obtenir_statistiques
     # ║ 📝 Retourne les statistiques des messages traités et modifiés
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     def obtenir_statistiques(self) -> dict:
         """Retourne les statistiques des messages"""
-
         return {
             'messages_traites': self.messages_traites,
             'messages_supprimes': self.messages_supprimes,
@@ -181,6 +174,7 @@ class Messages(commands.Cog):
     # ║ 🔍 FONCTION 06 – on_raw_message_delete
     # ║ 📝 Traite les suppressions de messages non en cache
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_raw_message_delete(self, payload: discord.RawMessageDeleteEvent):
         """Événement pour messages supprimés non en cache"""
@@ -197,6 +191,7 @@ class Messages(commands.Cog):
     # ║ 🔍 FONCTION 07 – on_raw_message_edit
     # ║ 📝 Traite les modifications de messages non en cache
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_raw_message_edit(self, payload: discord.RawMessageUpdateEvent):
         """Événement pour messages modifiés non en cache"""
@@ -213,6 +208,7 @@ class Messages(commands.Cog):
     # ║ 🔇 FONCTION 08 – on_raw_bulk_message_delete
     # ║ 📝 Événement déclenché lors de suppressions en masse de messages
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_raw_bulk_message_delete(self, payload: discord.RawBulkMessageDeleteEvent):
         """Événement déclenché lors de suppression en masse"""
@@ -230,10 +226,10 @@ class Messages(commands.Cog):
 # ║ 🔌 FONCTION SETUP – setup
 # ║ 📝 Charge le cog Messages dans le bot Discord
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 async def setup(bot):
     """Charge le cog de messages"""
     await bot.add_cog(Messages(bot))
-
 
 # ╔══════════════════════════════════════════════════════════════════════════════
 # ║  FIN DU FICHIER messages.py

@@ -1,9 +1,9 @@
 # ╔═══════════════════════════════════════════════════════════════════════════════╗
 # ║                                                                               ║
-# ║  🚀 LA LOYAUTÉ - ÉVÉNEMENT DE DÉMARRAGE                                      ║
-# ║  Discord Bot | Gestion de l'initialisation et de l'affichage de démarrage    ║
-# ║  Développé par Latury                                                        ║
-# ║  Version 0.2.2                                                               ║
+# ║                   🚀 LA LOYAUTÉ - ÉVÉNEMENT DE DÉMARRAGE                     ║
+# ║         Discord Bot | Gestion de l'initialisation et de l'affichage         ║
+# ║                          Développé par Latury                                 ║
+# ║                            Version 0.2.2 (CORRIGÉ)                           ║
 # ║                                                                               ║
 # ╚═══════════════════════════════════════════════════════════════════════════════╝
 
@@ -30,12 +30,12 @@ from utilitaires.helpers import formater_date, formater_nombre
 # ║ 📦 CLASSE 01 – Demarrage
 # ║ 🎯 Cog gérant l'événement de démarrage du bot Discord
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 class Demarrage(commands.Cog):
     """Cog gérant l'événement de démarrage du bot"""
 
     def __init__(self, bot):
         """Initialise le cog de démarrage"""
-
         self.bot = bot
         self.demarrage_effectue = False
 
@@ -43,6 +43,7 @@ class Demarrage(commands.Cog):
     # ║ 🎨 FONCTION 01 – creer_cadre_demarrage
     # ║ 📝 Crée un cadre ASCII professionnel avec les infos de démarrage
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     def creer_cadre_demarrage(self) -> list:
         """Crée le cadre de démarrage professionnel"""
 
@@ -66,7 +67,6 @@ class Demarrage(commands.Cog):
         # Informations de version
         version = f"Version {config.VERSION_BOT}"
         lignes.append("║" + version.center(largeur) + "║")
-
         developpeur = f"Developpe par {config.DEVELOPPEUR}"
         lignes.append("║" + developpeur.center(largeur) + "║")
         lignes.append("║" + " " * largeur + "║")
@@ -77,32 +77,27 @@ class Demarrage(commands.Cog):
 
         # Informations du bot
         info_bot = f"Bot connecte : {stats['nom']}"
-        lignes.append("║  " + info_bot.ljust(largeur - 2) + "║")
-
+        lignes.append("║ " + info_bot.ljust(largeur - 2) + "║")
         info_id = f"ID : {stats['id']}"
-        lignes.append("║  " + info_id.ljust(largeur - 2) + "║")
+        lignes.append("║ " + info_id.ljust(largeur - 2) + "║")
         lignes.append("║" + " " * largeur + "║")
 
         # Statistiques
         stat_serveurs = f"Serveurs connectes : {formater_nombre(stats['serveurs'])}"
-        lignes.append("║  " + stat_serveurs.ljust(largeur - 2) + "║")
-
+        lignes.append("║ " + stat_serveurs.ljust(largeur - 2) + "║")
         stat_users = f"Utilisateurs accessibles : {formater_nombre(stats['utilisateurs'])}"
-        lignes.append("║  " + stat_users.ljust(largeur - 2) + "║")
-
+        lignes.append("║ " + stat_users.ljust(largeur - 2) + "║")
         stat_commandes = f"Commandes chargees : {stats['commandes']}"
-        lignes.append("║  " + stat_commandes.ljust(largeur - 2) + "║")
-
+        lignes.append("║ " + stat_commandes.ljust(largeur - 2) + "║")
         stat_latence = f"Latence : {stats['latence']} ms"
-        lignes.append("║  " + stat_latence.ljust(largeur - 2) + "║")
+        lignes.append("║ " + stat_latence.ljust(largeur - 2) + "║")
         lignes.append("║" + " " * largeur + "║")
 
         # Informations de démarrage
         info_date = f"Demarre le : {date_heure}"
-        lignes.append("║  " + info_date.ljust(largeur - 2) + "║")
-
+        lignes.append("║ " + info_date.ljust(largeur - 2) + "║")
         info_prefix = f"Prefix commandes : {config.PREFIX_BASE} (base) | {config.PREFIX_ADMIN} (admin)"
-        lignes.append("║  " + info_prefix.ljust(largeur - 2) + "║")
+        lignes.append("║ " + info_prefix.ljust(largeur - 2) + "║")
         lignes.append("║" + " " * largeur + "║")
 
         # Séparateur
@@ -123,6 +118,7 @@ class Demarrage(commands.Cog):
     # ║ 🎯 FONCTION 02 – on_ready
     # ║ 📝 Événement déclenché quand le bot est connecté et prêt
     # ╚═══════════════════════════════════════════════════════════════════════════════
+
     @commands.Cog.listener()
     async def on_ready(self):
         """Événement déclenché quand le bot est prêt"""
@@ -170,10 +166,10 @@ class Demarrage(commands.Cog):
 # ║ 🔌 FONCTION SETUP – setup
 # ║ 📝 Charge le cog de démarrage dans le bot Discord
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 async def setup(bot):
     """Charge le cog de démarrage"""
     await bot.add_cog(Demarrage(bot))
-
 
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║  FIN DU FICHIER demarrage.py

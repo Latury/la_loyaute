@@ -1,20 +1,9 @@
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║
-# ║  🛡️ LA LOYAUTÉ - GESTIONNAIRE DE PERMISSIONS
-# ║  Discord Bot | Système de vérification des permissions et des rôles
-# ║  Développé par Latury
-# ║  Version 0.2.2
-# ║
-# ╚═══════════════════════════════════════════════════════════════════════════════
-
-# ╔═══════════════════════════════════════════════════════════════════════════════
-# ║
-# ║ 🛡️ FICHIER : gestionnaire_permissions.py
-# ║ 📦 MODULE : noyau
-# ║ 📝 DESCRIPTION : Système de vérification des permissions et des rôles
-# ║ 👤 AUTEUR : Latury
-# ║ 📅 DATE : 15 janvier 2026
-# ║ 🔖 VERSION : 0.2.2
+# ║ 🛡️ LA LOYAUTÉ - GESTIONNAIRE DE PERMISSIONS
+# ║ Discord Bot | Système de vérification des permissions et des rôles
+# ║ Développé par Latury
+# ║ Version 0.2.2 (CORRIGÉ)
 # ║
 # ╚═══════════════════════════════════════════════════════════════════════════════
 
@@ -29,15 +18,16 @@ import configuration as config
 # ║ 🔐 FONCTION 01 – est_developpeur
 # ║ 📝 Vérifie si l'utilisateur est un développeur
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 def est_developpeur(user_id: int) -> bool:
     """Vérifie si l'utilisateur est un développeur"""
-
     return user_id in config.DEVELOPPEURS_IDS
 
 # ╔═══════════════════════════════════════════════════════════════════════════════
 # ║ 👑 FONCTION 02 – est_administrateur
 # ║ 📝 Vérifie si l'utilisateur est administrateur
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 def est_administrateur(member: discord.Member) -> bool:
     """Vérifie si le membre est administrateur"""
 
@@ -54,6 +44,7 @@ def est_administrateur(member: discord.Member) -> bool:
 # ║ 🛡️ FONCTION 03 – est_moderateur
 # ║ 📝 Vérifie si l'utilisateur est modérateur
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 def est_moderateur(member: discord.Member) -> bool:
     """Vérifie si le membre est modérateur"""
 
@@ -78,6 +69,7 @@ def est_moderateur(member: discord.Member) -> bool:
 # ║ 🎯 FONCTION 04 – est_proprietaire_serveur
 # ║ 📝 Vérifie si l'utilisateur est le propriétaire du serveur
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 def est_proprietaire_serveur(member: discord.Member) -> bool:
     """Vérifie si le membre est le propriétaire du serveur"""
 
@@ -89,6 +81,7 @@ def est_proprietaire_serveur(member: discord.Member) -> bool:
 # ║ ✅ FONCTION 05 – verifier_permissions
 # ║ 📝 Vérifie tous les niveaux de permissions
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 def verifier_permissions(member: discord.Member, niveau: str = "base") -> tuple[bool, str]:
     """
     Vérifie si le membre a les permissions requises
@@ -167,6 +160,7 @@ def require_developer():
 # ║ 📊 FONCTION 06 – obtenir_niveau_permission
 # ║ 📝 Retourne le niveau de permission d'un utilisateur
 # ╚═══════════════════════════════════════════════════════════════════════════════
+
 def obtenir_niveau_permission(member: discord.Member) -> str:
     """Retourne le niveau de permission d'un membre"""
 
@@ -181,7 +175,6 @@ def obtenir_niveau_permission(member: discord.Member) -> str:
     else:
         return "👤 Utilisateur"
 
-
 # ╔══════════════════════════════════════════════════════════════════════════════
-# ║
+# ║  FIN DU FICHIER gestionnaire_permissions.py
 # ╚══════════════════════════════════════════════════════════════════════════════
